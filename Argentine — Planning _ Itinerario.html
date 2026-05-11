@@ -1,0 +1,2277 @@
+<!DOCTYPE html>
+<!-- saved from url=(0069)file:///Users/christopheperquin/Downloads/argentina_planner_v4_3.html -->
+<html lang="fr"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Argentine — Planning / Itinerario</title>
+<link href="./Argentine — Planning _ Itinerario_files/css2" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0e0e0e;
+    --surface: #161616;
+    --surface2: #1e1e1e;
+    --border: rgba(255,255,255,0.08);
+    --border2: rgba(255,255,255,0.14);
+    --text: #f0ede8;
+    --muted: #888;
+    --muted2: #555;
+    --accent-iguazu: #1D9E75;
+    --accent-ba: #7B6FD4;
+    --accent-mendoza: #C8831A;
+    --accent-bariloche: #3A82C4;
+    --gold: #c9a84c;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font-family: 'DM Sans', sans-serif; font-weight: 300; min-height: 100vh; }
+
+  .header { padding: 3rem 2rem 2rem; max-width: 900px; margin: 0 auto; }
+  .header-top { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 1rem; gap: 1rem; }
+  .header h1 { font-family: 'Playfair Display', serif; font-size: clamp(2rem, 5vw, 3.2rem); font-weight: 400; letter-spacing: -0.02em; line-height: 1.1; margin-bottom: 0.5rem; }
+  .header h1 em { font-style: italic; color: #c9a84c; }
+  .header .meta { font-size: 13px; color: var(--muted); letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 2rem; }
+
+  .lang-btn { display: flex; align-items: center; gap: 6px; background: var(--surface2); border: 1px solid var(--border2); border-radius: 24px; padding: 6px 14px 6px 10px; cursor: pointer; font-family: 'DM Sans', sans-serif; font-size: 13px; color: var(--text); white-space: nowrap; transition: border-color 0.2s; flex-shrink: 0; margin-top: 4px; }
+  .lang-btn:hover { border-color: #c9a84c; }
+  .flag { font-size: 20px; line-height: 1; }
+  .lang-label { font-size: 12px; color: var(--muted); }
+
+  .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(110px, 1fr)); gap: 1px; background: var(--border); border-radius: 12px; overflow: hidden; margin-bottom: 2rem; }
+  .stat { background: var(--surface); padding: 1rem; text-align: center; }
+  .stat-val { font-family: 'Playfair Display', serif; font-size: 1.8rem; color: #c9a84c; display: block; }
+  .stat-label { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em; margin-top: 2px; }
+
+  /* EXPERIENCES BANNER */
+  .exp-banner { background: var(--surface); border: 1px solid var(--border2); border-radius: 12px; padding: 1rem 1.2rem; margin-bottom: 2rem; }
+  .exp-title { font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted2); margin-bottom: 10px; font-weight: 500; }
+  .exp-grid { display: flex; flex-wrap: wrap; gap: 7px; }
+  .exp-pill { display: flex; align-items: center; gap: 5px; font-size: 12px; padding: 4px 11px; border-radius: 20px; border: 1px solid var(--border2); color: var(--muted); }
+  .exp-pill.done-exp { border-color: #c9a84c; color: #c9a84c; }
+
+  .legend { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 2rem; }
+  .legend-item { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--muted); cursor: pointer; padding: 5px 12px; border: 1px solid var(--border); border-radius: 20px; transition: all 0.2s; user-select: none; }
+  .legend-item:hover, .legend-item.active { border-color: var(--border2); color: var(--text); }
+  .legend-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+
+  .etape-section { max-width: 900px; margin: 0 auto; padding: 0 2rem; }
+  .etape-heading { display: flex; align-items: center; gap: 12px; margin: 1.8rem 0 1rem; padding-bottom: 0.8rem; border-bottom: 1px solid var(--border); }
+  .etape-heading .dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+  .etape-heading h2 { font-family: 'Playfair Display', serif; font-size: 1.2rem; font-weight: 400; }
+  .etape-heading .nights-badge { margin-left: auto; font-size: 11px; color: var(--muted); border: 1px solid var(--border); padding: 3px 10px; border-radius: 20px; }
+
+  .days { display: flex; flex-direction: column; gap: 6px; max-width: 900px; margin: 0 auto 1rem; padding: 0 2rem; }
+  .day-card { border: 1px solid var(--border); border-radius: 12px; overflow: hidden; background: var(--surface); transition: border-color 0.2s; }
+  .day-card:hover { border-color: var(--border2); }
+  .day-card.done { opacity: 0.5; }
+  .accent-bar { height: 2px; width: 100%; }
+
+  .day-header { display: grid; grid-template-columns: 64px 1fr auto; align-items: center; cursor: pointer; }
+  .day-num { padding: 1rem; text-align: center; border-right: 1px solid var(--border); }
+  .day-num .dn { font-family: 'Playfair Display', serif; font-size: 1.5rem; color: var(--muted2); line-height: 1; }
+  .day-num .dm { font-size: 10px; color: var(--muted2); text-transform: uppercase; letter-spacing: 0.05em; margin-top: 2px; }
+  .day-main { padding: 0.9rem 1.2rem; }
+  .day-title { font-size: 14px; font-weight: 500; color: var(--text); }
+  .day-sub { font-size: 12px; color: var(--muted); margin-top: 3px; }
+  .day-tags { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 6px; }
+  .day-tag { font-size: 10px; padding: 2px 7px; border-radius: 10px; border: 1px solid var(--border); color: var(--muted); }
+  .day-actions { padding: 0.9rem 1rem; display: flex; flex-direction: column; align-items: flex-end; gap: 8px; }
+  .done-btn { width: 22px; height: 22px; border-radius: 50%; border: 1px solid var(--border2); background: none; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s; color: var(--muted2); font-size: 12px; }
+  .done-btn:hover { border-color: var(--accent-iguazu); color: var(--accent-iguazu); }
+  .day-card.done .done-btn { background: var(--accent-iguazu); border-color: var(--accent-iguazu); color: white; }
+  .chevron { color: var(--muted2); font-size: 18px; transition: transform 0.2s; display: block; line-height: 1; }
+  .chevron.open { transform: rotate(90deg); }
+
+  .day-body { display: none; border-top: 1px solid var(--border); }
+  .day-body.open { display: block; }
+  .day-body-inner { padding: 1.2rem; display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; }
+  @media (max-width: 600px) { .day-body-inner { grid-template-columns: 1fr; } }
+
+  .section-title { font-size: 10px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted2); margin-bottom: 8px; font-weight: 500; }
+  .activity-list { display: flex; flex-direction: column; gap: 7px; }
+  .activity { display: flex; gap: 8px; align-items: flex-start; }
+  .activity-icon { width: 22px; height: 22px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 11px; flex-shrink: 0; margin-top: 1px; }
+  .activity-text { font-size: 13px; color: var(--text); line-height: 1.5; flex: 1; }
+  .activity-text strong { font-weight: 500; }
+  .activity-text small { display: block; font-size: 11px; color: var(--muted); margin-top: 2px; }
+  .activity-text .exp-badge { display: inline-flex; align-items: center; justify-content: center; font-size: 14px; width: 26px; height: 26px; border-radius: 50%; border: 1.5px solid #c9a84c; background: rgba(201,168,76,0.15); margin-left: 7px; vertical-align: middle; cursor: pointer; transition: background 0.15s, transform 0.1s; line-height: 1; }
+  .activity-text .exp-badge:hover { background: rgba(201,168,76,0.3); transform: scale(1.15); }
+  .activity-text .exp-badge.checked { background: rgba(201,168,76,0.35); border-color: #c9a84c; }
+
+  .transport-badge { display: inline-flex; align-items: center; gap: 5px; font-size: 11px; padding: 3px 9px; border-radius: 20px; border: 1px solid var(--border2); color: var(--muted); background: var(--surface2); margin-top: 10px; }
+
+  .note-area { background: var(--surface2); border: 1px solid var(--border); border-radius: 8px; width: 100%; min-height: 70px; resize: vertical; color: var(--text); font-family: 'DM Sans', sans-serif; font-size: 13px; padding: 8px 10px; outline: none; }
+  .note-area::placeholder { color: var(--muted2); }
+  .note-area:focus { border-color: var(--border2); }
+
+  .rating-row { display: flex; gap: 4px; margin-top: 6px; }
+  .star { font-size: 18px; color: var(--border2); cursor: pointer; transition: color 0.15s; }
+  .star.lit { color: #c9a84c; }
+
+  .footer { max-width: 900px; margin: 0 auto; padding: 1rem 2rem 3rem; text-align: center; font-size: 12px; color: var(--muted2); }
+
+  /* WHERE TO SLEEP */
+  .sleep-block { border-top: 1px solid var(--border); padding: 1rem 1.2rem; display: flex; gap: 12px; align-items: flex-start; }
+  .sleep-icon { font-size: 18px; flex-shrink: 0; margin-top: 1px; }
+  .sleep-content { flex: 1; }
+  .sleep-label { font-size: 10px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted2); font-weight: 500; margin-bottom: 4px; }
+  .sleep-place { font-size: 14px; font-weight: 500; color: var(--text); margin-bottom: 3px; }
+  .sleep-quartier { display: inline-flex; align-items: center; gap: 5px; font-size: 11px; padding: 2px 9px; border-radius: 20px; margin-bottom: 6px; font-weight: 500; }
+  .sleep-why { font-size: 12px; color: var(--muted); line-height: 1.55; }
+  .sleep-tips { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 7px; }
+  .sleep-tip { font-size: 10px; padding: 2px 8px; border-radius: 12px; border: 1px solid var(--border2); color: var(--muted2); }
+
+  .sq-iguazu   { background: rgba(29,158,117,0.15); color: #5DCAA5; }
+  .sq-ba-st    { background: rgba(123,111,212,0.15); color: #AFA9EC; }
+  .sq-ba-pa    { background: rgba(123,111,212,0.1);  color: #AFA9EC; }
+  .sq-mza      { background: rgba(200,131,26,0.15);  color: #EF9F27; }
+  .sq-vuc      { background: rgba(200,131,26,0.1);   color: #EF9F27; }
+  .sq-brc      { background: rgba(58,130,196,0.15);  color: #85B7EB; }
+  .sq-sma      { background: rgba(99,153,34,0.15);   color: #97C459; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-top">
+    <div>
+      <div class="meta" id="meta-text">23 de octubre – 14 de noviembre 2026 · San José → Argentina</div>
+      <h1 id="main-title">El viaje<br><em>argentino</em></h1>
+    </div>
+    <button class="lang-btn" onclick="toggleLang()" id="lang-btn">
+      <span class="flag" id="lang-flag">🇫🇷</span>
+      <span class="lang-label" id="lang-label">Français</span>
+    </button>
+  </div>
+
+  <div class="stats">
+    <div class="stat"><span class="stat-val">22</span><span class="stat-label" id="stat-nights">Noches</span></div>
+    <div class="stat"><span class="stat-val">4</span><span class="stat-label" id="stat-etapes">Etapas</span></div>
+    <div class="stat"><span class="stat-val" id="done-count">0</span><span class="stat-label" id="stat-done">Días hechos</span></div>
+    <div class="stat"><span class="stat-val" id="remaining-count">23</span><span class="stat-label" id="stat-remaining">Restantes</span></div>
+  </div>
+
+  <div class="exp-banner">
+    <div class="exp-title" id="exp-title-label">Experiencias típicas argentinas para tachar</div>
+    <div class="exp-grid" id="exp-grid"><div class="exp-pill" onclick="toggleExp(&#39;tango&#39;)" style="cursor:pointer" title="Cliquer pour cocher">
+      💃 Milonga auténtica
+    </div><div class="exp-pill" onclick="toggleExp(&#39;asado&#39;)" style="cursor:pointer" title="Cliquer pour cocher">
+      🔥 Asado argentino
+    </div><div class="exp-pill" onclick="toggleExp(&#39;vin&#39;)" style="cursor:pointer" title="Cliquer pour cocher">
+      🍷 Degustación de vino
+    </div><div class="exp-pill" onclick="toggleExp(&#39;empanada&#39;)" style="cursor:pointer" title="Cliquer pour cocher">
+      🥟 Empanadas caseras
+    </div><div class="exp-pill" onclick="toggleExp(&#39;mate&#39;)" style="cursor:pointer" title="Cliquer pour cocher">
+      🧉 Ceremonia del mate
+    </div><div class="exp-pill" onclick="toggleExp(&#39;gaucho&#39;)" style="cursor:pointer" title="Cliquer pour cocher">
+      🤠 Día en estancia gaucho
+    </div><div class="exp-pill" onclick="toggleExp(&#39;fernet&#39;)" style="cursor:pointer" title="Cliquer pour cocher">
+      🥃 Fernet con Coca
+    </div><div class="exp-pill" onclick="toggleExp(&#39;facturas&#39;)" style="cursor:pointer" title="Cliquer pour cocher">
+      🥐 Desayuno en panadería
+    </div><div class="exp-pill" onclick="toggleExp(&#39;penya&#39;)" style="cursor:pointer" title="Cliquer pour cocher">
+      🎸 Peña folklórica
+    </div><div class="exp-pill" onclick="toggleExp(&#39;bife&#39;)" style="cursor:pointer" title="Cliquer pour cocher">
+      🥩 Bife de chorizo
+    </div><div class="exp-pill" onclick="toggleExp(&#39;dulce&#39;)" style="cursor:pointer" title="Cliquer pour cocher">
+      🍯 Dulce de leche
+    </div></div>
+  </div>
+
+  <div class="legend" id="legend"><div class="legend-item active" data-filter="all">Ver todo</div><div class="legend-item" data-filter="iguazu">
+        <span class="legend-dot" style="background:var(--accent-iguazu)"></span>Iguazú
+      </div><div class="legend-item" data-filter="ba">
+        <span class="legend-dot" style="background:var(--accent-ba)"></span>Buenos Aires
+      </div><div class="legend-item" data-filter="mendoza">
+        <span class="legend-dot" style="background:var(--accent-mendoza)"></span>Mendoza
+      </div><div class="legend-item" data-filter="bariloche">
+        <span class="legend-dot" style="background:var(--accent-bariloche)"></span>Bariloche
+      </div></div>
+</div>
+
+<div id="planner"><div class="etape-section"><div class="etape-heading">
+        <div class="dot" style="background:var(--accent-iguazu)"></div>
+        <h2>Iguazú</h2>
+        <span class="nights-badge">3 noches</span>
+      </div></div><div class="days"><div class="day-card" id="card-1">
+      <div class="accent-bar" style="background:var(--accent-iguazu)"></div>
+      <div class="day-header" onclick="toggleDay(1)">
+        <div class="day-num">
+          <div class="dn">1</div>
+          <div class="dm">Vie</div>
+        </div>
+        <div class="day-main">
+          <div class="day-title">Llegada a Iguazú</div>
+          <div class="day-sub">Vuelo SJO → IGR con escala · Tarde en Puerto Iguazú</div>
+          <div class="day-tags"><span class="day-tag">Tránsito</span><span class="day-tag">Instalación</span></div>
+        </div>
+        <div class="day-actions">
+          <button class="done-btn" title="Marcar como hecho" onclick="event.stopPropagation();toggleDone(1)">✓</button>
+          <span class="chevron open" id="chev-1">›</span>
+        </div>
+      </div>
+      <div class="day-body open" id="body-1">
+        <div class="day-body-inner">
+          <div>
+            <div class="section-title">Programa</div>
+            <div class="activity-list"><div class="activity">
+        <div class="activity-icon" style="background:#1D9E7522">✈</div>
+        <div class="activity-text"><strong>Vuelo de larga distancia</strong><small>Via EZE o GRU según conexiones. Dormir en el avión.</small></div>
+      </div><div class="activity">
+        <div class="activity-icon" style="background:#1D9E7522">🏨</div>
+        <div class="activity-text"><strong>Check-in en Puerto Iguazú</strong><small>Elegir un lodge o guesthouse en el pueblo — a 10 min del parque a pie o en taxi.</small></div>
+      </div><div class="activity">
+        <div class="activity-icon" style="background:#1D9E7522">🍽</div>
+        <div class="activity-text"><strong>Cena local en Puerto Iguazú</strong> <span class="exp-badge" onclick="toggleExp(&#39;empanada&#39;)" title="Cocher cette expérience">🥟</span><small>Empanadas fritas o al horno de barro, chipa guaraní. Buscar una parrilla de barrio, no los restaurantes del hotel.</small></div>
+      </div><div class="activity">
+        <div class="activity-icon" style="background:#1D9E7522">🧉</div>
+        <div class="activity-text"><strong>Primer mate</strong> <span class="exp-badge" onclick="toggleExp(&#39;mate&#39;)" title="Cocher cette expérience">🧉</span><small>Pedir en el lodge o a cualquiera en la calle — los argentinos adoran compartir el mate. Es una institución.</small></div>
+      </div></div>
+            <div><span class="transport-badge">✈ SJO → IGR</span></div>
+          </div>
+          <div>
+            <div class="section-title">Notas personales</div>
+            <textarea class="note-area" placeholder="Impresiones, direcciones encontradas, cambios de plan..." oninput="saveNote(1,this.value)"></textarea>
+            <div class="section-title" style="margin-top:12px">Calificación del día</div>
+            <div class="rating-row"><span class="star" onclick="setRating(1,1)">★</span><span class="star" onclick="setRating(1,2)">★</span><span class="star" onclick="setRating(1,3)">★</span><span class="star" onclick="setRating(1,4)">★</span><span class="star" onclick="setRating(1,5)">★</span></div>
+          </div>
+        </div>
+        
+      <div class="sleep-block">
+        <div class="sleep-icon">🌙</div>
+        <div class="sleep-content">
+          <div class="sleep-label">Dónde dormir esta noche</div>
+          <div class="sleep-place">Puerto Iguazú — centro del pueblo</div>
+          <div><span class="sleep-quartier sq-iguazu">📍 Av. Córdoba / Parque San Martín</span></div>
+          <div class="sleep-why">Pueblo pequeño — todo a 10 min a pie. Los mejores alojamientos están en las calles tranquilas cerca de Av. Córdoba. A 15 min en taxi del parque nacional. Ambiente relajado, vida local por la noche.</div>
+          <div class="sleep-tips"><span class="sleep-tip">Evitar los lodges dentro del parque — caros y aislados</span><span class="sleep-tip">Taxi aeropuerto IGR : 15 min</span><span class="sleep-tip">Todo a pie de noche</span></div>
+        </div>
+      </div>
+      </div></div></div><div class="days"><div class="day-card" id="card-2">
+      <div class="accent-bar" style="background:var(--accent-iguazu)"></div>
+      <div class="day-header" onclick="toggleDay(2)">
+        <div class="day-num">
+          <div class="dn">2</div>
+          <div class="dm">Sáb</div>
+        </div>
+        <div class="day-main">
+          <div class="day-title">Cataratas lado argentino</div>
+          <div class="day-sub">Garganta del Diablo · Lanchas · Sendero Macuco (1h ida/vuelta)</div>
+          <div class="day-tags"><span class="day-tag">Naturaleza</span><span class="day-tag">Cataratas</span><span class="day-tag">Foto callejera</span></div>
+        </div>
+        <div class="day-actions">
+          <button class="done-btn" title="Marcar como hecho" onclick="event.stopPropagation();toggleDone(2)">✓</button>
+          <span class="chevron" id="chev-2">›</span>
+        </div>
+      </div>
+      <div class="day-body" id="body-2">
+        <div class="day-body-inner">
+          <div>
+            <div class="section-title">Programa</div>
+            <div class="activity-list"><div class="activity">
+        <div class="activity-icon" style="background:#1D9E7522">🌅</div>
+        <div class="activity-text"><strong>Garganta del Diablo a la apertura (8h)</strong><small>Llegar antes que los grupos organizados. Niebla, arcoíris, coatíes salvajes. La pasarela lleva directo sobre las cataratas.</small></div>
+      </div><div class="activity">
+        <div class="activity-icon" style="background:#1D9E7522">🚤</div>
+        <div class="activity-text"><strong>Lancha Aventura Náutica</strong><small>Bajo las cataratas — llevar ropa de recambio en bolsa impermeable. 20 min de adrenalina pura.</small></div>
+      </div><div class="activity">
+        <div class="activity-icon" style="background:#1D9E7522">🌿</div>
+        <div class="activity-text"><strong>Sendero Macuco (1h ida/vuelta)</strong><small>Selva subtropical densa. Anacondas, tucanes, tapires. Sendero bien marcado, poco concurrido. Sin desnivel importante.</small></div>
+      </div><div class="activity">
+        <div class="activity-icon" style="background:#1D9E7522">📷</div>
+        <div class="activity-text"><strong>Isla San Martín al atardecer</strong><small>Luz rasante sobre el agua, iguanas gigantes, vista despejada de las cataratas. Ideal para foto callejera naturaleza.</small></div>
+      </div></div>
+            <div><span class="transport-badge">🚶 Taxi/bus local depuis Puerto Iguazú</span></div>
+          </div>
+          <div>
+            <div class="section-title">Notas personales</div>
+            <textarea class="note-area" placeholder="Impresiones, direcciones encontradas, cambios de plan..." oninput="saveNote(2,this.value)"></textarea>
+            <div class="section-title" style="margin-top:12px">Calificación del día</div>
+            <div class="rating-row"><span class="star" onclick="setRating(2,1)">★</span><span class="star" onclick="setRating(2,2)">★</span><span class="star" onclick="setRating(2,3)">★</span><span class="star" onclick="setRating(2,4)">★</span><span class="star" onclick="setRating(2,5)">★</span></div>
+          </div>
+        </div>
+        
+      <div class="sleep-block">
+        <div class="sleep-icon">🌙</div>
+        <div class="sleep-content">
+          <div class="sleep-label">Dónde dormir esta noche</div>
+          <div class="sleep-place">Puerto Iguazú — centro del pueblo</div>
+          <div><span class="sleep-quartier sq-iguazu">📍 Av. Córdoba / Parque San Martín</span></div>
+          <div class="sleep-why">Misma base — práctico para volver a las cataratas por la mañana sin perder tiempo. Taxi en 15 min a la entrada del parque.</div>
+          <div class="sleep-tips"><span class="sleep-tip">Salida temprana mañana al lado brasileño</span><span class="sleep-tip">Pedir taxi la noche anterior</span></div>
+        </div>
+      </div>
+      </div></div></div><div class="days"><div class="day-card" id="card-3">
+      <div class="accent-bar" style="background:var(--accent-iguazu)"></div>
+      <div class="day-header" onclick="toggleDay(3)">
+        <div class="day-num">
+          <div class="dn">3</div>
+          <div class="dm">Dom</div>
+        </div>
+        <div class="day-main">
+          <div class="day-title">Lado brasileño · Puerto Iguazú</div>
+          <div class="day-sub">Vista panorámica · Mercado nocturno · Peña folklórica</div>
+          <div class="day-tags"><span class="day-tag">Naturaleza</span><span class="day-tag">Mercado</span><span class="day-tag">Peña</span></div>
+        </div>
+        <div class="day-actions">
+          <button class="done-btn" title="Marcar como hecho" onclick="event.stopPropagation();toggleDone(3)">✓</button>
+          <span class="chevron" id="chev-3">›</span>
+        </div>
+      </div>
+      <div class="day-body" id="body-3">
+        <div class="day-body-inner">
+          <div>
+            <div class="section-title">Programa</div>
+            <div class="activity-list"><div class="activity">
+        <div class="activity-icon" style="background:#1D9E7522">🇧🇷</div>
+        <div class="activity-text"><strong>Lado brasileño (mañana)</strong><small>Vista panorámica de la herradura argentina — imposible desde el lado argentino. Pasaporte obligatorio, paso sencillo.</small></div>
+      </div><div class="activity">
+        <div class="activity-icon" style="background:#1D9E7522">🛒</div>
+        <div class="activity-text"><strong>Mercado artesanal de Puerto Iguazú</strong><small>Artesanías guaraníes, especias locales, frutas tropicales. Vida auténtica del pueblo.</small></div>
+      </div><div class="activity">
+        <div class="activity-icon" style="background:#1D9E7522">🎸</div>
+        <div class="activity-text"><strong>Peña folklórica (noche)</strong> <span class="exp-badge" onclick="toggleExp(&#39;penya&#39;)" title="Cocher cette expérience">🎸</span><small>Buscar una peña en un bar o restaurante local — música del norte argentino (chacarera, zamba), ambiente auténtico, frecuentemente gratis o 1-2 USD.</small></div>
+      </div><div class="activity">
+        <div class="activity-icon" style="background:#1D9E7522">✈</div>
+        <div class="activity-text"><strong>Mañana: vuelo IGR → AEP (mañana)</strong><small>Preparar el equipaje esta noche. Reservar taxi la noche anterior al aeropuerto — 15 min de camino.</small></div>
+      </div></div>
+            <div><span class="transport-badge">🚌 Bus frontalier + taxi</span></div>
+          </div>
+          <div>
+            <div class="section-title">Notas personales</div>
+            <textarea class="note-area" placeholder="Impresiones, direcciones encontradas, cambios de plan..." oninput="saveNote(3,this.value)"></textarea>
+            <div class="section-title" style="margin-top:12px">Calificación del día</div>
+            <div class="rating-row"><span class="star" onclick="setRating(3,1)">★</span><span class="star" onclick="setRating(3,2)">★</span><span class="star" onclick="setRating(3,3)">★</span><span class="star" onclick="setRating(3,4)">★</span><span class="star" onclick="setRating(3,5)">★</span></div>
+          </div>
+        </div>
+        
+      <div class="sleep-block">
+        <div class="sleep-icon">🌙</div>
+        <div class="sleep-content">
+          <div class="sleep-label">Dónde dormir esta noche</div>
+          <div class="sleep-place">Puerto Iguazú — centro del pueblo</div>
+          <div><span class="sleep-quartier sq-iguazu">📍 Av. Córdoba / Parque San Martín</span></div>
+          <div class="sleep-why">Última noche en Iguazú. Preparar el equipaje esta noche — vuelo temprano mañana a Buenos Aires. Reservar taxi la noche anterior.</div>
+          <div class="sleep-tips"><span class="sleep-tip">Vuelo IGR → AEP mañana a la mañana</span><span class="sleep-tip">Reservar taxi al aeropuerto esta noche</span></div>
+        </div>
+      </div>
+      </div></div></div><div class="etape-section"><div class="etape-heading">
+        <div class="dot" style="background:var(--accent-ba)"></div>
+        <h2>Buenos Aires</h2>
+        <span class="nights-badge">5 noches</span>
+      </div></div><div class="days"><div class="day-card" id="card-4">
+      <div class="accent-bar" style="background:var(--accent-ba)"></div>
+      <div class="day-header" onclick="toggleDay(4)">
+        <div class="day-num">
+          <div class="dn">4</div>
+          <div class="dm">Lun</div>
+        </div>
+        <div class="day-main">
+          <div class="day-title">Llegada Buenos Aires</div>
+          <div class="day-sub">Vuelo IGR → AEP · Instalación · Primera milonga</div>
+          <div class="day-tags"><span class="day-tag">Tránsito</span><span class="day-tag">Tango</span></div>
+        </div>
+        <div class="day-actions">
+          <button class="done-btn" title="Marcar como hecho" onclick="event.stopPropagation();toggleDone(4)">✓</button>
+          <span class="chevron" id="chev-4">›</span>
+        </div>
+      </div>
+      <div class="day-body" id="body-4">
+        <div class="day-body-inner">
+          <div>
+            <div class="section-title">Programa</div>
+            <div class="activity-list"><div class="activity">
+        <div class="activity-icon" style="background:#7B6FD422">✈</div>
+        <div class="activity-text"><strong>Vuelo IGR → AEP (45 min, mañana)</strong><small>Aeroparque Jorge Newbery — en el centro de la ciudad, en Uber o remise oficial hasta el barrio.</small></div>
+      </div><div class="activity">
+        <div class="activity-icon" style="background:#7B6FD422">🏨</div>
+        <div class="activity-text"><strong>Check-in San Telmo o Palermo</strong><small>San Telmo para la atmósfera histórica y el tango. Palermo para la vida de barrio y los restaurantes.</small></div>
+      </div><div class="activity">
+        <div class="activity-icon" style="background:#7B6FD422">☕</div>
+        <div class="activity-text"><strong>Desayuno en la panadería del barrio</strong> <span class="exp-badge" onclick="toggleExp(&#39;facturas&#39;)" title="Cocher cette expérience">🥐</span><small>Medialunas, facturas y café con leche en el mostrador. El ritual matutino argentino.</small></div>
+      </div><div class="activity">
+        <div class="activity-icon" style="background:#7B6FD422">💃</div>
+        <div class="activity-text"><strong>Milonga La Catedral (noche)</strong> <span class="exp-badge" onclick="toggleExp(&#39;tango&#39;)" title="Cocher cette expérience">💃</span><small>Viejo teatro en Almagro. Bailarines locales de verdad, ambiente no turístico. Llegar a las 22h, el tango empieza tarde.</small></div>
+      </div></div>
+            <div><span class="transport-badge">✈ IGR → AEP (45 min) + Uber/remise</span></div>
+          </div>
+          <div>
+            <div class="section-title">Notas personales</div>
+            <textarea class="note-area" placeholder="Impresiones, direcciones encontradas, cambios de plan..." oninput="saveNote(4,this.value)"></textarea>
+            <div class="section-title" style="margin-top:12px">Calificación del día</div>
+            <div class="rating-row"><span class="star" onclick="setRating(4,1)">★</span><span class="star" onclick="setRating(4,2)">★</span><span class="star" onclick="setRating(4,3)">★</span><span class="star" onclick="setRating(4,4)">★</span><span class="star" onclick="setRating(4,5)">★</span></div>
+          </div>
+        </div>
+        
+      <div class="sleep-block">
+        <div class="sleep-icon">🌙</div>
+        <div class="sleep-content">
+          <div class="sleep-label">Dónde dormir esta noche</div>
+          <div class="sleep-place">San Telmo</div>
+          <div><span class="sleep-quartier sq-ba-st">📍 Alrededor de la calle Defensa</span></div>
+          <div class="sleep-why">El barrio más cargado de historia y alma de BA. Adoquines, casas coloniales, bandoneones por las ventanas. Ideal para las primeras noches — mercado dominical, milonga La Catedral, cafés de 1900. El tango nació aquí.</div>
+          <div class="sleep-tips"><span class="sleep-tip">Mercado Defensa a 5 min a pie</span><span class="sleep-tip">Milonga La Catedral a 15 min Uber</span><span class="sleep-tip">Evitar Av. 9 de Julio — demasiado ruidosa</span></div>
+        </div>
+      </div>
+      </div></div></div><div class="days"><div class="day-card" id="card-5">
+      <div class="accent-bar" style="background:var(--accent-ba)"></div>
+      <div class="day-header" onclick="toggleDay(5)">
+        <div class="day-num">
+          <div class="dn">5</div>
+          <div class="dm">Mar</div>
+        </div>
+        <div class="day-main">
+          <div class="day-title">San Telmo y MALBA</div>
+          <div class="day-sub">Mercado · Museo · Foto callejera · Asado</div>
+          <div class="day-tags"><span class="day-tag">Mercado</span><span class="day-tag">Museo</span><span class="day-tag">Foto callejera</span><span class="day-tag">Asado</span></div>
+        </div>
+        <div class="day-actions">
+          <button class="done-btn" title="Marcar como hecho" onclick="event.stopPropagation();toggleDone(5)">✓</button>
+          <span class="chevron" id="chev-5">›</span>
+        </div>
+      </div>
+      <div class="day-body" id="body-5">
+        <div class="day-body-inner">
+          <div>
+            <div class="section-title">Programa</div>
+            <div class="activity-list"><div class="activity">
+        <div class="activity-icon" style="background:#7B6FD422">📷</div>
+        <div class="activity-text"><strong>Mercado de San Telmo (9h)</strong><small>Llegar temprano antes de los tours. Anticuarios, bandoneón en la calle, tango espontáneo. Luz lateral perfecta para foto callejera.</small></div>
+      </div><div class="activity">
+        <div class="activity-icon" style="background:#7B6FD422">🎨</div>
+        <div class="activity-text"><strong>MALBA (tarde)</strong><small>Arte latinoamericano del siglo 20. Frida Kahlo, Xul Solar, arquitectura notable. Calcular 2h.</small></div>
+      </div><div class="activity">
+        <div class="activity-icon" style="background:#7B6FD422">📚</div>
+        <div class="activity-text"><strong>El Ateneo Grand Splendid</strong><small>Librería en un teatro de 1919 declarado patrimonio. Tomar café en el antiguo palco de actores. Legítimo, no solo Instagram.</small></div>
+      </div><div class="activity">
+        <div class="activity-icon" style="background:#7B6FD422">🔥</div>
+        <div class="activity-text"><strong>Parrilla de barrio (noche)</strong> <span class="exp-badge" onclick="toggleExp(&#39;asado&#39;)" title="Cocher cette expérience">🔥</span><small>Buscar una parrilla sin carta en inglés en Boedo o San Telmo. Pedir el bife de chorizo, chimichurri casero y una botella de malbec.</small></div>
+      </div></div>
+            <div><span class="transport-badge">🚶 À pied + Uber</span></div>
+          </div>
+          <div>
+            <div class="section-title">Notas personales</div>
+            <textarea class="note-area" placeholder="Impresiones, direcciones encontradas, cambios de plan..." oninput="saveNote(5,this.value)"></textarea>
+            <div class="section-title" style="margin-top:12px">Calificación del día</div>
+            <div class="rating-row"><span class="star" onclick="setRating(5,1)">★</span><span class="star" onclick="setRating(5,2)">★</span><span class="star" onclick="setRating(5,3)">★</span><span class="star" onclick="setRating(5,4)">★</span><span class="star" onclick="setRating(5,5)">★</span></div>
+          </div>
+        </div>
+        
+      <div class="sleep-block">
+        <div class="sleep-icon">🌙</div>
+        <div class="sleep-content">
+          <div class="sleep-label">Dónde dormir esta noche</div>
+          <div class="sleep-place">San Telmo</div>
+          <div><span class="sleep-quartier sq-ba-st">📍 Alrededor de la calle Defensa</span></div>
+          <div class="sleep-why">Misma base — todo a pie para el mercado de la mañana. San Telmo es el mejor barrio para foto callejera gracias a su luz lateral y callejones coloridos.</div>
+          <div class="sleep-tips"><span class="sleep-tip">Mercado San Telmo a 5 min</span><span class="sleep-tip">MALBA a 20 min Uber</span></div>
+        </div>
+      </div>
+      </div></div></div><div class="days"><div class="day-card" id="card-6">
+      <div class="accent-bar" style="background:var(--accent-ba)"></div>
+      <div class="day-header" onclick="toggleDay(6)">
+        <div class="day-num">
+          <div class="dn">6</div>
+          <div class="dm">Mié</div>
+        </div>
+        <div class="day-main">
+          <div class="day-title">Palermo · Villa Crespo · Tango</div>
+          <div class="day-sub">Street art · Vida de barrio · Clase de tango</div>
+          <div class="day-tags"><span class="day-tag">Foto callejera</span><span class="day-tag">Barrios</span><span class="day-tag">Tango</span></div>
+        </div>
+        <div class="day-actions">
+          <button class="done-btn" title="Marcar como hecho" onclick="event.stopPropagation();toggleDone(6)">✓</button>
+          <span class="chevron" id="chev-6">›</span>
+        </div>
+      </div>
+      <div class="day-body" id="body-6">
+        <div class="day-body-inner">
+          <div>
+            <div class="section-title">Programa</div>
+            <div class="activity-list"><div class="activity">
+        <div class="activity-icon" style="background:#7B6FD422">🎭</div>
+        <div class="activity-text"><strong>Villa Crespo (mañana)</strong><small>Street art, librerías independientes, discos de vinilo, ropa vintage. El Palermo de antes. Paseo fotográfico ideal.</small></div>
+      </div><div class="activity">
+        <div class="activity-icon" style="background:#7B6FD422">🎵</div>
+        <div class="activity-text"><strong>Clase privada de tango (tarde)</strong> <span class="exp-badge" onclick="toggleExp(&#39;tango&#39;)" title="Cocher cette expérience">💃</span><small>1h30 con una pareja de bailarines locales — preguntar en el hotel o buscar Academia Nacional de Tango. No una escuela turística, una transmisión real.</small></div>
+      </div><div class="activity">
+        <div class="activity-icon" style="background:#7B6FD422">🥃</div>
+        <div class="activity-text"><strong>Fernet con Coca en el Bar Británico</strong> <span class="exp-badge" onclick="toggleExp(&#39;fernet&#39;)" title="Cocher cette expérience">🥃</span><small>Café histórico abierto 24h, espejos de 1920. El Fernet con Coca es la bebida nacional no oficial de Argentina.</small></div>
+      </div><div class="activity">
+        <div class="activity-icon" style="background:#7B6FD422">🍽</div>
+        <div class="activity-text"><strong>Bife de chorizo en El Preferido de Palermo</strong> <span class="exp-badge" onclick="toggleExp(&#39;bife&#39;)" title="Cocher cette expérience">🥩</span><small>Bodegón de barrio centenario. Ambiente 1930, tarta pascualina, milanesa napolitana. Muy frecuentado por locales.</small></div>
+      </div></div>
+            <div><span class="transport-badge">🚶 À pied + Uber</span></div>
+          </div>
+          <div>
+            <div class="section-title">Notas personales</div>
+            <textarea class="note-area" placeholder="Impresiones, direcciones encontradas, cambios de plan..." oninput="saveNote(6,this.value)"></textarea>
+            <div class="section-title" style="margin-top:12px">Calificación del día</div>
+            <div class="rating-row"><span class="star" onclick="setRating(6,1)">★</span><span class="star" onclick="setRating(6,2)">★</span><span class="star" onclick="setRating(6,3)">★</span><span class="star" onclick="setRating(6,4)">★</span><span class="star" onclick="setRating(6,5)">★</span></div>
+          </div>
+        </div>
+        
+      <div class="sleep-block">
+        <div class="sleep-icon">🌙</div>
+        <div class="sleep-content">
+          <div class="sleep-label">Dónde dormir esta noche</div>
+          <div class="sleep-place">Palermo Soho o Villa Crespo</div>
+          <div><span class="sleep-quartier sq-ba-pa">📍 Thames / El Salvador o Av. Corrientes</span></div>
+          <div class="sleep-why">Cambiar de base a mitad de estadía da la sensación de dos ciudades en una. Palermo para restaurantes y feria de diseño. Villa Crespo (al lado) para autenticidad de barrio y -30% en precios.</div>
+          <div class="sleep-tips"><span class="sleep-tip">Villa Crespo = mismo ambiente, más barato</span><span class="sleep-tip">Salón Canning milonga a 10 min a pie</span><span class="sleep-tip">Mejores restaurantes a 5 min</span></div>
+        </div>
+      </div>
+      </div></div></div><div class="days"><div class="day-card" id="card-7">
+      <div class="accent-bar" style="background:var(--accent-ba)"></div>
+      <div class="day-header" onclick="toggleDay(7)">
+        <div class="day-num">
+          <div class="dn">7</div>
+          <div class="dm">Jue</div>
+        </div>
+        <div class="day-main">
+          <div class="day-title">Recoleta · Chacarita · Museos</div>
+          <div class="day-sub">Cementerios · Bellas Artes · Underground</div>
+          <div class="day-tags"><span class="day-tag">Cultura</span><span class="day-tag">Museo</span><span class="day-tag">Boedo</span></div>
+        </div>
+        <div class="day-actions">
+          <button class="done-btn" title="Marcar como hecho" onclick="event.stopPropagation();toggleDone(7)">✓</button>
+          <span class="chevron" id="chev-7">›</span>
+        </div>
+      </div>
+      <div class="day-body" id="body-7">
+        <div class="day-body-inner">
+          <div>
+            <div class="section-title">Programa</div>
+            <div class="activity-list"><div class="activity">
+        <div class="activity-icon" style="background:#7B6FD422">🏛</div>
+        <div class="activity-text"><strong>Cementerio de Recoleta (mañana)</strong><small>Mausoleos art déco, Evita, paseo fotográfico. Llegar a la apertura (8h). Uno de los cementerios más espectaculares del mundo.</small></div>
+      </div><div class="activity">
+        <div class="activity-icon" style="background:#7B6FD422">🖼</div>
+        <div class="activity-text"><strong>Museo Nacional de Bellas Artes</strong><small>Gratis. Goya, Rembrandt, Monet + sección argentina importante. Al lado del cementerio — hacer los dos seguidos.</small></div>
+      </div><div class="activity">
+        <div class="activity-icon" style="background:#7B6FD422">🎸</div>
+        <div class="activity-text"><strong>Chacarita (tarde)</strong><small>Tumba de Carlos Gardel y Luis Alberto Spinetta. Street art monumental. Cafés de barrio auténticos. El Buenos Aires subterráneo.</small></div>
+      </div><div class="activity">
+        <div class="activity-icon" style="background:#7B6FD422">💃</div>
+        <div class="activity-text"><strong>Milonga Salón Canning (noche)</strong> <span class="exp-badge" onclick="toggleExp(&#39;tango&#39;)" title="Cocher cette expérience">💃</span><small>La milonga histórica de Palermo. Ambiente serio. Observar las primeras rondas, luego animarse. El nivel es alto pero nadie juzga.</small></div>
+      </div></div>
+            <div><span class="transport-badge">🚶 À pied + Uber</span></div>
+          </div>
+          <div>
+            <div class="section-title">Notas personales</div>
+            <textarea class="note-area" placeholder="Impresiones, direcciones encontradas, cambios de plan..." oninput="saveNote(7,this.value)"></textarea>
+            <div class="section-title" style="margin-top:12px">Calificación del día</div>
+            <div class="rating-row"><span class="star" onclick="setRating(7,1)">★</span><span class="star" onclick="setRating(7,2)">★</span><span class="star" onclick="setRating(7,3)">★</span><span class="star" onclick="setRating(7,4)">★</span><span class="star" onclick="setRating(7,5)">★</span></div>
+          </div>
+        </div>
+        
+      <div class="sleep-block">
+        <div class="sleep-icon">🌙</div>
+        <div class="sleep-content">
+          <div class="sleep-label">Dónde dormir esta noche</div>
+          <div class="sleep-place">Palermo Soho o Villa Crespo</div>
+          <div><span class="sleep-quartier sq-ba-pa">📍 Thames / El Salvador o Av. Corrientes</span></div>
+          <div class="sleep-why">Recoleta y Chacarita están a 15-20 min en Uber. Buena base central para el día de museos. Por la noche, milonga Salón Canning a distancia caminable.</div>
+          <div class="sleep-tips"><span class="sleep-tip">Recoleta a 15 min Uber</span><span class="sleep-tip">Chacarita a 20 min Uber</span><span class="sleep-tip">Milonga Canning caminando</span></div>
+        </div>
+      </div>
+      </div></div></div><div class="days"><div class="day-card" id="card-8">
+      <div class="accent-bar" style="background:var(--accent-ba)"></div>
+      <div class="day-header" onclick="toggleDay(8)">
+        <div class="day-num">
+          <div class="dn">8</div>
+          <div class="dm">Vie</div>
+        </div>
+        <div class="day-main">
+          <div class="day-title">Boedo · Mercado · Salida a Mendoza</div>
+          <div class="day-sub">Barrio del tango-canción · Mercado San Telmo · Vuelo</div>
+          <div class="day-tags"><span class="day-tag">Mercado</span><span class="day-tag">Boedo</span><span class="day-tag">Tránsito</span></div>
+        </div>
+        <div class="day-actions">
+          <button class="done-btn" title="Marcar como hecho" onclick="event.stopPropagation();toggleDone(8)">✓</button>
+          <span class="chevron" id="chev-8">›</span>
+        </div>
+      </div>
+      <div class="day-body" id="body-8">
+        <div class="day-body-inner">
+          <div>
+            <div class="section-title">Programa</div>
+            <div class="activity-list"><div class="activity">
+        <div class="activity-icon" style="background:#7B6FD422">🏘</div>
+        <div class="activity-text"><strong>Boedo (mañana)</strong><small>Cuna del tango-canción. Cafés de 1930 intactos, murales de Quinquela Martín. Nadie va — todos deberían.</small></div>
+      </div><div class="activity">
+        <div class="activity-icon" style="background:#7B6FD422">🛒</div>
+        <div class="activity-text"><strong>Mercado de San Telmo (mediodía)</strong> <span class="exp-badge" onclick="toggleExp(&#39;empanada&#39;)" title="Cocher cette expérience">🥟</span><small>Bar de ostras, empanadas al horno de barro, quesos locales. Última comida porteña parado en el mostrador.</small></div>
+      </div><div class="activity">
+        <div class="activity-icon" style="background:#7B6FD422">🛍</div>
+        <div class="activity-text"><strong>Feria de diseño · Compras locales</strong><small>Diseñadores independientes en Palermo. Cuero, cerámica, textil — no los souvenirs del aeropuerto.</small></div>
+      </div><div class="activity">
+        <div class="activity-icon" style="background:#7B6FD422">✈</div>
+        <div class="activity-text"><strong>Vuelo AEP → MDZ (tarde)</strong><small>Alquilar auto en el aeropuerto de Mendoza al llegar — imprescindible para Valle de Uco y los Andes.</small></div>
+      </div></div>
+            <div><span class="transport-badge">✈ AEP → MDZ (1h45)</span></div>
+          </div>
+          <div>
+            <div class="section-title">Notas personales</div>
+            <textarea class="note-area" placeholder="Impresiones, direcciones encontradas, cambios de plan..." oninput="saveNote(8,this.value)"></textarea>
+            <div class="section-title" style="margin-top:12px">Calificación del día</div>
+            <div class="rating-row"><span class="star" onclick="setRating(8,1)">★</span><span class="star" onclick="setRating(8,2)">★</span><span class="star" onclick="setRating(8,3)">★</span><span class="star" onclick="setRating(8,4)">★</span><span class="star" onclick="setRating(8,5)">★</span></div>
+          </div>
+        </div>
+        
+      <div class="sleep-block">
+        <div class="sleep-icon">🌙</div>
+        <div class="sleep-content">
+          <div class="sleep-label">Dónde dormir esta noche</div>
+          <div class="sleep-place">Palermo Soho o Villa Crespo</div>
+          <div><span class="sleep-quartier sq-ba-pa">📍 Thames / El Salvador o Av. Corrientes</span></div>
+          <div class="sleep-why">Última mañana en BA. Check-out, equipaje en consigna, exploración liviano hasta el vuelo de la tarde. Aeroparque AEP a 20 min en Uber.</div>
+          <div class="sleep-tips"><span class="sleep-tip">Check-out mañana, consigna hasta el vuelo</span><span class="sleep-tip">AEP a 20 min Uber desde Palermo</span><span class="sleep-tip">Vuelo AEP → MDZ en la tarde</span></div>
+        </div>
+      </div>
+      </div></div></div><div class="etape-section"><div class="etape-heading">
+        <div class="dot" style="background:var(--accent-mendoza)"></div>
+        <h2>Mendoza</h2>
+        <span class="nights-badge">5 noches</span>
+      </div></div><div class="days"><div class="day-card" id="card-9">
+      <div class="accent-bar" style="background:var(--accent-mendoza)"></div>
+      <div class="day-header" onclick="toggleDay(9)">
+        <div class="day-num">
+          <div class="dn">9</div>
+          <div class="dm">Sáb</div>
+        </div>
+        <div class="day-main">
+          <div class="day-title">Llegada Mendoza · Maipú en bici</div>
+          <div class="day-sub">Primeras bodegas · Aceite de oliva · Degustación</div>
+          <div class="day-tags"><span class="day-tag">Viñedos</span><span class="day-tag">Bicicleta</span><span class="day-tag">Vino</span></div>
+        </div>
+        <div class="day-actions">
+          <button class="done-btn" title="Marcar como hecho" onclick="event.stopPropagation();toggleDone(9)">✓</button>
+          <span class="chevron" id="chev-9">›</span>
+        </div>
+      </div>
+      <div class="day-body" id="body-9">
+        <div class="day-body-inner">
+          <div>
+            <div class="section-title">Programa</div>
+            <div class="activity-list"><div class="activity">
+        <div class="activity-icon" style="background:#C8831A22">🏨</div>
+        <div class="activity-text"><strong>Check-in en Mendoza</strong><small>Elegir según presupuesto: en la ciudad como base logística, o directamente en lodge en Valle de Uco entre los viñedos.</small></div>
+      </div><div class="activity">
+        <div class="activity-icon" style="background:#C8831A22">🚲</div>
+        <div class="activity-text"><strong>Maipú en bicicleta (tarde)</strong><small>Alquiler de bici entre bodegas familiares. Degustación de aceite de oliva, quesos de cabra. 20-25 km tranquilos entre los viñedos, cero desnivel.</small></div>
+      </div><div class="activity">
+        <div class="activity-icon" style="background:#C8831A22">🍷</div>
+        <div class="activity-text"><strong>Primera degustación de malbec</strong> <span class="exp-badge" onclick="toggleExp(&#39;vin&#39;)" title="Cocher cette expérience">🍷</span><small>Bodega La Rural o bodega familiar en Maipú. El malbec mendocino es totalmente diferente al que se bebe en Europa — más carnoso, frutos negros, chocolate.</small></div>
+      </div><div class="activity">
+        <div class="activity-icon" style="background:#C8831A22">🍽</div>
+        <div class="activity-text"><strong>Cena en Azafrán</strong> <span class="exp-badge" onclick="toggleExp(&#39;bife&#39;)" title="Cocher cette expérience">🥩</span><small>Bodega-restaurante con 700 referencias argentinas. Cocina regional seria. El mejor para comenzar la estadía mendocina.</small></div>
+      </div></div>
+            <div><span class="transport-badge">🚗 Voiture de location</span></div>
+          </div>
+          <div>
+            <div class="section-title">Notas personales</div>
+            <textarea class="note-area" placeholder="Impresiones, direcciones encontradas, cambios de plan..." oninput="saveNote(9,this.value)"></textarea>
+            <div class="section-title" style="margin-top:12px">Calificación del día</div>
+            <div class="rating-row"><span class="star" onclick="setRating(9,1)">★</span><span class="star" onclick="setRating(9,2)">★</span><span class="star" onclick="setRating(9,3)">★</span><span class="star" onclick="setRating(9,4)">★</span><span class="star" onclick="setRating(9,5)">★</span></div>
+          </div>
+        </div>
+        
+      <div class="sleep-block">
+        <div class="sleep-icon">🌙</div>
+        <div class="sleep-content">
+          <div class="sleep-label">Dónde dormir esta noche</div>
+          <div class="sleep-place">Centro Mendoza — Barrio Aristides</div>
+          <div><span class="sleep-quartier sq-mza">📍 Av. Aristides Villanueva / Godoy Cruz</span></div>
+          <div class="sleep-why">El corazón vivo de Mendoza — bares, restaurantes, vida callejera. A 5 min de la Plaza Independencia. Base ideal para salir en auto hacia Valle de Uco y los Andes cada mañana. Estacionamiento incluido en la mayoría de los alojamientos.</div>
+          <div class="sleep-tips"><span class="sleep-tip">Azafrán a 10 min a pie</span><span class="sleep-tip">Estacionamiento incluido</span><span class="sleep-tip">Mercado central a 15 min</span></div>
+        </div>
+      </div>
+      </div></div></div><div class="days"><div class="day-card" id="card-10">
+      <div class="accent-bar" style="background:var(--accent-mendoza)"></div>
+      <div class="day-header" onclick="toggleDay(10)">
+        <div class="day-num">
+          <div class="dn">10</div>
+          <div class="dm">Dom</div>
+        </div>
+        <div class="day-main">
+          <div class="day-title">Ruta de los Andes · Aconcagua</div>
+          <div class="day-sub">RN7 · Puente del Inca · Termas de Cacheuta</div>
+          <div class="day-tags"><span class="day-tag">Andes</span><span class="day-tag">Ruta</span><span class="day-tag">Paisaje</span></div>
+        </div>
+        <div class="day-actions">
+          <button class="done-btn" title="Marcar como hecho" onclick="event.stopPropagation();toggleDone(10)">✓</button>
+          <span class="chevron" id="chev-10">›</span>
+        </div>
+      </div>
+      <div class="day-body" id="body-10">
+        <div class="day-body-inner">
+          <div>
+            <div class="section-title">Programa</div>
+            <div class="activity-list"><div class="activity">
+        <div class="activity-icon" style="background:#C8831A22">🏔</div>
+        <div class="activity-text"><strong>Ruta RN7 hacia Uspallata (salida 7h)</strong><small>Luz dorada sobre el Aconcagua (6962m). Cóndores frecuentes a simple vista desde la ruta. Valles multicolores.</small></div>
+      </div><div class="activity">
+        <div class="activity-icon" style="background:#C8831A22">🌉</div>
+        <div class="activity-text"><strong>Puente del Inca · Caminata 30 min</strong><small>Puente natural calcáreo color azafrán. Caminata fácil alrededor del sitio, 30 min. Vista directa al Aconcagua con cielo despejado.</small></div>
+      </div><div class="activity">
+        <div class="activity-icon" style="background:#C8831A22">♨</div>
+        <div class="activity-text"><strong>Termas de Cacheuta al regreso</strong><small>Agua volcánica en un cañón andino a 40 km de Mendoza. Piletas naturales, descanso total después de la ruta.</small></div>
+      </div><div class="activity">
+        <div class="activity-icon" style="background:#C8831A22">🧉</div>
+        <div class="activity-text"><strong>Ceremonia del mate en ruta</strong> <span class="exp-badge" onclick="toggleExp(&#39;mate&#39;)" title="Cocher cette expérience">🧉</span><small>Comprar kit mate + yerba en Mendoza antes de salir. Parar con vista al Aconcagua y tomar en silencio. Momento suspendido.</small></div>
+      </div></div>
+            <div><span class="transport-badge">🚗 Voiture (~3h A/R depuis Mendoza)</span></div>
+          </div>
+          <div>
+            <div class="section-title">Notas personales</div>
+            <textarea class="note-area" placeholder="Impresiones, direcciones encontradas, cambios de plan..." oninput="saveNote(10,this.value)"></textarea>
+            <div class="section-title" style="margin-top:12px">Calificación del día</div>
+            <div class="rating-row"><span class="star" onclick="setRating(10,1)">★</span><span class="star" onclick="setRating(10,2)">★</span><span class="star" onclick="setRating(10,3)">★</span><span class="star" onclick="setRating(10,4)">★</span><span class="star" onclick="setRating(10,5)">★</span></div>
+          </div>
+        </div>
+        
+      <div class="sleep-block">
+        <div class="sleep-icon">🌙</div>
+        <div class="sleep-content">
+          <div class="sleep-label">Dónde dormir esta noche</div>
+          <div class="sleep-place">Centro Mendoza — Barrio Aristides</div>
+          <div><span class="sleep-quartier sq-mza">📍 Av. Aristides Villanueva / Godoy Cruz</span></div>
+          <div class="sleep-why">Misma base — salida temprano hacia los Andes (RN7). Regreso vía Cacheuta a última hora de la tarde. Cena en la ciudad a distancia caminable.</div>
+          <div class="sleep-tips"><span class="sleep-tip">Salida 7h al Aconcagua</span><span class="sleep-tip">Regreso vía Cacheuta (termas)</span><span class="sleep-tip">Cena en la ciudad por la noche</span></div>
+        </div>
+      </div>
+      </div></div></div><div class="days"><div class="day-card" id="card-11">
+      <div class="accent-bar" style="background:var(--accent-mendoza)"></div>
+      <div class="day-header" onclick="toggleDay(11)">
+        <div class="day-num">
+          <div class="dn">11</div>
+          <div class="dm">Lun</div>
+        </div>
+        <div class="day-main">
+          <div class="day-title">Valle de Uco · Zuccardi</div>
+          <div class="day-sub">Viñedos de altura · Almuerzo gastronómico · Andes de fondo</div>
+          <div class="day-tags"><span class="day-tag">Viñedos</span><span class="day-tag">Gastronomía</span><span class="day-tag">Vino</span></div>
+        </div>
+        <div class="day-actions">
+          <button class="done-btn" title="Marcar como hecho" onclick="event.stopPropagation();toggleDone(11)">✓</button>
+          <span class="chevron" id="chev-11">›</span>
+        </div>
+      </div>
+      <div class="day-body" id="body-11">
+        <div class="day-body-inner">
+          <div>
+            <div class="section-title">Programa</div>
+            <div class="activity-list"><div class="activity">
+        <div class="activity-icon" style="background:#C8831A22">🌅</div>
+        <div class="activity-text"><strong>Valle de Uco al amanecer</strong><small>1100m de altura. Luz sobre los viñedos con los Andes nevados de fondo. Tomarse el tiempo de parar en la ruta.</small></div>
+      </div><div class="activity">
+        <div class="activity-icon" style="background:#C8831A22">🍷</div>
+        <div class="activity-text"><strong>Almuerzo en Zuccardi Valle de Uco</strong> <span class="exp-badge" onclick="toggleExp(&#39;vin&#39;)" title="Cocher cette expérience">🍷</span><small>Mejor restaurante de bodega de Argentina. Menú degustación con maridaje malbec. Reservar 3 semanas antes mínimo. La comida del viaje.</small></div>
+      </div><div class="activity">
+        <div class="activity-icon" style="background:#C8831A22">🏡</div>
+        <div class="activity-text"><strong>Bodega Achaval Ferrer (tarde)</strong> <span class="exp-badge" onclick="toggleExp(&#39;vin&#39;)" title="Cocher cette expérience">🍷</span><small>Visita guiada y degustación privada. Vinos de parcelas únicas, malbec de alta montaña. Nivel internacional.</small></div>
+      </div><div class="activity">
+        <div class="activity-icon" style="background:#C8831A22">🌙</div>
+        <div class="activity-text"><strong>Noche en los viñedos (opcional)</strong><small>Lodge en medio de los viñedos con vista Andes — la experiencia absoluta si el presupuesto lo permite. Sino regreso a Mendoza (1h30).</small></div>
+      </div></div>
+            <div><span class="transport-badge">🚗 Voiture (1h30 de Mendoza)</span></div>
+          </div>
+          <div>
+            <div class="section-title">Notas personales</div>
+            <textarea class="note-area" placeholder="Impresiones, direcciones encontradas, cambios de plan..." oninput="saveNote(11,this.value)"></textarea>
+            <div class="section-title" style="margin-top:12px">Calificación del día</div>
+            <div class="rating-row"><span class="star" onclick="setRating(11,1)">★</span><span class="star" onclick="setRating(11,2)">★</span><span class="star" onclick="setRating(11,3)">★</span><span class="star" onclick="setRating(11,4)">★</span><span class="star" onclick="setRating(11,5)">★</span></div>
+          </div>
+        </div>
+        
+      <div class="sleep-block">
+        <div class="sleep-icon">🌙</div>
+        <div class="sleep-content">
+          <div class="sleep-label">Dónde dormir esta noche</div>
+          <div class="sleep-place">Valle de Uco — entre los viñedos</div>
+          <div><span class="sleep-quartier sq-vuc">📍 Tunuyán · lodge entre los viñedos</span></div>
+          <div class="sleep-why">Una sola noche entre los viñedos a 1100m con el Aconcagua de fondo — la experiencia vitivinícola absoluta. Despertar entre los malbecs con los Andes rosados al amanecer. Opcional según presupuesto, pero inolvidable.</div>
+          <div class="sleep-tips"><span class="sleep-tip">Zuccardi a 20 min</span><span class="sleep-tip">Aconcagua visible al amanecer</span><span class="sleep-tip">Regreso Mendoza al día siguiente (1h30)</span></div>
+        </div>
+      </div>
+      </div></div></div><div class="days"><div class="day-card" id="card-12">
+      <div class="accent-bar" style="background:var(--accent-mendoza)"></div>
+      <div class="day-header" onclick="toggleDay(12)">
+        <div class="day-num">
+          <div class="dn">12</div>
+          <div class="dm">Mar</div>
+        </div>
+        <div class="day-main">
+          <div class="day-title">Cañón del Atuel · San Rafael</div>
+          <div class="day-sub">Gargantas rojas · Kayak · Golden hour</div>
+          <div class="day-tags"><span class="day-tag">Cañón</span><span class="day-tag">Kayak</span><span class="day-tag">Paisaje</span></div>
+        </div>
+        <div class="day-actions">
+          <button class="done-btn" title="Marcar como hecho" onclick="event.stopPropagation();toggleDone(12)">✓</button>
+          <span class="chevron" id="chev-12">›</span>
+        </div>
+      </div>
+      <div class="day-body" id="body-12">
+        <div class="day-body-inner">
+          <div>
+            <div class="section-title">Programa</div>
+            <div class="activity-list"><div class="activity">
+        <div class="activity-icon" style="background:#C8831A22">🏞</div>
+        <div class="activity-text"><strong>Ruta hacia San Rafael</strong><small>Cruce de la pampa mendocina. Plana, inmensa, fascinante. Paisaje lunar opuesto a los Andes.</small></div>
+      </div><div class="activity">
+        <div class="activity-icon" style="background:#C8831A22">🛶</div>
+        <div class="activity-text"><strong>Cañón del Atuel</strong><small>Gargantas rojas y azules excavadas por el río. Opción kayak o caminata a orillas del río (1h ida/vuelta fácil). Poco conocido por turistas extranjeros.</small></div>
+      </div><div class="activity">
+        <div class="activity-icon" style="background:#C8831A22">📷</div>
+        <div class="activity-text"><strong>Golden hour en el cañón</strong><small>Los ocres y azules bajo la luz de la tarde — foto de paisaje excepcional. Quedarse hasta la puesta del sol.</small></div>
+      </div><div class="activity">
+        <div class="activity-icon" style="background:#C8831A22">🔥</div>
+        <div class="activity-text"><strong>Asado dominical estilo local</strong> <span class="exp-badge" onclick="toggleExp(&#39;asado&#39;)" title="Cocher cette expérience">🔥</span><small>Buscar una familia via Airbnb Experiences o EatWith. El ritual del domingo argentino — 4h alrededor del fuego, mate, vino, familia.</small></div>
+      </div></div>
+            <div><span class="transport-badge">🚗 Voiture (~2h30 de Mendoza)</span></div>
+          </div>
+          <div>
+            <div class="section-title">Notas personales</div>
+            <textarea class="note-area" placeholder="Impresiones, direcciones encontradas, cambios de plan..." oninput="saveNote(12,this.value)"></textarea>
+            <div class="section-title" style="margin-top:12px">Calificación del día</div>
+            <div class="rating-row"><span class="star" onclick="setRating(12,1)">★</span><span class="star" onclick="setRating(12,2)">★</span><span class="star" onclick="setRating(12,3)">★</span><span class="star" onclick="setRating(12,4)">★</span><span class="star" onclick="setRating(12,5)">★</span></div>
+          </div>
+        </div>
+        
+      <div class="sleep-block">
+        <div class="sleep-icon">🌙</div>
+        <div class="sleep-content">
+          <div class="sleep-label">Dónde dormir esta noche</div>
+          <div class="sleep-place">Centro Mendoza — Barrio Aristides</div>
+          <div><span class="sleep-quartier sq-mza">📍 Av. Aristides Villanueva / Godoy Cruz</span></div>
+          <div class="sleep-why">Regreso desde el Cañón del Atuel (2h30 de ruta). Base práctica para la última mañana en el mercado y la ruta al aeropuerto MDZ al día siguiente.</div>
+          <div class="sleep-tips"><span class="sleep-tip">Mercado central mañana a la mañana (7h)</span><span class="sleep-tip">Aeropuerto MDZ a 20 min en auto</span></div>
+        </div>
+      </div>
+      </div></div></div><div class="days"><div class="day-card" id="card-13">
+      <div class="accent-bar" style="background:var(--accent-mendoza)"></div>
+      <div class="day-header" onclick="toggleDay(13)">
+        <div class="day-num">
+          <div class="dn">13</div>
+          <div class="dm">Mié</div>
+        </div>
+        <div class="day-main">
+          <div class="day-title">Mercado Central · Salida a Bariloche</div>
+          <div class="day-sub">Vida local · Foto callejera · Vuelo</div>
+          <div class="day-tags"><span class="day-tag">Mercado</span><span class="day-tag">Foto callejera</span><span class="day-tag">Tránsito</span></div>
+        </div>
+        <div class="day-actions">
+          <button class="done-btn" title="Marcar como hecho" onclick="event.stopPropagation();toggleDone(13)">✓</button>
+          <span class="chevron" id="chev-13">›</span>
+        </div>
+      </div>
+      <div class="day-body" id="body-13">
+        <div class="day-body-inner">
+          <div>
+            <div class="section-title">Programa</div>
+            <div class="activity-list"><div class="activity">
+        <div class="activity-icon" style="background:#C8831A22">📷</div>
+        <div class="activity-text"><strong>Mercado Central de Mendoza (7h-9h)</strong><small>Ajo, pimentón, hierbas frescas, frutas de temporada. Vida cotidiana pura. Mejor hora para foto callejera en la ciudad.</small></div>
+      </div><div class="activity">
+        <div class="activity-icon" style="background:#C8831A22">☕</div>
+        <div class="activity-text"><strong>Café y facturas en el mostrador</strong> <span class="exp-badge" onclick="toggleExp(&#39;facturas&#39;)" title="Cocher cette expérience">🥐</span><small>La Marchigiana para un café con leche y medialunas entre los habituales. Institución desde 1950.</small></div>
+      </div><div class="activity">
+        <div class="activity-icon" style="background:#C8831A22">🧳</div>
+        <div class="activity-text"><strong>Check-out · Devolver el auto en MDZ</strong><small>Calcular 30 min en el aeropuerto para devolver el auto. Guardar moneda local para taxi si hace falta.</small></div>
+      </div><div class="activity">
+        <div class="activity-icon" style="background:#C8831A22">✈</div>
+        <div class="activity-text"><strong>Vuelo MDZ → BRC (tarde)</strong><small>Alquilar auto en el aeropuerto de Bariloche al llegar — imprescindible. Pedir un SUV para los caminos de ripio.</small></div>
+      </div></div>
+            <div><span class="transport-badge">✈ MDZ → BRC (2h)</span></div>
+          </div>
+          <div>
+            <div class="section-title">Notas personales</div>
+            <textarea class="note-area" placeholder="Impresiones, direcciones encontradas, cambios de plan..." oninput="saveNote(13,this.value)"></textarea>
+            <div class="section-title" style="margin-top:12px">Calificación del día</div>
+            <div class="rating-row"><span class="star" onclick="setRating(13,1)">★</span><span class="star" onclick="setRating(13,2)">★</span><span class="star" onclick="setRating(13,3)">★</span><span class="star" onclick="setRating(13,4)">★</span><span class="star" onclick="setRating(13,5)">★</span></div>
+          </div>
+        </div>
+        
+      <div class="sleep-block">
+        <div class="sleep-icon">🌙</div>
+        <div class="sleep-content">
+          <div class="sleep-label">Dónde dormir esta noche</div>
+          <div class="sleep-place">Centro Mendoza — Barrio Aristides</div>
+          <div><span class="sleep-quartier sq-mza">📍 Av. Aristides Villanueva / Godoy Cruz</span></div>
+          <div class="sleep-why">Última noche en Mendoza. Mercado central temprano, luego ruta al aeropuerto MDZ para el vuelo MDZ → BRC. Devolver el auto en el aeropuerto.</div>
+          <div class="sleep-tips"><span class="sleep-tip">Vuelo MDZ → BRC por la tarde</span><span class="sleep-tip">Devolver auto en el aeropuerto</span><span class="sleep-tip">Alquilar nuevo auto en BRC</span></div>
+        </div>
+      </div>
+      </div></div></div><div class="etape-section"><div class="etape-heading">
+        <div class="dot" style="background:var(--accent-bariloche)"></div>
+        <h2>Bariloche</h2>
+        <span class="nights-badge">9 noches</span>
+      </div></div><div class="days"><div class="day-card" id="card-14">
+      <div class="accent-bar" style="background:var(--accent-bariloche)"></div>
+      <div class="day-header" onclick="toggleDay(14)">
+        <div class="day-num">
+          <div class="dn">14</div>
+          <div class="dm">Jue</div>
+        </div>
+        <div class="day-main">
+          <div class="day-title">Llegada Bariloche · Lago Nahuel Huapi</div>
+          <div class="day-sub">Primer contacto Patagonia · Chocolate · Blest</div>
+          <div class="day-tags"><span class="day-tag">Lago</span><span class="day-tag">Patagonia</span><span class="day-tag">Cerveza artesanal</span></div>
+        </div>
+        <div class="day-actions">
+          <button class="done-btn" title="Marcar como hecho" onclick="event.stopPropagation();toggleDone(14)">✓</button>
+          <span class="chevron" id="chev-14">›</span>
+        </div>
+      </div>
+      <div class="day-body" id="body-14">
+        <div class="day-body-inner">
+          <div>
+            <div class="section-title">Programa</div>
+            <div class="activity-list"><div class="activity">
+        <div class="activity-icon" style="background:#3A82C422">🏨</div>
+        <div class="activity-text"><strong>Check-in en Bariloche</strong><small>Elegir lado lago o centro. Vista al Nahuel Huapi desde la habitación si es posible — cambia el despertar.</small></div>
+      </div><div class="activity">
+        <div class="activity-icon" style="background:#3A82C422">🌊</div>
+        <div class="activity-text"><strong>Lago Nahuel Huapi (tarde)</strong><small>Sentarse a la orilla. Mirar los Andes caer en el lago turquesa. Nada más. Primer contacto con la Patagonia.</small></div>
+      </div><div class="activity">
+        <div class="activity-icon" style="background:#3A82C422">🍫</div>
+        <div class="activity-text"><strong>Chocolatería artesanal</strong> <span class="exp-badge" onclick="toggleExp(&#39;dulce&#39;)" title="Cocher cette expérience">🍯</span><small>Tradición austro-suiza absurda y deliciosa. Fondant caliente, alfajores con dulce de leche, pralinés. Rapanui o Mamusia.</small></div>
+      </div><div class="activity">
+        <div class="activity-icon" style="background:#3A82C422">🍺</div>
+        <div class="activity-text"><strong>Cervecería Blest (noche)</strong><small>Cervecería de culto desde 1979. Cerveza negra de barril, chorizos caseros, madera por todos lados. El QG local.</small></div>
+      </div></div>
+            <div><span class="transport-badge">✈ MDZ → BRC + 🚗 voiture</span></div>
+          </div>
+          <div>
+            <div class="section-title">Notas personales</div>
+            <textarea class="note-area" placeholder="Impresiones, direcciones encontradas, cambios de plan..." oninput="saveNote(14,this.value)"></textarea>
+            <div class="section-title" style="margin-top:12px">Calificación del día</div>
+            <div class="rating-row"><span class="star" onclick="setRating(14,1)">★</span><span class="star" onclick="setRating(14,2)">★</span><span class="star" onclick="setRating(14,3)">★</span><span class="star" onclick="setRating(14,4)">★</span><span class="star" onclick="setRating(14,5)">★</span></div>
+          </div>
+        </div>
+        
+      <div class="sleep-block">
+        <div class="sleep-icon">🌙</div>
+        <div class="sleep-content">
+          <div class="sleep-label">Dónde dormir esta noche</div>
+          <div class="sleep-place">Centro Bariloche — a orillas del lago</div>
+          <div><span class="sleep-quartier sq-brc">📍 Av. Bustillo km 0–2 · lado lago</span></div>
+          <div class="sleep-why">Primeras noches en el centro junto al lago. Vista al Nahuel Huapi desde la habitación si es posible — cambia el despertar. Chocolaterías, Blest y restaurantes a pie. Estacionamiento para el auto.</div>
+          <div class="sleep-tips"><span class="sleep-tip">Vista lago desde la habitación si es posible</span><span class="sleep-tip">Blest a 10 min a pie</span><span class="sleep-tip">Campanario a 20 min en auto</span></div>
+        </div>
+      </div>
+      </div></div></div><div class="days"><div class="day-card" id="card-15">
+      <div class="accent-bar" style="background:var(--accent-bariloche)"></div>
+      <div class="day-header" onclick="toggleDay(15)">
+        <div class="day-num">
+          <div class="dn">15</div>
+          <div class="dm">Vie</div>
+        </div>
+        <div class="day-main">
+          <div class="day-title">Cerro Campanario · Circuito Chico</div>
+          <div class="day-sub">Vista 360° al amanecer (45 min ida/vuelta) · Arrayanes · Villa La Angostura</div>
+          <div class="day-tags"><span class="day-tag">Caminata suave</span><span class="day-tag">Lagos</span><span class="day-tag">Bosque único</span></div>
+        </div>
+        <div class="day-actions">
+          <button class="done-btn" title="Marcar como hecho" onclick="event.stopPropagation();toggleDone(15)">✓</button>
+          <span class="chevron" id="chev-15">›</span>
+        </div>
+      </div>
+      <div class="day-body" id="body-15">
+        <div class="day-body-inner">
+          <div>
+            <div class="section-title">Programa</div>
+            <div class="activity-list"><div class="activity">
+        <div class="activity-icon" style="background:#3A82C422">🌅</div>
+        <div class="activity-text"><strong>Cerro Campanario (salida 6h30) · 45 min ida/vuelta</strong><small>Subida tranquila 30 min por sendero bien marcado. Vista 360° sobre 5 lagos y el Tronador. Llegar antes del primer teleférico para estar solo.</small></div>
+      </div><div class="activity">
+        <div class="activity-icon" style="background:#3A82C422">🚗</div>
+        <div class="activity-text"><strong>Circuito Chico en auto</strong><small>Ruta de los lagos Perito Moreno, Moreno, Escondido. Parar en cada mirador. Luz fantástica por la mañana.</small></div>
+      </div><div class="activity">
+        <div class="activity-icon" style="background:#3A82C422">🌳</div>
+        <div class="activity-text"><strong>Parque de los Arrayanes · 1h ida/vuelta</strong><small>Bosque de arrayanes centenarios con corteza canela — único en el mundo. Sendero plano a orillas del lago, 1h tranquila ida y vuelta.</small></div>
+      </div><div class="activity">
+        <div class="activity-icon" style="background:#3A82C422">🍽</div>
+        <div class="activity-text"><strong>Cena en Cassis</strong> <span class="exp-badge" onclick="toggleExp(&#39;bife&#39;)" title="Cocher cette expérience">🥩</span><small>Cocina patagónica seria. Ciervo del Nahuel Huapi, trucha del lago, cordero patagónico. El mejor de la región.</small></div>
+      </div></div>
+            <div><span class="transport-badge">🚗 Voiture</span></div>
+          </div>
+          <div>
+            <div class="section-title">Notas personales</div>
+            <textarea class="note-area" placeholder="Impresiones, direcciones encontradas, cambios de plan..." oninput="saveNote(15,this.value)"></textarea>
+            <div class="section-title" style="margin-top:12px">Calificación del día</div>
+            <div class="rating-row"><span class="star" onclick="setRating(15,1)">★</span><span class="star" onclick="setRating(15,2)">★</span><span class="star" onclick="setRating(15,3)">★</span><span class="star" onclick="setRating(15,4)">★</span><span class="star" onclick="setRating(15,5)">★</span></div>
+          </div>
+        </div>
+        
+      <div class="sleep-block">
+        <div class="sleep-icon">🌙</div>
+        <div class="sleep-content">
+          <div class="sleep-label">Dónde dormir esta noche</div>
+          <div class="sleep-place">Centro Bariloche — a orillas del lago</div>
+          <div><span class="sleep-quartier sq-brc">📍 Av. Bustillo km 0–2 · lado lago</span></div>
+          <div class="sleep-why">Misma base para el Circuito Chico y los Arrayanes — todo parte de esta zona. Regreso vía Villa La Angostura al final del día, cena en Cassis por la noche.</div>
+          <div class="sleep-tips"><span class="sleep-tip">Circuito Chico salida 8h</span><span class="sleep-tip">Cassis a 15 min en auto</span></div>
+        </div>
+      </div>
+      </div></div></div><div class="days"><div class="day-card" id="card-16">
+      <div class="accent-bar" style="background:var(--accent-bariloche)"></div>
+      <div class="day-header" onclick="toggleDay(16)">
+        <div class="day-num">
+          <div class="dn">16</div>
+          <div class="dm">Sáb</div>
+        </div>
+        <div class="day-main">
+          <div class="day-title">Ruta de los 7 Lagos · San Martín de los Andes</div>
+          <div class="day-sub">RN40 · 110 km de belleza · Noche en San Martín</div>
+          <div class="day-tags"><span class="day-tag">Ruta</span><span class="day-tag">Lagos</span><span class="day-tag">Pueblo</span></div>
+        </div>
+        <div class="day-actions">
+          <button class="done-btn" title="Marcar como hecho" onclick="event.stopPropagation();toggleDone(16)">✓</button>
+          <span class="chevron" id="chev-16">›</span>
+        </div>
+      </div>
+      <div class="day-body" id="body-16">
+        <div class="day-body-inner">
+          <div>
+            <div class="section-title">Programa</div>
+            <div class="activity-list"><div class="activity">
+        <div class="activity-icon" style="background:#3A82C422">🛣</div>
+        <div class="activity-text"><strong>Ruta de los 7 lagos (RN40 Norte) · salida temprano</strong><small>Una de las rutas más bellas del mundo. 110 km, lagos turquesa diferentes, bosques de lengas, Andes omnipresentes. Sin apuro.</small></div>
+      </div><div class="activity">
+        <div class="activity-icon" style="background:#3A82C422">🏞</div>
+        <div class="activity-text"><strong>Paradas libres en los miradores</strong><small>Lagos Faulkner, Hermoso, Meliquina, Espejo. Cada lago es diferente. Parar, fotografiar, seguir. Ese es todo el objetivo.</small></div>
+      </div><div class="activity">
+        <div class="activity-icon" style="background:#3A82C422">🏘</div>
+        <div class="activity-text"><strong>San Martín de los Andes (llegada)</strong><small>Pueblo alpino auténtico. Mercado de productores locales, cerveza artesanal Lehrmann, lago Lacar color esmeralda.</small></div>
+      </div><div class="activity">
+        <div class="activity-icon" style="background:#3A82C422">🎸</div>
+        <div class="activity-text"><strong>Peña o música en vivo en San Martín (noche)</strong> <span class="exp-badge" onclick="toggleExp(&#39;penya&#39;)" title="Cocher cette expérience">🎸</span><small>Los pequeños pueblos patagónicos suelen tener peñas los fines de semana. Preguntar en el alojamiento. Ambiente cálido garantizado.</small></div>
+      </div></div>
+            <div><span class="transport-badge">🚗 Voiture (3h de route)</span></div>
+          </div>
+          <div>
+            <div class="section-title">Notas personales</div>
+            <textarea class="note-area" placeholder="Impresiones, direcciones encontradas, cambios de plan..." oninput="saveNote(16,this.value)"></textarea>
+            <div class="section-title" style="margin-top:12px">Calificación del día</div>
+            <div class="rating-row"><span class="star" onclick="setRating(16,1)">★</span><span class="star" onclick="setRating(16,2)">★</span><span class="star" onclick="setRating(16,3)">★</span><span class="star" onclick="setRating(16,4)">★</span><span class="star" onclick="setRating(16,5)">★</span></div>
+          </div>
+        </div>
+        
+      <div class="sleep-block">
+        <div class="sleep-icon">🌙</div>
+        <div class="sleep-content">
+          <div class="sleep-label">Dónde dormir esta noche</div>
+          <div class="sleep-place">San Martín de los Andes</div>
+          <div><span class="sleep-quartier sq-sma">📍 Centro o a orillas del lago Lacar</span></div>
+          <div class="sleep-why">Una noche en San Martín permite vivir el pueblo sin apuro. Lago Lacar al amanecer al día siguiente — una de las cosas más bellas del viaje. Pueblo alpino auténtico y tranquilo por la noche.</div>
+          <div class="sleep-tips"><span class="sleep-tip">Lago Lacar a 10 min a pie</span><span class="sleep-tip">Ruta 7 Lagos al día siguiente vía Traful</span><span class="sleep-tip">Pueblo tranquilo y auténtico por la noche</span></div>
+        </div>
+      </div>
+      </div></div></div><div class="days"><div class="day-card" id="card-17">
+      <div class="accent-bar" style="background:var(--accent-bariloche)"></div>
+      <div class="day-header" onclick="toggleDay(17)">
+        <div class="day-num">
+          <div class="dn">17</div>
+          <div class="dm">Dom</div>
+        </div>
+        <div class="day-main">
+          <div class="day-title">Regreso vía Lago Traful</div>
+          <div class="day-sub">Lago secreto · Caminata 1h ida/vuelta · Pueblo de 80 habitantes</div>
+          <div class="day-tags"><span class="day-tag">Lago secreto</span><span class="day-tag">Fuera del circuito</span></div>
+        </div>
+        <div class="day-actions">
+          <button class="done-btn" title="Marcar como hecho" onclick="event.stopPropagation();toggleDone(17)">✓</button>
+          <span class="chevron" id="chev-17">›</span>
+        </div>
+      </div>
+      <div class="day-body" id="body-17">
+        <div class="day-body-inner">
+          <div>
+            <div class="section-title">Programa</div>
+            <div class="activity-list"><div class="activity">
+        <div class="activity-icon" style="background:#3A82C422">🌄</div>
+        <div class="activity-text"><strong>Lago Lacar al amanecer</strong><small>Última mañana en San Martín. Luz dorada sobre el agua antes que nadie. 10 min a pie desde el centro.</small></div>
+      </div><div class="activity">
+        <div class="activity-icon" style="background:#3A82C422">💎</div>
+        <div class="activity-text"><strong>Lago Traful (ruta de regreso)</strong><small>Aguas turquesas translúcidas rodeadas de cipreses milenarios. Pueblo de 80 habitantes. Cero turistas. Uno de los lagos más bellos del mundo — nadie habla de él.</small></div>
+      </div><div class="activity">
+        <div class="activity-icon" style="background:#3A82C422">🥾</div>
+        <div class="activity-text"><strong>Caminata a orillas del lago · 1h ida/vuelta</strong><small>Sendero plano a orillas del lago. Agua tan transparente que se ve el fondo a varios metros. Cipreses gigantes. Silencio total.</small></div>
+      </div><div class="activity">
+        <div class="activity-icon" style="background:#3A82C422">🔙</div>
+        <div class="activity-text"><strong>Regreso a Bariloche (tarde)</strong><small>Sin apuro. La ruta bordea paisajes constantes. Llegar antes de la noche.</small></div>
+      </div></div>
+            <div><span class="transport-badge">🚗 Voiture (circuit)</span></div>
+          </div>
+          <div>
+            <div class="section-title">Notas personales</div>
+            <textarea class="note-area" placeholder="Impresiones, direcciones encontradas, cambios de plan..." oninput="saveNote(17,this.value)"></textarea>
+            <div class="section-title" style="margin-top:12px">Calificación del día</div>
+            <div class="rating-row"><span class="star" onclick="setRating(17,1)">★</span><span class="star" onclick="setRating(17,2)">★</span><span class="star" onclick="setRating(17,3)">★</span><span class="star" onclick="setRating(17,4)">★</span><span class="star" onclick="setRating(17,5)">★</span></div>
+          </div>
+        </div>
+        
+      <div class="sleep-block">
+        <div class="sleep-icon">🌙</div>
+        <div class="sleep-content">
+          <div class="sleep-label">Dónde dormir esta noche</div>
+          <div class="sleep-place">Bariloche — Av. Bustillo km 2–8</div>
+          <div><span class="sleep-quartier sq-brc">📍 Entre el centro y el lago Gutiérrez</span></div>
+          <div class="sleep-why">Para el resto de la estadía, alejarse un poco del centro. Más tranquilo, más verde, frecuentemente a orillas del lago o en el bosque. Mismas distancias en auto hacia todas las excursiones. Las mejores estancias y lodges de carácter están aquí.</div>
+          <div class="sleep-tips"><span class="sleep-tip">Estancia Peuma Hue en lago Gutiérrez</span><span class="sleep-tip">10 min en auto del centro</span><span class="sleep-tip">Bosque de coihues y vista lago</span></div>
+        </div>
+      </div>
+      </div></div></div><div class="days"><div class="day-card" id="card-18">
+      <div class="accent-bar" style="background:var(--accent-bariloche)"></div>
+      <div class="day-header" onclick="toggleDay(18)">
+        <div class="day-num">
+          <div class="dn">18</div>
+          <div class="dm">Lun</div>
+        </div>
+        <div class="day-main">
+          <div class="day-title">Parque Nacional Los Alerces</div>
+          <div class="day-sub">Alerce de 2600 años · Barco · Glaciar Torrecillas</div>
+          <div class="day-tags"><span class="day-tag">Parque nacional</span><span class="day-tag">Glaciar</span><span class="day-tag">Naturaleza absoluta</span></div>
+        </div>
+        <div class="day-actions">
+          <button class="done-btn" title="Marcar como hecho" onclick="event.stopPropagation();toggleDone(18)">✓</button>
+          <span class="chevron" id="chev-18">›</span>
+        </div>
+      </div>
+      <div class="day-body" id="body-18">
+        <div class="day-body-inner">
+          <div>
+            <div class="section-title">Programa</div>
+            <div class="activity-list"><div class="activity">
+        <div class="activity-icon" style="background:#3A82C422">🌲</div>
+        <div class="activity-text"><strong>Ruta hacia Los Alerces (salida 8h)</strong><small>3h de camino. Reservar el barco sobre el lago Menéndez con anticipación — sale a la mañana, se llena rápido en temporada.</small></div>
+      </div><div class="activity">
+        <div class="activity-icon" style="background:#3A82C422">⛵</div>
+        <div class="activity-text"><strong>Barco sobre el lago Menéndez</strong><small>Azul imposible. Glaciar Torrecillas de fondo. Bosque de alerces de 2600 años — los árboles más viejos de Argentina. La experiencia salvaje absoluta.</small></div>
+      </div><div class="activity">
+        <div class="activity-icon" style="background:#3A82C422">🥾</div>
+        <div class="activity-text"><strong>Sendero alrededor del puerto · 1h ida/vuelta</strong><small>Caminata fácil desde el embarcadero. Bosque milenario al alcance de la mano, aves endémicas, silencio patagónico.</small></div>
+      </div><div class="activity">
+        <div class="activity-icon" style="background:#3A82C422">🍲</div>
+        <div class="activity-text"><strong>Fondue Familia Weiss al regreso</strong><small>Tradición austro-suiza absurda en Bariloche. Fondue de queso en un chalet de madera. Bodega de vinos patagónicos. Entrar en calor después de Los Alerces.</small></div>
+      </div></div>
+            <div><span class="transport-badge">🚗 Voiture (~3h de Bariloche)</span></div>
+          </div>
+          <div>
+            <div class="section-title">Notas personales</div>
+            <textarea class="note-area" placeholder="Impresiones, direcciones encontradas, cambios de plan..." oninput="saveNote(18,this.value)"></textarea>
+            <div class="section-title" style="margin-top:12px">Calificación del día</div>
+            <div class="rating-row"><span class="star" onclick="setRating(18,1)">★</span><span class="star" onclick="setRating(18,2)">★</span><span class="star" onclick="setRating(18,3)">★</span><span class="star" onclick="setRating(18,4)">★</span><span class="star" onclick="setRating(18,5)">★</span></div>
+          </div>
+        </div>
+        
+      <div class="sleep-block">
+        <div class="sleep-icon">🌙</div>
+        <div class="sleep-content">
+          <div class="sleep-label">Dónde dormir esta noche</div>
+          <div class="sleep-place">Bariloche — Av. Bustillo km 2–8</div>
+          <div><span class="sleep-quartier sq-brc">📍 Entre el centro y el lago Gutiérrez</span></div>
+          <div class="sleep-why">Base perfecta para Los Alerces (3h de ruta) — salida a las 8h, regreso al atardecer. Fondue Familia Weiss para entrar en calor después del día en el bosque.</div>
+          <div class="sleep-tips"><span class="sleep-tip">Los Alerces a 3h — salida 8h</span><span class="sleep-tip">Reservar barco Menéndez con anticipación</span><span class="sleep-tip">Fondue Weiss al regreso</span></div>
+        </div>
+      </div>
+      </div></div></div><div class="days"><div class="day-card" id="card-19">
+      <div class="accent-bar" style="background:var(--accent-bariloche)"></div>
+      <div class="day-header" onclick="toggleDay(19)">
+        <div class="day-num">
+          <div class="dn">19</div>
+          <div class="dm">Mar</div>
+        </div>
+        <div class="day-main">
+          <div class="day-title">Cerro Catedral · Estancia gaucho</div>
+          <div class="day-sub">Caminata 1h ida/vuelta · Asado de cordero · Ritual gaucho</div>
+          <div class="day-tags"><span class="day-tag">Caminata suave</span><span class="day-tag">Asado gaucho</span><span class="day-tag">Experiencia</span></div>
+        </div>
+        <div class="day-actions">
+          <button class="done-btn" title="Marcar como hecho" onclick="event.stopPropagation();toggleDone(19)">✓</button>
+          <span class="chevron" id="chev-19">›</span>
+        </div>
+      </div>
+      <div class="day-body" id="body-19">
+        <div class="day-body-inner">
+          <div>
+            <div class="section-title">Programa</div>
+            <div class="activity-list"><div class="activity">
+        <div class="activity-icon" style="background:#3A82C422">🥾</div>
+        <div class="activity-text"><strong>Cerro Catedral · Sendero de la cresta · 1h ida/vuelta</strong><small>Tomar el telesilla (rápido) y caminar 30 min por la cresta. Vista sobre 10 lagos. Noviembre = primavera patagónica, flores silvestres violetas. Sin nieve.</small></div>
+      </div><div class="activity">
+        <div class="activity-icon" style="background:#3A82C422">🏔</div>
+        <div class="activity-text"><strong>Vista sobre el Glaciar Castaño Overa</strong><small>Visible desde la cresta sin acercarse. Cóndores en vuelo a la altura de los ojos. Silencio total sobre los árboles.</small></div>
+      </div><div class="activity">
+        <div class="activity-icon" style="background:#3A82C422">🤠</div>
+        <div class="activity-text"><strong>Asado de cordero a la cruz · Estancia (tarde)</strong> <span class="exp-badge" onclick="toggleExp(&#39;gaucho&#39;)" title="Cocher cette expérience">🤠</span><small>Cordero entero a la cruz durante 4h — el ritual gaucho por excelencia. Estancia Peuma Hue o Don Silvano. Reservar con anticipación. Vino patagónico, mate, fuego.</small></div>
+      </div><div class="activity">
+        <div class="activity-icon" style="background:#3A82C422">🐴</div>
+        <div class="activity-text"><strong>Doma criolla y cabalgata en la estancia</strong> <span class="exp-badge" onclick="toggleExp(&#39;gaucho&#39;)" title="Cocher cette expérience">🤠</span><small>Después del asado, cabalgata por las colinas patagónicas con un gaucho local. Las estancias suelen incluir doma (demostración de doma) al atardecer.</small></div>
+      </div></div>
+            <div><span class="transport-badge">🚗 Voiture (20 min de Bariloche)</span></div>
+          </div>
+          <div>
+            <div class="section-title">Notas personales</div>
+            <textarea class="note-area" placeholder="Impresiones, direcciones encontradas, cambios de plan..." oninput="saveNote(19,this.value)"></textarea>
+            <div class="section-title" style="margin-top:12px">Calificación del día</div>
+            <div class="rating-row"><span class="star" onclick="setRating(19,1)">★</span><span class="star" onclick="setRating(19,2)">★</span><span class="star" onclick="setRating(19,3)">★</span><span class="star" onclick="setRating(19,4)">★</span><span class="star" onclick="setRating(19,5)">★</span></div>
+          </div>
+        </div>
+        
+      <div class="sleep-block">
+        <div class="sleep-icon">🌙</div>
+        <div class="sleep-content">
+          <div class="sleep-label">Dónde dormir esta noche</div>
+          <div class="sleep-place">Bariloche — Av. Bustillo km 2–8</div>
+          <div><span class="sleep-quartier sq-brc">📍 Entre el centro y el lago Gutiérrez</span></div>
+          <div class="sleep-why">Cerro Catedral a 20 min en auto. Asado de cordero en la estancia al atardecer — calcular volver temprano para disfrutar el atardecer sobre el lago.</div>
+          <div class="sleep-tips"><span class="sleep-tip">Catedral a 20 min en auto</span><span class="sleep-tip">Estancia Peuma Hue para el asado</span><span class="sleep-tip">Atardecer sobre el lago Gutiérrez</span></div>
+        </div>
+      </div>
+      </div></div></div><div class="days"><div class="day-card" id="card-20">
+      <div class="accent-bar" style="background:var(--accent-bariloche)"></div>
+      <div class="day-header" onclick="toggleDay(20)">
+        <div class="day-num">
+          <div class="dn">20</div>
+          <div class="dm">Mié</div>
+        </div>
+        <div class="day-main">
+          <div class="day-title">El Bolsón · Mercado y Río Azul</div>
+          <div class="day-sub">Mercado artesanal · Cerveza Berlina · Caminata 1h ida/vuelta</div>
+          <div class="day-tags"><span class="day-tag">Mercado</span><span class="day-tag">Cerveza artesanal</span><span class="day-tag">Auténtico</span></div>
+        </div>
+        <div class="day-actions">
+          <button class="done-btn" title="Marcar como hecho" onclick="event.stopPropagation();toggleDone(20)">✓</button>
+          <span class="chevron" id="chev-20">›</span>
+        </div>
+      </div>
+      <div class="day-body" id="body-20">
+        <div class="day-body-inner">
+          <div>
+            <div class="section-title">Programa</div>
+            <div class="activity-list"><div class="activity">
+        <div class="activity-icon" style="background:#3A82C422">🧺</div>
+        <div class="activity-text"><strong>Mercado de El Bolsón (mañana)</strong><small>El más auténtico de la Patagonia. Mermeladas de cerezas, quesos de cabra, hierbas medicinales, artesanías locales. Hippies y agricultores mezclados.</small></div>
+      </div><div class="activity">
+        <div class="activity-icon" style="background:#3A82C422">🍺</div>
+        <div class="activity-text"><strong>Cervecería Berlina</strong><small>Cerveza artesanal premiada internacionalmente. Chorizos de jabalí, pan de centeno casero. Terraza al borde del río Quemquemtreu.</small></div>
+      </div><div class="activity">
+        <div class="activity-icon" style="background:#3A82C422">🥾</div>
+        <div class="activity-text"><strong>Río Azul · Caminata 1h ida/vuelta</strong><small>Aguas turquesas en un cañón de granito. Sendero plano a orillas del agua, 30 min de ida. Baño si la temperatura lo permite en noviembre.</small></div>
+      </div><div class="activity">
+        <div class="activity-icon" style="background:#3A82C422">🌙</div>
+        <div class="activity-text"><strong>Noche en El Bolsón (opcional)</strong><small>Pequeña guesthouse al borde del río — la experiencia pueblo auténtico. Sino regreso a Bariloche al atardecer (2h).</small></div>
+      </div></div>
+            <div><span class="transport-badge">🚗 Voiture (2h de Bariloche)</span></div>
+          </div>
+          <div>
+            <div class="section-title">Notas personales</div>
+            <textarea class="note-area" placeholder="Impresiones, direcciones encontradas, cambios de plan..." oninput="saveNote(20,this.value)"></textarea>
+            <div class="section-title" style="margin-top:12px">Calificación del día</div>
+            <div class="rating-row"><span class="star" onclick="setRating(20,1)">★</span><span class="star" onclick="setRating(20,2)">★</span><span class="star" onclick="setRating(20,3)">★</span><span class="star" onclick="setRating(20,4)">★</span><span class="star" onclick="setRating(20,5)">★</span></div>
+          </div>
+        </div>
+        
+      <div class="sleep-block">
+        <div class="sleep-icon">🌙</div>
+        <div class="sleep-content">
+          <div class="sleep-label">Dónde dormir esta noche</div>
+          <div class="sleep-place">Bariloche o El Bolsón (opcional)</div>
+          <div><span class="sleep-quartier sq-brc">📍 Av. Bustillo km 2–8 o a orillas del río</span></div>
+          <div class="sleep-why">Opción A: quedarse en El Bolsón una noche (guesthouse a orillas del río — experiencia pueblo auténtico). Opción B: regreso a Bariloche al atardecer (2h). El Bolsón vale la noche si no se planea el mercado del día siguiente.</div>
+          <div class="sleep-tips"><span class="sleep-tip">El Bolsón: guesthouse borde del río</span><span class="sleep-tip">Regreso Bariloche: 2h de ruta</span><span class="sleep-tip">Río Azul a 15 min de El Bolsón</span></div>
+        </div>
+      </div>
+      </div></div></div><div class="days"><div class="day-card" id="card-21">
+      <div class="accent-bar" style="background:var(--accent-bariloche)"></div>
+      <div class="day-header" onclick="toggleDay(21)">
+        <div class="day-num">
+          <div class="dn">21</div>
+          <div class="dm">Jue</div>
+        </div>
+        <div class="day-main">
+          <div class="day-title">Pampa Linda · Cascada Cántaros</div>
+          <div class="day-sub">Valle del Tronador · Selva densa · 1h ida/vuelta</div>
+          <div class="day-tags"><span class="day-tag">Bosque</span><span class="day-tag">Cascada</span><span class="day-tag">Cóndores</span></div>
+        </div>
+        <div class="day-actions">
+          <button class="done-btn" title="Marcar como hecho" onclick="event.stopPropagation();toggleDone(21)">✓</button>
+          <span class="chevron" id="chev-21">›</span>
+        </div>
+      </div>
+      <div class="day-body" id="body-21">
+        <div class="day-body-inner">
+          <div>
+            <div class="section-title">Programa</div>
+            <div class="activity-list"><div class="activity">
+        <div class="activity-icon" style="background:#3A82C422">🌋</div>
+        <div class="activity-text"><strong>Pampa Linda (salida temprano)</strong><small>Ruta al pie del Tronador (3478m). Alternancia de paisaje lunar y vegetación densa. Una de las rutas más dramáticas de la Patagonia.</small></div>
+      </div><div class="activity">
+        <div class="activity-icon" style="background:#3A82C422">💧</div>
+        <div class="activity-text"><strong>Cascada Los Cántaros · 1h ida/vuelta</strong><small>Sendero bien marcado en bosque patagónico denso. Vista al Tronador desde la cascada. Llevar picnic. Sin desnivel brusco.</small></div>
+      </div><div class="activity">
+        <div class="activity-icon" style="background:#3A82C422">🦅</div>
+        <div class="activity-text"><strong>Cóndores del Tronador</strong><small>Zona de nidificación conocida. Envergadura 3m. Frecuentemente visibles desde la ruta o la cascada. Observar sin acercarse.</small></div>
+      </div><div class="activity">
+        <div class="activity-icon" style="background:#3A82C422">🍫</div>
+        <div class="activity-text"><strong>Alfajores con dulce de leche · Bariloche (noche)</strong> <span class="exp-badge" onclick="toggleExp(&#39;dulce&#39;)" title="Cocher cette expérience">🍯</span><small>Los alfajores de Bariloche son los mejores de Argentina. Chocolate negro, dulce de leche espeso. Rapanui o Del Turista. Comprar para llevar.</small></div>
+      </div></div>
+            <div><span class="transport-badge">🚗 Voiture (1h de Bariloche)</span></div>
+          </div>
+          <div>
+            <div class="section-title">Notas personales</div>
+            <textarea class="note-area" placeholder="Impresiones, direcciones encontradas, cambios de plan..." oninput="saveNote(21,this.value)"></textarea>
+            <div class="section-title" style="margin-top:12px">Calificación del día</div>
+            <div class="rating-row"><span class="star" onclick="setRating(21,1)">★</span><span class="star" onclick="setRating(21,2)">★</span><span class="star" onclick="setRating(21,3)">★</span><span class="star" onclick="setRating(21,4)">★</span><span class="star" onclick="setRating(21,5)">★</span></div>
+          </div>
+        </div>
+        
+      <div class="sleep-block">
+        <div class="sleep-icon">🌙</div>
+        <div class="sleep-content">
+          <div class="sleep-label">Dónde dormir esta noche</div>
+          <div class="sleep-place">Bariloche — Av. Bustillo km 2–8</div>
+          <div><span class="sleep-quartier sq-brc">📍 Entre el centro y el lago Gutiérrez</span></div>
+          <div class="sleep-why">Pampa Linda y la cascada a 1h de ruta. Regreso al atardecer para chocolate caliente y últimas compras. Penúltima noche — empezar a hacer las maletas.</div>
+          <div class="sleep-tips"><span class="sleep-tip">Pampa Linda a 1h de ruta</span><span class="sleep-tip">Alfajores Rapanui antes de dormir</span><span class="sleep-tip">Penúltima noche — hacer las maletas</span></div>
+        </div>
+      </div>
+      </div></div></div><div class="days"><div class="day-card" id="card-22">
+      <div class="accent-bar" style="background:var(--accent-bariloche)"></div>
+      <div class="day-header" onclick="toggleDay(22)">
+        <div class="day-num">
+          <div class="dn">22</div>
+          <div class="dm">Vie</div>
+        </div>
+        <div class="day-main">
+          <div class="day-title">Día libre · Fotos · Lago</div>
+          <div class="day-sub">Golden hour · Compras locales · Última cena</div>
+          <div class="day-tags"><span class="day-tag">Libre</span><span class="day-tag">Fotos</span><span class="day-tag">Descanso</span></div>
+        </div>
+        <div class="day-actions">
+          <button class="done-btn" title="Marcar como hecho" onclick="event.stopPropagation();toggleDone(22)">✓</button>
+          <span class="chevron" id="chev-22">›</span>
+        </div>
+      </div>
+      <div class="day-body" id="body-22">
+        <div class="day-body-inner">
+          <div>
+            <div class="section-title">Programa</div>
+            <div class="activity-list"><div class="activity">
+        <div class="activity-icon" style="background:#3A82C422">📷</div>
+        <div class="activity-text"><strong>Golden hour sobre el Nahuel Huapi (6h45)</strong><small>Luz rasante sobre el lago, montañas nevadas de fondo. Últimas fotos del viaje. Levantarse temprano para estar solo.</small></div>
+      </div><div class="activity">
+        <div class="activity-icon" style="background:#3A82C422">🛍</div>
+        <div class="activity-text"><strong>Compras locales</strong><small>Chocolate Rapanui, mermeladas de Rosa Mosqueta, lana patagónica hilada a mano. No los souvenirs del aeropuerto — los productos locales reales.</small></div>
+      </div><div class="activity">
+        <div class="activity-icon" style="background:#3A82C422">☕</div>
+        <div class="activity-text"><strong>Último mate frente al lago</strong> <span class="exp-badge" onclick="toggleExp(&#39;mate&#39;)" title="Cocher cette expérience">🧉</span><small>No hacer nada. Mirar. Recordar. El mate se comparte — invitar a alguien si se presenta la ocasión.</small></div>
+      </div><div class="activity">
+        <div class="activity-icon" style="background:#3A82C422">🍽</div>
+        <div class="activity-text"><strong>Última cena · Cassis o Blest</strong> <span class="exp-badge" onclick="toggleExp(&#39;bife&#39;)" title="Cocher cette expérience">🥩</span><small>Volver a donde estaba bueno. Pedir lo que no se probó todavía. Vaciar la botella de malbec restante.</small></div>
+      </div></div>
+            <div><span class="transport-badge">🚗 Voiture</span></div>
+          </div>
+          <div>
+            <div class="section-title">Notas personales</div>
+            <textarea class="note-area" placeholder="Impresiones, direcciones encontradas, cambios de plan..." oninput="saveNote(22,this.value)"></textarea>
+            <div class="section-title" style="margin-top:12px">Calificación del día</div>
+            <div class="rating-row"><span class="star" onclick="setRating(22,1)">★</span><span class="star" onclick="setRating(22,2)">★</span><span class="star" onclick="setRating(22,3)">★</span><span class="star" onclick="setRating(22,4)">★</span><span class="star" onclick="setRating(22,5)">★</span></div>
+          </div>
+        </div>
+        
+      <div class="sleep-block">
+        <div class="sleep-icon">🌙</div>
+        <div class="sleep-content">
+          <div class="sleep-label">Dónde dormir esta noche</div>
+          <div class="sleep-place">Centro Bariloche — cerca del aeropuerto</div>
+          <div><span class="sleep-quartier sq-brc">📍 Centro · a 15 min del aeropuerto BRC</span></div>
+          <div class="sleep-why">Última noche: volver al centro para simplificar la salida. Aeropuerto BRC a 15 min en auto. Maletas listas, dejar el auto en el aeropuerto mañana. Último lago, último chocolate.</div>
+          <div class="sleep-tips"><span class="sleep-tip">Aeropuerto BRC a 15 min</span><span class="sleep-tip">Devolver auto en el aeropuerto</span><span class="sleep-tip">Último chocolate caliente obligatorio</span></div>
+        </div>
+      </div>
+      </div></div></div><div class="days"><div class="day-card" id="card-23">
+      <div class="accent-bar" style="background:var(--accent-bariloche)"></div>
+      <div class="day-header" onclick="toggleDay(23)">
+        <div class="day-num">
+          <div class="dn">23</div>
+          <div class="dm">Sáb</div>
+        </div>
+        <div class="day-main">
+          <div class="day-title">Regreso a Costa Rica</div>
+          <div class="day-sub">BRC → EZE → SJO · Fin del viaje</div>
+          <div class="day-tags"><span class="day-tag">Tránsito</span><span class="day-tag">Regreso</span></div>
+        </div>
+        <div class="day-actions">
+          <button class="done-btn" title="Marcar como hecho" onclick="event.stopPropagation();toggleDone(23)">✓</button>
+          <span class="chevron" id="chev-23">›</span>
+        </div>
+      </div>
+      <div class="day-body" id="body-23">
+        <div class="day-body-inner">
+          <div>
+            <div class="section-title">Programa</div>
+            <div class="activity-list"><div class="activity">
+        <div class="activity-icon" style="background:#3A82C422">🌅</div>
+        <div class="activity-text"><strong>Último amanecer sobre los Andes</strong><small>Levantarse temprano. Mirar por última vez desde la ventana o la orilla del lago.</small></div>
+      </div><div class="activity">
+        <div class="activity-icon" style="background:#3A82C422">🚗</div>
+        <div class="activity-text"><strong>Devolver el auto en el aeropuerto BRC</strong><small>Calcular 30 min para la revisión del vehículo. Verificar el nivel del tanque.</small></div>
+      </div><div class="activity">
+        <div class="activity-icon" style="background:#3A82C422">✈</div>
+        <div class="activity-text"><strong>BRC → EZE (2h) · EZE → SJO</strong><small>Conexión en Buenos Aires Ezeiza. Calcular 3h de tránsito mínimo — EZE es grande y lejos del centro.</small></div>
+      </div><div class="activity">
+        <div class="activity-icon" style="background:#3A82C422">🏠</div>
+        <div class="activity-text"><strong>Llegada San José</strong><small>Argentina en el alma. Para siempre.</small></div>
+      </div></div>
+            <div><span class="transport-badge">✈ BRC → EZE → SJO</span></div>
+          </div>
+          <div>
+            <div class="section-title">Notas personales</div>
+            <textarea class="note-area" placeholder="Impresiones, direcciones encontradas, cambios de plan..." oninput="saveNote(23,this.value)"></textarea>
+            <div class="section-title" style="margin-top:12px">Calificación del día</div>
+            <div class="rating-row"><span class="star" onclick="setRating(23,1)">★</span><span class="star" onclick="setRating(23,2)">★</span><span class="star" onclick="setRating(23,3)">★</span><span class="star" onclick="setRating(23,4)">★</span><span class="star" onclick="setRating(23,5)">★</span></div>
+          </div>
+        </div>
+        
+      <div class="sleep-block">
+        <div class="sleep-icon">🌙</div>
+        <div class="sleep-content">
+          <div class="sleep-label">Dónde dormir esta noche</div>
+          <div class="sleep-place">Salida — aeropuerto BRC</div>
+          <div><span class="sleep-quartier sq-brc">📍 BRC → EZE → SJO</span></div>
+          <div class="sleep-why">Último amanecer sobre los Andes, devolver el auto, embarcar. Tránsito en Ezeiza (EZE) — calcular 3h mínimo. Argentina en el alma para siempre.</div>
+          <div class="sleep-tips"><span class="sleep-tip">Tránsito EZE: 3h mínimo</span><span class="sleep-tip">Uber o remise en EZE entre terminales</span><span class="sleep-tip">¡Buen viaje!</span></div>
+        </div>
+      </div>
+      </div></div></div></div>
+<div class="footer" id="footer-text">Planning editable · Notas guardadas localmente · ✓ para marcar un día como hecho</div>
+
+<script>
+// ── TRANSLATIONS ──────────────────────────────────────────────────
+const T = {
+  fr: {
+    meta: "23 octobre – 14 novembre 2026 · San José → Argentine",
+    title: "Le voyage<br><em>argentin</em>",
+    langFlag:"🇪🇸", langLabel:"Español",
+    statNights:"Nuits", statEtapes:"Étapes", statDone:"Jours faits", statRemaining:"Restants",
+    filterAll:"Tout voir",
+    nightsSuffix:"nuits",
+    etapeLabels:{ iguazu:"Iguazú", ba:"Buenos Aires", mendoza:"Mendoza", bariloche:"Bariloche" },
+    sectionProgram:"Programme", sectionNotes:"Notes personnelles", sectionRating:"Note de la journée",
+    notePlaceholder:"Impressions, adresses trouvées, changements de plan...",
+    footer:"Planning modifiable · Notes sauvegardées localement · ✓ pour marquer un jour comme fait",
+    doneTitle:"Marquer comme fait",
+    sectionSleep:"Où dormir cette nuit",
+    expTitle:"Expériences typiques argentines à cocher",
+    experiences:[
+      { id:"tango", icon:"💃", label:"Milonga authentique" },
+      { id:"asado", icon:"🔥", label:"Asado argentin" },
+      { id:"vin", icon:"🍷", label:"Dégustation de vin" },
+      { id:"empanada", icon:"🥟", label:"Empanadas maison" },
+      { id:"mate", icon:"🧉", label:"Cérémonie du maté" },
+      { id:"gaucho", icon:"🤠", label:"Journée estancia gaucho" },
+      { id:"fernet", icon:"🥃", label:"Fernet con Coca" },
+      { id:"facturas", icon:"🥐", label:"Petit-dej à la panadería" },
+      { id:"penya", icon:"🎸", label:"Peña folklorique" },
+      { id:"bife", icon:"🥩", label:"Bife de chorizo" },
+      { id:"dulce", icon:"🍯", label:"Dulce de leche" }
+    ]
+  },
+  es: {
+    meta: "23 de octubre – 14 de noviembre 2026 · San José → Argentina",
+    title: "El viaje<br><em>argentino</em>",
+    langFlag:"🇫🇷", langLabel:"Français",
+    statNights:"Noches", statEtapes:"Etapas", statDone:"Días hechos", statRemaining:"Restantes",
+    filterAll:"Ver todo",
+    nightsSuffix:"noches",
+    etapeLabels:{ iguazu:"Iguazú", ba:"Buenos Aires", mendoza:"Mendoza", bariloche:"Bariloche" },
+    sectionProgram:"Programa", sectionNotes:"Notas personales", sectionRating:"Calificación del día",
+    notePlaceholder:"Impresiones, direcciones encontradas, cambios de plan...",
+    footer:"Planning editable · Notas guardadas localmente · ✓ para marcar un día como hecho",
+    doneTitle:"Marcar como hecho",
+    sectionSleep:"Dónde dormir esta noche",
+    expTitle:"Experiencias típicas argentinas para tachar",
+    experiences:[
+      { id:"tango", icon:"💃", label:"Milonga auténtica" },
+      { id:"asado", icon:"🔥", label:"Asado argentino" },
+      { id:"vin", icon:"🍷", label:"Degustación de vino" },
+      { id:"empanada", icon:"🥟", label:"Empanadas caseras" },
+      { id:"mate", icon:"🧉", label:"Ceremonia del mate" },
+      { id:"gaucho", icon:"🤠", label:"Día en estancia gaucho" },
+      { id:"fernet", icon:"🥃", label:"Fernet con Coca" },
+      { id:"facturas", icon:"🥐", label:"Desayuno en panadería" },
+      { id:"penya", icon:"🎸", label:"Peña folklórica" },
+      { id:"bife", icon:"🥩", label:"Bife de chorizo" },
+      { id:"dulce", icon:"🍯", label:"Dulce de leche" }
+    ]
+  }
+};
+
+// ── DAYS DATA ─────────────────────────────────────────────────────
+const DAYS = [
+  // ─ IGUAZÚ ─
+  {
+    id:1, etape:"iguazu",
+    date:{ fr:"Vie 23 oct", es:"Vie 23 oct" },
+    title:{ fr:"Arrivée à Iguazú", es:"Llegada a Iguazú" },
+    sub:{ fr:"Vol SJO → IGR via escale · Soirée Puerto Iguazú", es:"Vuelo SJO → IGR con escala · Tarde en Puerto Iguazú" },
+    tags:{ fr:["Transit","Installation"], es:["Tránsito","Instalación"] },
+    transport:"✈ SJO → IGR",
+    activities:[
+      { icon:"✈", exp:null,
+        fr:{ t:"<strong>Vol longue distance</strong>", n:"Via EZE ou GRU selon les connexions. Dormir dans l'avion." },
+        es:{ t:"<strong>Vuelo de larga distancia</strong>", n:"Via EZE o GRU según conexiones. Dormir en el avión." } },
+      { icon:"🏨", exp:null,
+        fr:{ t:"<strong>Check-in à Puerto Iguazú</strong>", n:"Choisir un lodge ou guesthouse en ville — à 10 min du parc à pied ou taxi." },
+        es:{ t:"<strong>Check-in en Puerto Iguazú</strong>", n:"Elegir un lodge o guesthouse en el pueblo — a 10 min del parque a pie o en taxi." } },
+      { icon:"🍽", exp:"empanada",
+        fr:{ t:"<strong>Dîner local à Puerto Iguazú</strong> <span class='exp-badge' onclick=\"toggleExp('empanada')\" title=\"Cocher cette expérience\">🥟</span>", n:"Empanadas frîtes au four de brique, chipa guaraní. Chercher une parrilla de quartier, pas les restaurants de l'hôtel." },
+        es:{ t:"<strong>Cena local en Puerto Iguazú</strong> <span class='exp-badge' onclick=\"toggleExp('empanada')\" title=\"Cocher cette expérience\">🥟</span>", n:"Empanadas fritas o al horno de barro, chipa guaraní. Buscar una parrilla de barrio, no los restaurantes del hotel." } },
+      { icon:"🧉", exp:"mate",
+        fr:{ t:"<strong>Premier maté</strong> <span class='exp-badge' onclick=\"toggleExp('mate')\" title=\"Cocher cette expérience\">🧉</span>", n:"Demander au lodge ou à n'importe qui dans la rue — les Argentins adorent partager le maté. C'est une institution." },
+        es:{ t:"<strong>Primer mate</strong> <span class='exp-badge' onclick=\"toggleExp('mate')\" title=\"Cocher cette expérience\">🧉</span>", n:"Pedir en el lodge o a cualquiera en la calle — los argentinos adoran compartir el mate. Es una institución." } }
+    ]
+  },
+  {
+    id:2, etape:"iguazu",
+    date:{ fr:"Sam 24 oct", es:"Sáb 24 oct" },
+    title:{ fr:"Chutes côté argentin", es:"Cataratas lado argentino" },
+    sub:{ fr:"Garganta del Diablo · Bateaux · Sentier Macuco (1h A/R)", es:"Garganta del Diablo · Lanchas · Sendero Macuco (1h ida/vuelta)" },
+    tags:{ fr:["Nature","Chutes","Street photo"], es:["Naturaleza","Cataratas","Foto callejera"] },
+    transport:"🚶 Taxi/bus local depuis Puerto Iguazú",
+    activities:[
+      { icon:"🌅", exp:null,
+        fr:{ t:"<strong>Garganta del Diablo à l'ouverture (8h)</strong>", n:"Arriver avant les groupes organisés. Brume, arc-en-ciel, coatis sauvages. La passerelle mène directement au-dessus des chutes." },
+        es:{ t:"<strong>Garganta del Diablo a la apertura (8h)</strong>", n:"Llegar antes que los grupos organizados. Niebla, arcoíris, coatíes salvajes. La pasarela lleva directo sobre las cataratas." } },
+      { icon:"🚤", exp:null,
+        fr:{ t:"<strong>Bateaux Aventura Náutica</strong>", n:"Sous les chutes — emporter vêtements de rechange dans un sac étanche. 20 min d'adrénaline pure." },
+        es:{ t:"<strong>Lancha Aventura Náutica</strong>", n:"Bajo las cataratas — llevar ropa de recambio en bolsa impermeable. 20 min de adrenalina pura." } },
+      { icon:"🌿", exp:null,
+        fr:{ t:"<strong>Sentier Macuco (1h A/R)</strong>", n:"Jungle subtropicale dense. Anacondas, toucans, tapirs. Sentier bien tracé, peu fréquenté. Pas de dénivelé important." },
+        es:{ t:"<strong>Sendero Macuco (1h ida/vuelta)</strong>", n:"Selva subtropical densa. Anacondas, tucanes, tapires. Sendero bien marcado, poco concurrido. Sin desnivel importante." } },
+      { icon:"📷", exp:null,
+        fr:{ t:"<strong>Île San Martín en fin d'après-midi</strong>", n:"Lumière rasante sur l'eau, iguanes géants, vue dégagée sur les chutes. Idéal pour la street photo nature." },
+        es:{ t:"<strong>Isla San Martín al atardecer</strong>", n:"Luz rasante sobre el agua, iguanas gigantes, vista despejada de las cataratas. Ideal para foto callejera naturaleza." } }
+    ]
+  },
+  {
+    id:3, etape:"iguazu",
+    date:{ fr:"Dim 25 oct", es:"Dom 25 oct" },
+    title:{ fr:"Côté brésilien · Puerto Iguazú", es:"Lado brasileño · Puerto Iguazú" },
+    sub:{ fr:"Vue panoramique · Marché nocturne · Peña folklorique", es:"Vista panorámica · Mercado nocturno · Peña folklórica" },
+    tags:{ fr:["Nature","Marché","Peña"], es:["Naturaleza","Mercado","Peña"] },
+    transport:"🚌 Bus frontalier + taxi",
+    activities:[
+      { icon:"🇧🇷", exp:null,
+        fr:{ t:"<strong>Côté brésilien (matin)</strong>", n:"Vue panoramique sur le fer à cheval argentin — impossible depuis le côté argentin. Passeport obligatoire, passage simple." },
+        es:{ t:"<strong>Lado brasileño (mañana)</strong>", n:"Vista panorámica de la herradura argentina — imposible desde el lado argentino. Pasaporte obligatorio, paso sencillo." } },
+      { icon:"🛒", exp:null,
+        fr:{ t:"<strong>Marché artisanal de Puerto Iguazú</strong>", n:"Artisanat guaraní, épices locales, fruits tropicaux. Vie authentique du village." },
+        es:{ t:"<strong>Mercado artesanal de Puerto Iguazú</strong>", n:"Artesanías guaraníes, especias locales, frutas tropicales. Vida auténtica del pueblo." } },
+      { icon:"🎸", exp:"penya",
+        fr:{ t:"<strong>Peña folklorique (soirée)</strong> <span class='exp-badge' onclick=\"toggleExp('penya')\" title=\"Cocher cette expérience\">🎸</span>", n:"Chercher une peña dans un bar ou restaurant local — musique du nord-argentin (chacarera, zamba), ambiance authentique, souvent gratuite ou 1-2 USD." },
+        es:{ t:"<strong>Peña folklórica (noche)</strong> <span class='exp-badge' onclick=\"toggleExp('penya')\" title=\"Cocher cette expérience\">🎸</span>", n:"Buscar una peña en un bar o restaurante local — música del norte argentino (chacarera, zamba), ambiente auténtico, frecuentemente gratis o 1-2 USD." } },
+      { icon:"✈", exp:null,
+        fr:{ t:"<strong>Demain : vol IGR → AEP (matin)</strong>", n:"Préparer les bagages ce soir. Taxi à réserver la veille pour l'aéroport — 15 min de trajet." },
+        es:{ t:"<strong>Mañana: vuelo IGR → AEP (mañana)</strong>", n:"Preparar el equipaje esta noche. Reservar taxi la noche anterior al aeropuerto — 15 min de camino." } }
+    ]
+  },
+  // ─ BUENOS AIRES ─
+  {
+    id:4, etape:"ba",
+    date:{ fr:"Lun 26 oct", es:"Lun 26 oct" },
+    title:{ fr:"Arrivée Buenos Aires", es:"Llegada Buenos Aires" },
+    sub:{ fr:"Vol IGR → AEP · Installation · Première milonga", es:"Vuelo IGR → AEP · Instalación · Primera milonga" },
+    tags:{ fr:["Transit","Tango"], es:["Tránsito","Tango"] },
+    transport:"✈ IGR → AEP (45 min) + Uber/remise",
+    activities:[
+      { icon:"✈", exp:null,
+        fr:{ t:"<strong>Vol IGR → AEP (45 min, matin)</strong>", n:"Aeroparque Jorge Newbery — au cœur de la ville, en Uber ou remise officielle jusqu'au quartier." },
+        es:{ t:"<strong>Vuelo IGR → AEP (45 min, mañana)</strong>", n:"Aeroparque Jorge Newbery — en el centro de la ciudad, en Uber o remise oficial hasta el barrio." } },
+      { icon:"🏨", exp:null,
+        fr:{ t:"<strong>Check-in San Telmo ou Palermo</strong>", n:"San Telmo pour l'atmosphère historique et le tango. Palermo pour la vie de quartier et les restaurants." },
+        es:{ t:"<strong>Check-in San Telmo o Palermo</strong>", n:"San Telmo para la atmósfera histórica y el tango. Palermo para la vida de barrio y los restaurantes." } },
+      { icon:"☕", exp:"facturas",
+        fr:{ t:"<strong>Petit-dej à la panadería du quartier</strong> <span class='exp-badge' onclick=\"toggleExp('facturas')\" title=\"Cocher cette expérience\">🥐</span>", n:"Medialunas (croissants argentins), facturas (viennoiseries) et café con leche au comptoir. Le rituel matinal argentin." },
+        es:{ t:"<strong>Desayuno en la panadería del barrio</strong> <span class='exp-badge' onclick=\"toggleExp('facturas')\" title=\"Cocher cette expérience\">🥐</span>", n:"Medialunas, facturas y café con leche en el mostrador. El ritual matutino argentino." } },
+      { icon:"💃", exp:"tango",
+        fr:{ t:"<strong>Milonga La Catedral (soir)</strong> <span class='exp-badge' onclick=\"toggleExp('tango')\" title=\"Cocher cette expérience\">💃</span>", n:"Vieux théâtre désaffecté à Almagro. Vrais danseurs locaux, ambiance non-touristique. Arriver à 22h, le tango commence tard." },
+        es:{ t:"<strong>Milonga La Catedral (noche)</strong> <span class='exp-badge' onclick=\"toggleExp('tango')\" title=\"Cocher cette expérience\">💃</span>", n:"Viejo teatro en Almagro. Bailarines locales de verdad, ambiente no turístico. Llegar a las 22h, el tango empieza tarde." } }
+    ]
+  },
+  {
+    id:5, etape:"ba",
+    date:{ fr:"Mar 27 oct", es:"Mar 27 oct" },
+    title:{ fr:"San Telmo & MALBA", es:"San Telmo y MALBA" },
+    sub:{ fr:"Marché · Musée · Street photo · Asado", es:"Mercado · Museo · Foto callejera · Asado" },
+    tags:{ fr:["Marché","Musée","Street photo","Asado"], es:["Mercado","Museo","Foto callejera","Asado"] },
+    transport:"🚶 À pied + Uber",
+    activities:[
+      { icon:"📷", exp:null,
+        fr:{ t:"<strong>Marché de San Telmo (9h)</strong>", n:"Arriver tôt avant les tours. Antiquaires, bandonéon dans la rue, tango spontané. Lumière latérale parfaite pour la street photo." },
+        es:{ t:"<strong>Mercado de San Telmo (9h)</strong>", n:"Llegar temprano antes de los tours. Anticuarios, bandoneón en la calle, tango espontáneo. Luz lateral perfecta para foto callejera." } },
+      { icon:"🎨", exp:null,
+        fr:{ t:"<strong>MALBA (après-midi)</strong>", n:"Art latino-américain du 20e siècle. Frida Kahlo, Xul Solar, architecture remarquable. Prévoir 2h." },
+        es:{ t:"<strong>MALBA (tarde)</strong>", n:"Arte latinoamericano del siglo 20. Frida Kahlo, Xul Solar, arquitectura notable. Calcular 2h." } },
+      { icon:"📚", exp:null,
+        fr:{ t:"<strong>El Ateneo Grand Splendid</strong>", n:"Librairie dans un théâtre 1919 classé. Prendre un café dans l'ancienne loge d'acteur. Légitime, pas que Instagram." },
+        es:{ t:"<strong>El Ateneo Grand Splendid</strong>", n:"Librería en un teatro de 1919 declarado patrimonio. Tomar café en el antiguo palco de actores. Legítimo, no solo Instagram." } },
+      { icon:"🔥", exp:"asado",
+        fr:{ t:"<strong>Parrilla de quartier (soir)</strong> <span class='exp-badge' onclick=\"toggleExp('asado')\" title=\"Cocher cette expérience\">🔥</span>", n:"Chercher une parrilla sans carte en anglais dans Boedo ou San Telmo. Prendre le bife de chorizo, le chimichurri maison et une bouteille de malbec." },
+        es:{ t:"<strong>Parrilla de barrio (noche)</strong> <span class='exp-badge' onclick=\"toggleExp('asado')\" title=\"Cocher cette expérience\">🔥</span>", n:"Buscar una parrilla sin carta en inglés en Boedo o San Telmo. Pedir el bife de chorizo, chimichurri casero y una botella de malbec." } }
+    ]
+  },
+  {
+    id:6, etape:"ba",
+    date:{ fr:"Mer 28 oct", es:"Mié 28 oct" },
+    title:{ fr:"Palermo · Villa Crespo · Tango", es:"Palermo · Villa Crespo · Tango" },
+    sub:{ fr:"Street art · Vie de quartier · Leçon de tango", es:"Street art · Vida de barrio · Clase de tango" },
+    tags:{ fr:["Street photo","Quartiers","Tango"], es:["Foto callejera","Barrios","Tango"] },
+    transport:"🚶 À pied + Uber",
+    activities:[
+      { icon:"🎭", exp:null,
+        fr:{ t:"<strong>Villa Crespo (matin)</strong>", n:"Street art, librairies indépendantes, vinyles, friperies. Le Palermo d'avant. Promenade photographique idéale." },
+        es:{ t:"<strong>Villa Crespo (mañana)</strong>", n:"Street art, librerías independientes, discos de vinilo, ropa vintage. El Palermo de antes. Paseo fotográfico ideal." } },
+      { icon:"🎵", exp:"tango",
+        fr:{ t:"<strong>Leçon de tango privée (après-midi)</strong> <span class='exp-badge' onclick=\"toggleExp('tango')\" title=\"Cocher cette expérience\">💃</span>", n:"1h30 avec un couple de danseurs locaux — demander à l'hôtel ou chercher Academia Nacional de Tango. Pas une école touristique, une vraie transmission." },
+        es:{ t:"<strong>Clase privada de tango (tarde)</strong> <span class='exp-badge' onclick=\"toggleExp('tango')\" title=\"Cocher cette expérience\">💃</span>", n:"1h30 con una pareja de bailarines locales — preguntar en el hotel o buscar Academia Nacional de Tango. No una escuela turística, una transmisión real." } },
+      { icon:"🥃", exp:"fernet",
+        fr:{ t:"<strong>Fernet con Coca au Bar Británico</strong> <span class='exp-badge' onclick=\"toggleExp('fernet')\" title=\"Cocher cette expérience\">🥃</span>", n:"Café historique ouvert 24h, miroirs 1920. Le Fernet-Branca avec Coca-Cola est la boisson nationale non-officielle de l'Argentine." },
+        es:{ t:"<strong>Fernet con Coca en el Bar Británico</strong> <span class='exp-badge' onclick=\"toggleExp('fernet')\" title=\"Cocher cette expérience\">🥃</span>", n:"Café histórico abierto 24h, espejos de 1920. El Fernet con Coca es la bebida nacional no oficial de Argentina." } },
+      { icon:"🍽", exp:"bife",
+        fr:{ t:"<strong>Bife de chorizo chez El Preferido de Palermo</strong> <span class='exp-badge' onclick=\"toggleExp('bife')\" title=\"Cocher cette expérience\">🥩</span>", n:"Bodegón de quartier centenaire. Ambiance 1930, tarta pascualina, milanesa napolitana. Très fréquenté par les locaux." },
+        es:{ t:"<strong>Bife de chorizo en El Preferido de Palermo</strong> <span class='exp-badge' onclick=\"toggleExp('bife')\" title=\"Cocher cette expérience\">🥩</span>", n:"Bodegón de barrio centenario. Ambiente 1930, tarta pascualina, milanesa napolitana. Muy frecuentado por locales." } }
+    ]
+  },
+  {
+    id:7, etape:"ba",
+    date:{ fr:"Jeu 29 oct", es:"Jue 29 oct" },
+    title:{ fr:"Recoleta · Chacarita · Musées", es:"Recoleta · Chacarita · Museos" },
+    sub:{ fr:"Cimetières · Beaux-Arts · Underground", es:"Cementerios · Bellas Artes · Underground" },
+    tags:{ fr:["Culture","Musée","Boedo"], es:["Cultura","Museo","Boedo"] },
+    transport:"🚶 À pied + Uber",
+    activities:[
+      { icon:"🏛", exp:null,
+        fr:{ t:"<strong>Cimetière de Recoleta (matin)</strong>", n:"Mausolées Art déco, Evita, promenade photographique. Arriver à l'ouverture (8h). Un des cimetières les plus spectaculaires du monde." },
+        es:{ t:"<strong>Cementerio de Recoleta (mañana)</strong>", n:"Mausoleos art déco, Evita, paseo fotográfico. Llegar a la apertura (8h). Uno de los cementerios más espectaculares del mundo." } },
+      { icon:"🖼", exp:null,
+        fr:{ t:"<strong>Museo Nacional de Bellas Artes</strong>", n:"Gratuit. Goya, Rembrandt, Monet + section argentine majeure. Juste à côté du cimetière — enchaîner les deux." },
+        es:{ t:"<strong>Museo Nacional de Bellas Artes</strong>", n:"Gratis. Goya, Rembrandt, Monet + sección argentina importante. Al lado del cementerio — hacer los dos seguidos." } },
+      { icon:"🎸", exp:null,
+        fr:{ t:"<strong>Chacarita (après-midi)</strong>", n:"Tombe de Carlos Gardel et Luis Alberto Spinetta. Street art monumental. Cafés de quartier authentiques. Le Buenos Aires souterrain." },
+        es:{ t:"<strong>Chacarita (tarde)</strong>", n:"Tumba de Carlos Gardel y Luis Alberto Spinetta. Street art monumental. Cafés de barrio auténticos. El Buenos Aires subterráneo." } },
+      { icon:"💃", exp:"tango",
+        fr:{ t:"<strong>Milonga Salon Canning (soir)</strong> <span class='exp-badge' onclick=\"toggleExp('tango')\" title=\"Cocher cette expérience\">💃</span>", n:"La milonga historique de Palermo. Ambiance sérieuse. Observer les premiers teurs, puis se lancer. Le niveau est élevé mais personne ne juge." },
+        es:{ t:"<strong>Milonga Salón Canning (noche)</strong> <span class='exp-badge' onclick=\"toggleExp('tango')\" title=\"Cocher cette expérience\">💃</span>", n:"La milonga histórica de Palermo. Ambiente serio. Observar las primeras rondas, luego animarse. El nivel es alto pero nadie juzga." } }
+    ]
+  },
+  {
+    id:8, etape:"ba",
+    date:{ fr:"Ven 30 oct", es:"Vie 30 oct" },
+    title:{ fr:"Boedo · Marché · Départ Mendoza", es:"Boedo · Mercado · Salida a Mendoza" },
+    sub:{ fr:"Quartier tango-canción · Mercado San Telmo · Vol", es:"Barrio del tango-canción · Mercado San Telmo · Vuelo" },
+    tags:{ fr:["Marché","Boedo","Transit"], es:["Mercado","Boedo","Tránsito"] },
+    transport:"✈ AEP → MDZ (1h45)",
+    activities:[
+      { icon:"🏘", exp:null,
+        fr:{ t:"<strong>Boedo (matin)</strong>", n:"Berceau du tango-canción. Cafés de 1930 intacts, murales de Quinquela Martín. Personne n'y va — tout le monde devrait." },
+        es:{ t:"<strong>Boedo (mañana)</strong>", n:"Cuna del tango-canción. Cafés de 1930 intactos, murales de Quinquela Martín. Nadie va — todos deberían." } },
+      { icon:"🛒", exp:"empanada",
+        fr:{ t:"<strong>Mercado de San Telmo (midi)</strong> <span class='exp-badge' onclick=\"toggleExp('empanada')\" title=\"Cocher cette expérience\">🥟</span>", n:"Bar à huîtres, empanadas au four de brique, fromages locaux. Dernier repas porteño debout au comptoir." },
+        es:{ t:"<strong>Mercado de San Telmo (mediodía)</strong> <span class='exp-badge' onclick=\"toggleExp('empanada')\" title=\"Cocher cette expérience\">🥟</span>", n:"Bar de ostras, empanadas al horno de barro, quesos locales. Última comida porteña parado en el mostrador." } },
+      { icon:"🛍", exp:null,
+        fr:{ t:"<strong>Feria de diseño · Achats locaux</strong>", n:"Créateurs indépendants à Palermo. Cuir, céramique, textile — pas les souvenirs d'aéroport." },
+        es:{ t:"<strong>Feria de diseño · Compras locales</strong>", n:"Diseñadores independientes en Palermo. Cuero, cerámica, textil — no los souvenirs del aeropuerto." } },
+      { icon:"✈", exp:null,
+        fr:{ t:"<strong>Vol AEP → MDZ (après-midi)</strong>", n:"Louer voiture à l'aéroport Mendoza dès l'arrivée — indispensable pour Valle de Uco et les Andes." },
+        es:{ t:"<strong>Vuelo AEP → MDZ (tarde)</strong>", n:"Alquilar auto en el aeropuerto de Mendoza al llegar — imprescindible para Valle de Uco y los Andes." } }
+    ]
+  },
+  // ─ MENDOZA ─
+  {
+    id:9, etape:"mendoza",
+    date:{ fr:"Sam 31 oct", es:"Sáb 31 oct" },
+    title:{ fr:"Arrivée Mendoza · Maipú à vélo", es:"Llegada Mendoza · Maipú en bici" },
+    sub:{ fr:"Premières bodegas · Huile d'olive · Dégustation", es:"Primeras bodegas · Aceite de oliva · Degustación" },
+    tags:{ fr:["Vignes","Vélo","Vin"], es:["Viñedos","Bicicleta","Vino"] },
+    transport:"🚗 Voiture de location",
+    activities:[
+      { icon:"🏨", exp:null,
+        fr:{ t:"<strong>Check-in à Mendoza</strong>", n:"Choisir selon budget : en ville pour base logistique, ou directement en lodge à Valle de Uco dans les vignes." },
+        es:{ t:"<strong>Check-in en Mendoza</strong>", n:"Elegir según presupuesto: en la ciudad como base logística, o directamente en lodge en Valle de Uco entre los viñedos." } },
+      { icon:"🚲", exp:null,
+        fr:{ t:"<strong>Maipú à vélo (après-midi)</strong>", n:"Location de vélo entre bodegas familiales. Dégustation d'huile d'olive, fromages de chèvre. 20-25 km tranquilles entre les vignes, zéro dénivelé." },
+        es:{ t:"<strong>Maipú en bicicleta (tarde)</strong>", n:"Alquiler de bici entre bodegas familiares. Degustación de aceite de oliva, quesos de cabra. 20-25 km tranquilos entre los viñedos, cero desnivel." } },
+      { icon:"🍷", exp:"vin",
+        fr:{ t:"<strong>Première dégustation de malbec</strong> <span class='exp-badge' onclick=\"toggleExp('vin')\" title=\"Cocher cette expérience\">🍷</span>", n:"Bodega La Rural ou bodega familiale à Maipú. Le malbec mendocin est totalement différent de ce qu'on boit en Europe — plus charnu, fruits noirs, chocolat." },
+        es:{ t:"<strong>Primera degustación de malbec</strong> <span class='exp-badge' onclick=\"toggleExp('vin')\" title=\"Cocher cette expérience\">🍷</span>", n:"Bodega La Rural o bodega familiar en Maipú. El malbec mendocino es totalmente diferente al que se bebe en Europa — más carnoso, frutos negros, chocolate." } },
+      { icon:"🍽", exp:"bife",
+        fr:{ t:"<strong>Dîner à Azafrán</strong> <span class='exp-badge' onclick=\"toggleExp('bife')\" title=\"Cocher cette expérience\">🥩</span>", n:"Cave-restaurant avec 700 références argentines. Cuisine régionale sérieuse. Le meilleur pour débuter le séjour mendocin." },
+        es:{ t:"<strong>Cena en Azafrán</strong> <span class='exp-badge' onclick=\"toggleExp('bife')\" title=\"Cocher cette expérience\">🥩</span>", n:"Bodega-restaurante con 700 referencias argentinas. Cocina regional seria. El mejor para comenzar la estadía mendocina." } }
+    ]
+  },
+  {
+    id:10, etape:"mendoza",
+    date:{ fr:"Dim 1 nov", es:"Dom 1 nov" },
+    title:{ fr:"Route des Andes · Aconcagua", es:"Ruta de los Andes · Aconcagua" },
+    sub:{ fr:"RN7 · Puente del Inca · Termas de Cacheuta", es:"RN7 · Puente del Inca · Termas de Cacheuta" },
+    tags:{ fr:["Andes","Route","Paysage"], es:["Andes","Ruta","Paisaje"] },
+    transport:"🚗 Voiture (~3h A/R depuis Mendoza)",
+    activities:[
+      { icon:"🏔", exp:null,
+        fr:{ t:"<strong>Route RN7 vers Uspallata (départ 7h)</strong>", n:"Lumière dorée sur l'Aconcagua (6962m). Condors fréquents à vue d'œil depuis la route. Vallées multicolores." },
+        es:{ t:"<strong>Ruta RN7 hacia Uspallata (salida 7h)</strong>", n:"Luz dorada sobre el Aconcagua (6962m). Cóndores frecuentes a simple vista desde la ruta. Valles multicolores." } },
+      { icon:"🌉", exp:null,
+        fr:{ t:"<strong>Puente del Inca · Balade 30 min</strong>", n:"Pont naturel calcaire couleur safran. Balade facile autour du site, 30 min. Vue directe sur l'Aconcagua par temps clair." },
+        es:{ t:"<strong>Puente del Inca · Caminata 30 min</strong>", n:"Puente natural calcáreo color azafrán. Caminata fácil alrededor del sitio, 30 min. Vista directa al Aconcagua con cielo despejado." } },
+      { icon:"♨", exp:null,
+        fr:{ t:"<strong>Termas de Cacheuta au retour</strong>", n:"Eau volcanique dans un canyon andin à 40 km de Mendoza. Piscines naturelles, détente totale après la route." },
+        es:{ t:"<strong>Termas de Cacheuta al regreso</strong>", n:"Agua volcánica en un cañón andino a 40 km de Mendoza. Piletas naturales, descanso total después de la ruta." } },
+      { icon:"🧉", exp:"mate",
+        fr:{ t:"<strong>Cérémonie du maté en route</strong> <span class='exp-badge' onclick=\"toggleExp('mate')\" title=\"Cocher cette expérience\">🧉</span>", n:"Acheter un kit maté + yerba à Mendoza avant de partir. Se garer avec vue sur l'Aconcagua et boire en silence. Moment suspendu." },
+        es:{ t:"<strong>Ceremonia del mate en ruta</strong> <span class='exp-badge' onclick=\"toggleExp('mate')\" title=\"Cocher cette expérience\">🧉</span>", n:"Comprar kit mate + yerba en Mendoza antes de salir. Parar con vista al Aconcagua y tomar en silencio. Momento suspendido." } }
+    ]
+  },
+  {
+    id:11, etape:"mendoza",
+    date:{ fr:"Lun 2 nov", es:"Lun 2 nov" },
+    title:{ fr:"Valle de Uco · Zuccardi", es:"Valle de Uco · Zuccardi" },
+    sub:{ fr:"Vignobles d'altitude · Déjeuner gastronomique · Andes en fond", es:"Viñedos de altura · Almuerzo gastronómico · Andes de fondo" },
+    tags:{ fr:["Vignobles","Gastronomie","Vin"], es:["Viñedos","Gastronomía","Vino"] },
+    transport:"🚗 Voiture (1h30 de Mendoza)",
+    activities:[
+      { icon:"🌅", exp:null,
+        fr:{ t:"<strong>Valle de Uco à l'aube</strong>", n:"1100m d'altitude. Lumière sur les vignes avec les Andes enneigées en fond. Prendre le temps de s'arrêter sur la route." },
+        es:{ t:"<strong>Valle de Uco al amanecer</strong>", n:"1100m de altura. Luz sobre los viñedos con los Andes nevados de fondo. Tomarse el tiempo de parar en la ruta." } },
+      { icon:"🍷", exp:"vin",
+        fr:{ t:"<strong>Déjeuner à Zuccardi Valle de Uco</strong> <span class='exp-badge' onclick=\"toggleExp('vin')\" title=\"Cocher cette expérience\">🍷</span>", n:"Meilleur restaurant de bodega d'Argentine. Menu dégustation avec accord malbec. Réserver 3 semaines avant minimum. Le repas du voyage." },
+        es:{ t:"<strong>Almuerzo en Zuccardi Valle de Uco</strong> <span class='exp-badge' onclick=\"toggleExp('vin')\" title=\"Cocher cette expérience\">🍷</span>", n:"Mejor restaurante de bodega de Argentina. Menú degustación con maridaje malbec. Reservar 3 semanas antes mínimo. La comida del viaje." } },
+      { icon:"🏡", exp:"vin",
+        fr:{ t:"<strong>Bodega Achaval Ferrer (après-midi)</strong> <span class='exp-badge' onclick=\"toggleExp('vin')\" title=\"Cocher cette expérience\">🍷</span>", n:"Visite guidée et dégustation privée. Vins de parcelles uniques, malbec de haute altitude. Niveau international." },
+        es:{ t:"<strong>Bodega Achaval Ferrer (tarde)</strong> <span class='exp-badge' onclick=\"toggleExp('vin')\" title=\"Cocher cette expérience\">🍷</span>", n:"Visita guiada y degustación privada. Vinos de parcelas únicas, malbec de alta montaña. Nivel internacional." } },
+      { icon:"🌙", exp:null,
+        fr:{ t:"<strong>Nuit dans les vignes (optionnel)</strong>", n:"Lodge au milieu des vignes avec vue Andes — l'expérience absolue si budget le permet. Sinon retour Mendoza (1h30)." },
+        es:{ t:"<strong>Noche en los viñedos (opcional)</strong>", n:"Lodge en medio de los viñedos con vista Andes — la experiencia absoluta si el presupuesto lo permite. Sino regreso a Mendoza (1h30)." } }
+    ]
+  },
+  {
+    id:12, etape:"mendoza",
+    date:{ fr:"Mar 3 nov", es:"Mar 3 nov" },
+    title:{ fr:"Cañón del Atuel · San Rafael", es:"Cañón del Atuel · San Rafael" },
+    sub:{ fr:"Gorges rouges · Kayak · Golden hour", es:"Gargantas rojas · Kayak · Golden hour" },
+    tags:{ fr:["Canyon","Kayak","Paysage"], es:["Cañón","Kayak","Paisaje"] },
+    transport:"🚗 Voiture (~2h30 de Mendoza)",
+    activities:[
+      { icon:"🏞", exp:null,
+        fr:{ t:"<strong>Route vers San Rafael</strong>", n:"Traversée de la pampa mendocina. Plat, immense, fascinant. Paysage lunaire à l'opposé des Andes." },
+        es:{ t:"<strong>Ruta hacia San Rafael</strong>", n:"Cruce de la pampa mendocina. Plana, inmensa, fascinante. Paisaje lunar opuesto a los Andes." } },
+      { icon:"🛶", exp:null,
+        fr:{ t:"<strong>Cañón del Atuel</strong>", n:"Gorges rouges et bleues creusées par la rivière. Option kayak ou balade en bord de rive (1h A/R facile). Peu connu des touristes étrangers." },
+        es:{ t:"<strong>Cañón del Atuel</strong>", n:"Gargantas rojas y azules excavadas por el río. Opción kayak o caminata a orillas del río (1h ida/vuelta fácil). Poco conocido por turistas extranjeros." } },
+      { icon:"📷", exp:null,
+        fr:{ t:"<strong>Golden hour dans le canyon</strong>", n:"Les ocres et les bleus à la lumière du soir — photo de paysage exceptionnelle. Rester jusqu'au coucher du soleil." },
+        es:{ t:"<strong>Golden hour en el cañón</strong>", n:"Los ocres y azules bajo la luz de la tarde — foto de paisaje excepcional. Quedarse hasta la puesta del sol." } },
+      { icon:"🔥", exp:"asado",
+        fr:{ t:"<strong>Asado dominical style local</strong> <span class='exp-badge' onclick=\"toggleExp('asado')\" title=\"Cocher cette expérience\">🔥</span>", n:"Chercher une familia via Airbnb Experiences ou EatWith. Le rituel du dimanche argentin — 4h autour du feu, maté, vin, famille." },
+        es:{ t:"<strong>Asado dominical estilo local</strong> <span class='exp-badge' onclick=\"toggleExp('asado')\" title=\"Cocher cette expérience\">🔥</span>", n:"Buscar una familia via Airbnb Experiences o EatWith. El ritual del domingo argentino — 4h alrededor del fuego, mate, vino, familia." } }
+    ]
+  },
+  {
+    id:13, etape:"mendoza",
+    date:{ fr:"Mer 4 nov", es:"Mié 4 nov" },
+    title:{ fr:"Marché central · Départ Bariloche", es:"Mercado Central · Salida a Bariloche" },
+    sub:{ fr:"Vie locale · Street photo · Vol", es:"Vida local · Foto callejera · Vuelo" },
+    tags:{ fr:["Marché","Street photo","Transit"], es:["Mercado","Foto callejera","Tránsito"] },
+    transport:"✈ MDZ → BRC (2h)",
+    activities:[
+      { icon:"📷", exp:null,
+        fr:{ t:"<strong>Marché central de Mendoza (7h-9h)</strong>", n:"Ail, pimentón, herbes fraîches, fruits de saison. Vie quotidienne pure. Meilleure heure pour la street photo en ville." },
+        es:{ t:"<strong>Mercado Central de Mendoza (7h-9h)</strong>", n:"Ajo, pimentón, hierbas frescas, frutas de temporada. Vida cotidiana pura. Mejor hora para foto callejera en la ciudad." } },
+      { icon:"☕", exp:"facturas",
+        fr:{ t:"<strong>Café et facturas au comptoir</strong> <span class='exp-badge' onclick=\"toggleExp('facturas')\" title=\"Cocher cette expérience\">🥐</span>", n:"La Marchigiana pour un café con leche et medialunas au milieu des habitués. Institution depuis 1950." },
+        es:{ t:"<strong>Café y facturas en el mostrador</strong> <span class='exp-badge' onclick=\"toggleExp('facturas')\" title=\"Cocher cette expérience\">🥐</span>", n:"La Marchigiana para un café con leche y medialunas entre los habituales. Institución desde 1950." } },
+      { icon:"🧳", exp:null,
+        fr:{ t:"<strong>Check-out · Rendre la voiture à MDZ</strong>", n:"Prévoir 30 min à l'aéroport pour rendre la voiture. Garder de la monnaie locale pour le taxi retour si besoin." },
+        es:{ t:"<strong>Check-out · Devolver el auto en MDZ</strong>", n:"Calcular 30 min en el aeropuerto para devolver el auto. Guardar moneda local para taxi si hace falta." } },
+      { icon:"✈", exp:null,
+        fr:{ t:"<strong>Vol MDZ → BRC (après-midi)</strong>", n:"Louer voiture à l'aéroport de Bariloche dès l'arrivée — indispensable. Demander un SUV pour les pistes en gravier." },
+        es:{ t:"<strong>Vuelo MDZ → BRC (tarde)</strong>", n:"Alquilar auto en el aeropuerto de Bariloche al llegar — imprescindible. Pedir un SUV para los caminos de ripio." } }
+    ]
+  },
+  // ─ BARILOCHE ─
+  {
+    id:14, etape:"bariloche",
+    date:{ fr:"Jeu 5 nov", es:"Jue 5 nov" },
+    title:{ fr:"Arrivée Bariloche · Lac Nahuel Huapi", es:"Llegada Bariloche · Lago Nahuel Huapi" },
+    sub:{ fr:"Premier contact Patagonie · Chocolat · Blest", es:"Primer contacto Patagonia · Chocolate · Blest" },
+    tags:{ fr:["Lac","Patagonie","Bière artisanale"], es:["Lago","Patagonia","Cerveza artesanal"] },
+    transport:"✈ MDZ → BRC + 🚗 voiture",
+    activities:[
+      { icon:"🏨", exp:null,
+        fr:{ t:"<strong>Check-in à Bariloche</strong>", n:"Choisir côté lac ou centre-ville. Vue sur le Nahuel Huapi depuis la chambre si possible — ça change le réveil." },
+        es:{ t:"<strong>Check-in en Bariloche</strong>", n:"Elegir lado lago o centro. Vista al Nahuel Huapi desde la habitación si es posible — cambia el despertar." } },
+      { icon:"🌊", exp:null,
+        fr:{ t:"<strong>Lac Nahuel Huapi (après-midi)</strong>", n:"S'asseoir au bord. Regarder les Andes plonger dans le lac turquoise. Rien d'autre. Premier contact avec la Patagonie." },
+        es:{ t:"<strong>Lago Nahuel Huapi (tarde)</strong>", n:"Sentarse a la orilla. Mirar los Andes caer en el lago turquesa. Nada más. Primer contacto con la Patagonia." } },
+      { icon:"🍫", exp:"dulce",
+        fr:{ t:"<strong>Chocolaterie artisanale</strong> <span class='exp-badge' onclick=\"toggleExp('dulce')\" title=\"Cocher cette expérience\">🍯</span>", n:"Tradition austro-suisse absurde et délicieuse. Fondant chaud, alfajores au dulce de leche, pralines. Rapanui ou Mamusia." },
+        es:{ t:"<strong>Chocolatería artesanal</strong> <span class='exp-badge' onclick=\"toggleExp('dulce')\" title=\"Cocher cette expérience\">🍯</span>", n:"Tradición austro-suiza absurda y deliciosa. Fondant caliente, alfajores con dulce de leche, pralinés. Rapanui o Mamusia." } },
+      { icon:"🍺", exp:null,
+        fr:{ t:"<strong>Cervecería Blest (soir)</strong>", n:"Brasserie culte depuis 1979. Bière noire sur pompe, saucisses maison, bois partout. Le QG local." },
+        es:{ t:"<strong>Cervecería Blest (noche)</strong>", n:"Cervecería de culto desde 1979. Cerveza negra de barril, chorizos caseros, madera por todos lados. El QG local." } }
+    ]
+  },
+  {
+    id:15, etape:"bariloche",
+    date:{ fr:"Ven 6 nov", es:"Vie 6 nov" },
+    title:{ fr:"Cerro Campanario · Circuito Chico", es:"Cerro Campanario · Circuito Chico" },
+    sub:{ fr:"Vue 360° à l'aube (45 min A/R) · Arrayanes · Villa La Angostura", es:"Vista 360° al amanecer (45 min ida/vuelta) · Arrayanes · Villa La Angostura" },
+    tags:{ fr:["Rando douce","Lacs","Forêt unique"], es:["Caminata suave","Lagos","Bosque único"] },
+    transport:"🚗 Voiture",
+    activities:[
+      { icon:"🌅", exp:null,
+        fr:{ t:"<strong>Cerro Campanario (départ 6h30) · 45 min A/R</strong>", n:"Montée tranquille 30 min sur sentier bien tracé. Vue 360° sur 5 lacs et le Tronador. Arriver avant les premiers télécabines pour être seul." },
+        es:{ t:"<strong>Cerro Campanario (salida 6h30) · 45 min ida/vuelta</strong>", n:"Subida tranquila 30 min por sendero bien marcado. Vista 360° sobre 5 lagos y el Tronador. Llegar antes del primer teleférico para estar solo." } },
+      { icon:"🚗", exp:null,
+        fr:{ t:"<strong>Circuito Chico en voiture</strong>", n:"Route des lacs Perito Moreno, Moreno, Escondido. S'arrêter à chaque belvédère. Lumière fantastique le matin." },
+        es:{ t:"<strong>Circuito Chico en auto</strong>", n:"Ruta de los lagos Perito Moreno, Moreno, Escondido. Parar en cada mirador. Luz fantástica por la mañana." } },
+      { icon:"🌳", exp:null,
+        fr:{ t:"<strong>Parc des Arrayanes · 1h A/R</strong>", n:"Forêt de myrtles centenaires à écorce cannelle — unique au monde. Sentier plat au bord du lac, 1h tranquille aller-retour." },
+        es:{ t:"<strong>Parque de los Arrayanes · 1h ida/vuelta</strong>", n:"Bosque de arrayanes centenarios con corteza canela — único en el mundo. Sendero plano a orillas del lago, 1h tranquila ida y vuelta." } },
+      { icon:"🍽", exp:"bife",
+        fr:{ t:"<strong>Dîner à Cassis</strong> <span class='exp-badge' onclick=\"toggleExp('bife')\" title=\"Cocher cette expérience\">🥩</span>", n:"Cuisine patagone sérieuse. Cerf du Nahuel Huapi, truite du lac, cordero patagonico. Le meilleur de la région." },
+        es:{ t:"<strong>Cena en Cassis</strong> <span class='exp-badge' onclick=\"toggleExp('bife')\" title=\"Cocher cette expérience\">🥩</span>", n:"Cocina patagónica seria. Ciervo del Nahuel Huapi, trucha del lago, cordero patagónico. El mejor de la región." } }
+    ]
+  },
+  {
+    id:16, etape:"bariloche",
+    date:{ fr:"Sam 7 nov", es:"Sáb 7 nov" },
+    title:{ fr:"Route des 7 lacs · San Martín de los Andes", es:"Ruta de los 7 Lagos · San Martín de los Andes" },
+    sub:{ fr:"RN40 · 110 km de beauté · Nuit à San Martín", es:"RN40 · 110 km de belleza · Noche en San Martín" },
+    tags:{ fr:["Route","Lacs","Village"], es:["Ruta","Lagos","Pueblo"] },
+    transport:"🚗 Voiture (3h de route)",
+    activities:[
+      { icon:"🛣", exp:null,
+        fr:{ t:"<strong>Route des 7 lacs (RN40 Nord) · départ tôt</strong>", n:"L'une des plus belles routes du monde. 110 km, lacs turquoise différents, forêts de lengas, Andes omniprésentes. Pas de presse." },
+        es:{ t:"<strong>Ruta de los 7 lagos (RN40 Norte) · salida temprano</strong>", n:"Una de las rutas más bellas del mundo. 110 km, lagos turquesa diferentes, bosques de lengas, Andes omnipresentes. Sin apuro." } },
+      { icon:"🏞", exp:null,
+        fr:{ t:"<strong>Arrêts libres aux belvédères</strong>", n:"Lagos Faulkner, Hermoso, Meliquina, Espejo. Chaque lac est différent. S'arrêter, photographier, repartir. C'est tout l'objectif." },
+        es:{ t:"<strong>Paradas libres en los miradores</strong>", n:"Lagos Faulkner, Hermoso, Meliquina, Espejo. Cada lago es diferente. Parar, fotografiar, seguir. Ese es todo el objetivo." } },
+      { icon:"🏘", exp:null,
+        fr:{ t:"<strong>San Martín de los Andes (arrivée)</strong>", n:"Village alpin authentique. Marché de producteurs locaux, bière artisanale Lehrmann, lac Lacar couleur émeraude." },
+        es:{ t:"<strong>San Martín de los Andes (llegada)</strong>", n:"Pueblo alpino auténtico. Mercado de productores locales, cerveza artesanal Lehrmann, lago Lacar color esmeralda." } },
+      { icon:"🎸", exp:"penya",
+        fr:{ t:"<strong>Peña ou musique live à San Martín (soir)</strong> <span class='exp-badge' onclick=\"toggleExp('penya')\" title=\"Cocher cette expérience\">🎸</span>", n:"Les petits villages patagoniques ont souvent des peñas le week-end. Demander à l'hébergement. Ambiance chaleureuse garantie." },
+        es:{ t:"<strong>Peña o música en vivo en San Martín (noche)</strong> <span class='exp-badge' onclick=\"toggleExp('penya')\" title=\"Cocher cette expérience\">🎸</span>", n:"Los pequeños pueblos patagónicos suelen tener peñas los fines de semana. Preguntar en el alojamiento. Ambiente cálido garantizado." } }
+    ]
+  },
+  {
+    id:17, etape:"bariloche",
+    date:{ fr:"Dim 8 nov", es:"Dom 8 nov" },
+    title:{ fr:"Retour via Lago Traful", es:"Regreso vía Lago Traful" },
+    sub:{ fr:"Lac secret · Balade 1h A/R · Village de 80 habitants", es:"Lago secreto · Caminata 1h ida/vuelta · Pueblo de 80 habitantes" },
+    tags:{ fr:["Lac secret","Off the beaten path"], es:["Lago secreto","Fuera del circuito"] },
+    transport:"🚗 Voiture (circuit)",
+    activities:[
+      { icon:"🌄", exp:null,
+        fr:{ t:"<strong>Lac Lacar au lever du soleil</strong>", n:"Dernier matin à San Martín. Lumière dorée sur l'eau avant tout le monde. 10 min à pied depuis le centre." },
+        es:{ t:"<strong>Lago Lacar al amanecer</strong>", n:"Última mañana en San Martín. Luz dorada sobre el agua antes que nadie. 10 min a pie desde el centro." } },
+      { icon:"💎", exp:null,
+        fr:{ t:"<strong>Lago Traful (route du retour)</strong>", n:"Eaux turquoise translucides entourées de cyprès millénaires. Village de 80 habitants. Aucun touriste. L'un des plus beaux lacs du monde — personne n'en parle." },
+        es:{ t:"<strong>Lago Traful (ruta de regreso)</strong>", n:"Aguas turquesas translúcidas rodeadas de cipreses milenarios. Pueblo de 80 habitantes. Cero turistas. Uno de los lagos más bellos del mundo — nadie habla de él." } },
+      { icon:"🥾", exp:null,
+        fr:{ t:"<strong>Balade au bord du lac · 1h A/R</strong>", n:"Sentier plat en bord de rive. Eau si transparente qu'on voit le fond à plusieurs mètres. Cyprès géants. Silence total." },
+        es:{ t:"<strong>Caminata a orillas del lago · 1h ida/vuelta</strong>", n:"Sendero plano a orillas del lago. Agua tan transparente que se ve el fondo a varios metros. Cipreses gigantes. Silencio total." } },
+      { icon:"🔙", exp:null,
+        fr:{ t:"<strong>Retour à Bariloche (soir)</strong>", n:"Prendre le temps. La route longe des paysages constants. Arriver avant la nuit." },
+        es:{ t:"<strong>Regreso a Bariloche (tarde)</strong>", n:"Sin apuro. La ruta bordea paisajes constantes. Llegar antes de la noche." } }
+    ]
+  },
+  {
+    id:18, etape:"bariloche",
+    date:{ fr:"Lun 9 nov", es:"Lun 9 nov" },
+    title:{ fr:"Parque Nacional Los Alerces", es:"Parque Nacional Los Alerces" },
+    sub:{ fr:"Alerce de 2600 ans · Bateau · Glacier Torrecillas", es:"Alerce de 2600 años · Barco · Glaciar Torrecillas" },
+    tags:{ fr:["Parc national","Glacier","Nature absolue"], es:["Parque nacional","Glaciar","Naturaleza absoluta"] },
+    transport:"🚗 Voiture (~3h de Bariloche)",
+    activities:[
+      { icon:"🌲", exp:null,
+        fr:{ t:"<strong>Route vers Los Alerces (départ 8h)</strong>", n:"3h de route. Réserver le bateau sur le lac Menéndez à l'avance — part le matin, complet rapidement en saison." },
+        es:{ t:"<strong>Ruta hacia Los Alerces (salida 8h)</strong>", n:"3h de camino. Reservar el barco sobre el lago Menéndez con anticipación — sale a la mañana, se llena rápido en temporada." } },
+      { icon:"⛵", exp:null,
+        fr:{ t:"<strong>Bateau sur le lac Menéndez</strong>", n:"Bleu impossible. Glacier Torrecillas en fond. Forêt d'alerces de 2600 ans — les arbres les plus vieux d'Argentine. L'expérience sauvage absolue." },
+        es:{ t:"<strong>Barco sobre el lago Menéndez</strong>", n:"Azul imposible. Glaciar Torrecillas de fondo. Bosque de alerces de 2600 años — los árboles más viejos de Argentina. La experiencia salvaje absoluta." } },
+      { icon:"🥾", exp:null,
+        fr:{ t:"<strong>Sentier autour du port · 1h A/R</strong>", n:"Balade facile depuis l'embarcadère. Forêt millénaire à portée de main, oiseaux endémiques, silence de Patagonie." },
+        es:{ t:"<strong>Sendero alrededor del puerto · 1h ida/vuelta</strong>", n:"Caminata fácil desde el embarcadero. Bosque milenario al alcance de la mano, aves endémicas, silencio patagónico." } },
+      { icon:"🍲", exp:null,
+        fr:{ t:"<strong>Fondue Familia Weiss au retour</strong>", n:"Tradition austro-suisse absurde à Bariloche. Fondue au fromage dans un chalet en bois. Cave à vins patagons. Se réchauffer après Los Alerces." },
+        es:{ t:"<strong>Fondue Familia Weiss al regreso</strong>", n:"Tradición austro-suiza absurda en Bariloche. Fondue de queso en un chalet de madera. Bodega de vinos patagónicos. Entrar en calor después de Los Alerces." } }
+    ]
+  },
+  {
+    id:19, etape:"bariloche",
+    date:{ fr:"Mar 10 nov", es:"Mar 10 nov" },
+    title:{ fr:"Cerro Catedral · Estancia gaucho", es:"Cerro Catedral · Estancia gaucho" },
+    sub:{ fr:"Randonnée 1h A/R · Asado de cordero · Rituel gaucho", es:"Caminata 1h ida/vuelta · Asado de cordero · Ritual gaucho" },
+    tags:{ fr:["Rando douce","Asado gaucho","Expérience"], es:["Caminata suave","Asado gaucho","Experiencia"] },
+    transport:"🚗 Voiture (20 min de Bariloche)",
+    activities:[
+      { icon:"🥾", exp:null,
+        fr:{ t:"<strong>Cerro Catedral · Sentier de la crête · 1h A/R</strong>", n:"Prendre le télésiège (rapide) puis marcher 30 min sur la crête. Vue sur 10 lacs. Novembre = printemps patagon, fleurs sauvages violettes. Pas de neige." },
+        es:{ t:"<strong>Cerro Catedral · Sendero de la cresta · 1h ida/vuelta</strong>", n:"Tomar el telesilla (rápido) y caminar 30 min por la cresta. Vista sobre 10 lagos. Noviembre = primavera patagónica, flores silvestres violetas. Sin nieve." } },
+      { icon:"🏔", exp:null,
+        fr:{ t:"<strong>Vue sur le Glaciar Castaño Overa</strong>", n:"Visible depuis la crête sans s'en approcher. Condors en vol à hauteur des yeux. Silence total au-dessus des arbres." },
+        es:{ t:"<strong>Vista sobre el Glaciar Castaño Overa</strong>", n:"Visible desde la cresta sin acercarse. Cóndores en vuelo a la altura de los ojos. Silencio total sobre los árboles." } },
+      { icon:"🤠", exp:"gaucho",
+        fr:{ t:"<strong>Asado de cordero à la croix · Estancia (après-midi)</strong> <span class='exp-badge' onclick=\"toggleExp('gaucho')\" title=\"Cocher cette expérience\">🤠</span>", n:"Agneau entier à la croix pendant 4h — le rituel gaucho par excellence. Estancia Peuma Hue ou Don Silvano. Réserver à l'avance. Vin patagon, maté, feu." },
+        es:{ t:"<strong>Asado de cordero a la cruz · Estancia (tarde)</strong> <span class='exp-badge' onclick=\"toggleExp('gaucho')\" title=\"Cocher cette expérience\">🤠</span>", n:"Cordero entero a la cruz durante 4h — el ritual gaucho por excelencia. Estancia Peuma Hue o Don Silvano. Reservar con anticipación. Vino patagónico, mate, fuego." } },
+      { icon:"🐴", exp:"gaucho",
+        fr:{ t:"<strong>Doma criolla et balade à cheval à l'estancia</strong> <span class='exp-badge' onclick=\"toggleExp('gaucho')\" title=\"Cocher cette expérience\">🤠</span>", n:"Après l'asado, balade à cheval dans les collines patagonnes avec un gaucho local. Les estancias incluent souvent la doma (démonstration de dressage) en soirée." },
+        es:{ t:"<strong>Doma criolla y cabalgata en la estancia</strong> <span class='exp-badge' onclick=\"toggleExp('gaucho')\" title=\"Cocher cette expérience\">🤠</span>", n:"Después del asado, cabalgata por las colinas patagónicas con un gaucho local. Las estancias suelen incluir doma (demostración de doma) al atardecer." } }
+    ]
+  },
+  {
+    id:20, etape:"bariloche",
+    date:{ fr:"Mer 11 nov", es:"Mié 11 nov" },
+    title:{ fr:"El Bolsón · Marché & Río Azul", es:"El Bolsón · Mercado y Río Azul" },
+    sub:{ fr:"Marché artisanal · Cerveza Berlina · Balade 1h A/R", es:"Mercado artesanal · Cerveza Berlina · Caminata 1h ida/vuelta" },
+    tags:{ fr:["Marché","Bière artisanale","Authentique"], es:["Mercado","Cerveza artesanal","Auténtico"] },
+    transport:"🚗 Voiture (2h de Bariloche)",
+    activities:[
+      { icon:"🧺", exp:null,
+        fr:{ t:"<strong>Marché d'El Bolsón (matin)</strong>", n:"Le plus authentique de Patagonie. Confitures de cerises, fromages de chèvre, herbes médicinales, artisanat local. Hippies et cultivateurs mélangés." },
+        es:{ t:"<strong>Mercado de El Bolsón (mañana)</strong>", n:"El más auténtico de la Patagonia. Mermeladas de cerezas, quesos de cabra, hierbas medicinales, artesanías locales. Hippies y agricultores mezclados." } },
+      { icon:"🍺", exp:null,
+        fr:{ t:"<strong>Cervecería Berlina</strong>", n:"Bière artisanale primée internationalement. Saucisses de sanglier, pain de seigle maison. Terrasse au bord du río Quemquemtreu." },
+        es:{ t:"<strong>Cervecería Berlina</strong>", n:"Cerveza artesanal premiada internacionalmente. Chorizos de jabalí, pan de centeno casero. Terraza al borde del río Quemquemtreu." } },
+      { icon:"🥾", exp:null,
+        fr:{ t:"<strong>Río Azul · Balade 1h A/R</strong>", n:"Eaux turquoise dans un canyon de granit. Sentier plat au bord de l'eau, 30 min aller. Baignade si la température le permet en novembre." },
+        es:{ t:"<strong>Río Azul · Caminata 1h ida/vuelta</strong>", n:"Aguas turquesas en un cañón de granito. Sendero plano a orillas del agua, 30 min de ida. Baño si la temperatura lo permite en noviembre." } },
+      { icon:"🌙", exp:null,
+        fr:{ t:"<strong>Nuit à El Bolsón (optionnel)</strong>", n:"Petite guesthouse au bord du río — l'expérience village authentique. Sinon retour Bariloche en soirée (2h)." },
+        es:{ t:"<strong>Noche en El Bolsón (opcional)</strong>", n:"Pequeña guesthouse al borde del río — la experiencia pueblo auténtico. Sino regreso a Bariloche al atardecer (2h)." } }
+    ]
+  },
+  {
+    id:21, etape:"bariloche",
+    date:{ fr:"Jeu 12 nov", es:"Jue 12 nov" },
+    title:{ fr:"Pampa Linda · Cascade Cantaros", es:"Pampa Linda · Cascada Cántaros" },
+    sub:{ fr:"Vallée du Tronador · Forêt dense · 1h A/R", es:"Valle del Tronador · Selva densa · 1h ida/vuelta" },
+    tags:{ fr:["Forêt","Cascade","Condors"], es:["Bosque","Cascada","Cóndores"] },
+    transport:"🚗 Voiture (1h de Bariloche)",
+    activities:[
+      { icon:"🌋", exp:null,
+        fr:{ t:"<strong>Pampa Linda (départ tôt)</strong>", n:"Route au pied du Tronador (3478m). Alternance paysage lunaire et végétation dense. Une des routes les plus dramatiques de Patagonie." },
+        es:{ t:"<strong>Pampa Linda (salida temprano)</strong>", n:"Ruta al pie del Tronador (3478m). Alternancia de paisaje lunar y vegetación densa. Una de las rutas más dramáticas de la Patagonia." } },
+      { icon:"💧", exp:null,
+        fr:{ t:"<strong>Cascade Los Cantaros · 1h A/R</strong>", n:"Sentier bien tracé en forêt patagone dense. Vue sur le Tronador depuis la cascade. Apporter pique-nique. Pas de dénivelé brutal." },
+        es:{ t:"<strong>Cascada Los Cántaros · 1h ida/vuelta</strong>", n:"Sendero bien marcado en bosque patagónico denso. Vista al Tronador desde la cascada. Llevar picnic. Sin desnivel brusco." } },
+      { icon:"🦅", exp:null,
+        fr:{ t:"<strong>Condors du Tronador</strong>", n:"Zone de nidification connue. Envergure 3m. Souvent visibles depuis la route ou la cascade. Observer sans s'approcher." },
+        es:{ t:"<strong>Cóndores del Tronador</strong>", n:"Zona de nidificación conocida. Envergadura 3m. Frecuentemente visibles desde la ruta o la cascada. Observar sin acercarse." } },
+      { icon:"🍫", exp:"dulce",
+        fr:{ t:"<strong>Alfajores au dulce de leche · Bariloche (soir)</strong> <span class='exp-badge' onclick=\"toggleExp('dulce')\" title=\"Cocher cette expérience\">🍯</span>", n:"Les alfajores de Bariloche sont les meilleurs d'Argentine. Chocolat noir, dulce de leche épais. Rapanui ou Del Turista. En acheter pour ramener." },
+        es:{ t:"<strong>Alfajores con dulce de leche · Bariloche (noche)</strong> <span class='exp-badge' onclick=\"toggleExp('dulce')\" title=\"Cocher cette expérience\">🍯</span>", n:"Los alfajores de Bariloche son los mejores de Argentina. Chocolate negro, dulce de leche espeso. Rapanui o Del Turista. Comprar para llevar." } }
+    ]
+  },
+  {
+    id:22, etape:"bariloche",
+    date:{ fr:"Ven 13 nov", es:"Vie 13 nov" },
+    title:{ fr:"Journée libre · Photos · Lago", es:"Día libre · Fotos · Lago" },
+    sub:{ fr:"Golden hour · Achats locaux · Dernier dîner", es:"Golden hour · Compras locales · Última cena" },
+    tags:{ fr:["Libre","Photos","Détente"], es:["Libre","Fotos","Descanso"] },
+    transport:"🚗 Voiture",
+    activities:[
+      { icon:"📷", exp:null,
+        fr:{ t:"<strong>Golden hour sur le Nahuel Huapi (6h45)</strong>", n:"Lumière rasante sur le lac, montagnes enneigées en fond. Dernières photos du voyage. Se lever tôt pour être seul." },
+        es:{ t:"<strong>Golden hour sobre el Nahuel Huapi (6h45)</strong>", n:"Luz rasante sobre el lago, montañas nevadas de fondo. Últimas fotos del viaje. Levantarse temprano para estar solo." } },
+      { icon:"🛍", exp:null,
+        fr:{ t:"<strong>Achats locaux</strong>", n:"Chocolat Rapanui, confitures de Rosa Mosqueta, laine patagone filée main. Pas les souvenirs d'aéroport — les vrais produits locaux." },
+        es:{ t:"<strong>Compras locales</strong>", n:"Chocolate Rapanui, mermeladas de Rosa Mosqueta, lana patagónica hilada a mano. No los souvenirs del aeropuerto — los productos locales reales." } },
+      { icon:"☕", exp:"mate",
+        fr:{ t:"<strong>Dernier maté face au lac</strong> <span class='exp-badge' onclick=\"toggleExp('mate')\" title=\"Cocher cette expérience\">🧉</span>", n:"Ne rien faire. Regarder. Se souvenir. Le maté se partage — inviter quelqu'un si l'occasion se présente." },
+        es:{ t:"<strong>Último mate frente al lago</strong> <span class='exp-badge' onclick=\"toggleExp('mate')\" title=\"Cocher cette expérience\">🧉</span>", n:"No hacer nada. Mirar. Recordar. El mate se comparte — invitar a alguien si se presenta la ocasión." } },
+      { icon:"🍽", exp:"bife",
+        fr:{ t:"<strong>Dernier dîner · Cassis ou Blest</strong> <span class='exp-badge' onclick=\"toggleExp('bife')\" title=\"Cocher cette expérience\">🥩</span>", n:"Revenir là où c'était bon. Commander ce qu'on n'a pas encore essayé. Vider la bouteille de malbec restante." },
+        es:{ t:"<strong>Última cena · Cassis o Blest</strong> <span class='exp-badge' onclick=\"toggleExp('bife')\" title=\"Cocher cette expérience\">🥩</span>", n:"Volver a donde estaba bueno. Pedir lo que no se probó todavía. Vaciar la botella de malbec restante." } }
+    ]
+  },
+  {
+    id:23, etape:"bariloche",
+    date:{ fr:"Sam 14 nov", es:"Sáb 14 nov" },
+    title:{ fr:"Retour Costa Rica", es:"Regreso a Costa Rica" },
+    sub:{ fr:"BRC → EZE → SJO · Fin du voyage", es:"BRC → EZE → SJO · Fin del viaje" },
+    tags:{ fr:["Transit","Retour"], es:["Tránsito","Regreso"] },
+    transport:"✈ BRC → EZE → SJO",
+    activities:[
+      { icon:"🌅", exp:null,
+        fr:{ t:"<strong>Dernier lever de soleil sur les Andes</strong>", n:"Se lever tôt. Regarder une dernière fois depuis la fenêtre ou le bord du lac." },
+        es:{ t:"<strong>Último amanecer sobre los Andes</strong>", n:"Levantarse temprano. Mirar por última vez desde la ventana o la orilla del lago." } },
+      { icon:"🚗", exp:null,
+        fr:{ t:"<strong>Rendre la voiture à l'aéroport BRC</strong>", n:"Prévoir 30 min pour l'état des lieux. Vérifier l'état du réservoir." },
+        es:{ t:"<strong>Devolver el auto en el aeropuerto BRC</strong>", n:"Calcular 30 min para la revisión del vehículo. Verificar el nivel del tanque." } },
+      { icon:"✈", exp:null,
+        fr:{ t:"<strong>BRC → EZE (2h) · EZE → SJO</strong>", n:"Correspondance à Buenos Aires Ezeiza. Prévoir 3h de transit minimum — EZE est grand et loin du centre." },
+        es:{ t:"<strong>BRC → EZE (2h) · EZE → SJO</strong>", n:"Conexión en Buenos Aires Ezeiza. Calcular 3h de tránsito mínimo — EZE es grande y lejos del centro." } },
+      { icon:"🏠", exp:null,
+        fr:{ t:"<strong>Arrivée San José</strong>", n:"L'Argentine dans les poumons. Pour longtemps." },
+        es:{ t:"<strong>Llegada San José</strong>", n:"Argentina en el alma. Para siempre." } }
+    ]
+  }
+];
+
+const ETAPES_DATA = {
+  iguazu:    { color:"var(--accent-iguazu)",    nights:3 },
+  ba:        { color:"var(--accent-ba)",        nights:5 },
+  mendoza:   { color:"var(--accent-mendoza)",   nights:5 },
+  bariloche: { color:"var(--accent-bariloche)", nights:9 }
+};
+const ICON_BG = {
+  iguazu:"#1D9E7522", ba:"#7B6FD422",
+  mendoza:"#C8831A22", bariloche:"#3A82C422"
+};
+
+const SLEEP = {
+  1:  { sqClass:"sq-iguazu", place:{ fr:"Puerto Iguazú — centre-ville", es:"Puerto Iguazú — centro del pueblo" }, q:{ fr:"Av. Córdoba / Parc San Martín", es:"Av. Córdoba / Parque San Martín" }, why:{ fr:"Petit village — tout à 10 min à pied. Les meilleures guesthouses sont dans les rues calmes autour de l'Av. Córdoba. À 15 min en taxi du parc national. Ambiance décontractée, vie locale le soir.", es:"Pueblo pequeño — todo a 10 min a pie. Los mejores alojamientos están en las calles tranquilas cerca de Av. Córdoba. A 15 min en taxi del parque nacional. Ambiente relajado, vida local por la noche." }, tips:{ fr:["Éviter les lodges dans le parc — chers et isolés","Taxi aéroport IGR : 15 min","Tout à pied le soir"], es:["Evitar los lodges dentro del parque — caros y aislados","Taxi aeropuerto IGR : 15 min","Todo a pie de noche"] } },
+  2:  { sqClass:"sq-iguazu", place:{ fr:"Puerto Iguazú — centre-ville", es:"Puerto Iguazú — centro del pueblo" }, q:{ fr:"Av. Córdoba / Parc San Martín", es:"Av. Córdoba / Parque San Martín" }, why:{ fr:"Même base — pratique pour retourner aux chutes le matin sans perdre de temps. Taxi en 15 min pour l'entrée du parc.", es:"Misma base — práctico para volver a las cataratas por la mañana sin perder tiempo. Taxi en 15 min a la entrada del parque." }, tips:{ fr:["Départ tôt demain côté brésilien","Demander taxi la veille"], es:["Salida temprana mañana al lado brasileño","Pedir taxi la noche anterior"] } },
+  3:  { sqClass:"sq-iguazu", place:{ fr:"Puerto Iguazú — centre-ville", es:"Puerto Iguazú — centro del pueblo" }, q:{ fr:"Av. Córdoba / Parc San Martín", es:"Av. Córdoba / Parque San Martín" }, why:{ fr:"Dernière nuit à Iguazú. Préparer les bagages ce soir — vol tôt demain matin pour Buenos Aires. Taxi à réserver la veille.", es:"Última noche en Iguazú. Preparar el equipaje esta noche — vuelo temprano mañana a Buenos Aires. Reservar taxi la noche anterior." }, tips:{ fr:["Vol IGR → AEP demain matin","Réserver taxi aéroport ce soir"], es:["Vuelo IGR → AEP mañana a la mañana","Reservar taxi al aeropuerto esta noche"] } },
+  4:  { sqClass:"sq-ba-st", place:{ fr:"San Telmo", es:"San Telmo" }, q:{ fr:"Autour de la rue Defensa", es:"Alrededor de la calle Defensa" }, why:{ fr:"Le quartier le plus chargé d'histoire et d'âme de BA. Pavés, maisons coloniales, bandonéons par les fenêtres. Idéal pour les premières nuits — marché dominical, La Catedral milonga, cafés de 1900. Le tango est né ici.", es:"El barrio más cargado de historia y alma de BA. Adoquines, casas coloniales, bandoneones por las ventanas. Ideal para las primeras noches — mercado dominical, milonga La Catedral, cafés de 1900. El tango nació aquí." }, tips:{ fr:["Marché Defensa à 5 min à pied","Milonga La Catedral à 15 min Uber","Éviter l'Av. 9 de Julio — trop bruyant"], es:["Mercado Defensa a 5 min a pie","Milonga La Catedral a 15 min Uber","Evitar Av. 9 de Julio — demasiado ruidosa"] } },
+  5:  { sqClass:"sq-ba-st", place:{ fr:"San Telmo", es:"San Telmo" }, q:{ fr:"Autour de la rue Defensa", es:"Alrededor de la calle Defensa" }, why:{ fr:"Même base — tout à pied pour le marché du matin. San Telmo est le meilleur quartier pour la street photo grâce à sa lumière latérale et ses ruelles colorées.", es:"Misma base — todo a pie para el mercado de la mañana. San Telmo es el mejor barrio para foto callejera gracias a su luz lateral y callejones coloridos." }, tips:{ fr:["Marché San Telmo à 5 min","MALBA à 20 min Uber"], es:["Mercado San Telmo a 5 min","MALBA a 20 min Uber"] } },
+  6:  { sqClass:"sq-ba-pa", place:{ fr:"Palermo Soho ou Villa Crespo", es:"Palermo Soho o Villa Crespo" }, q:{ fr:"Thames / El Salvador ou Av. Corrientes", es:"Thames / El Salvador o Av. Corrientes" }, why:{ fr:"Changer de base à mi-séjour donne l'impression de deux villes en une. Palermo pour les restos et la feria de diseño. Villa Crespo (juste à côté) pour l'authenticité de quartier et -30% sur les prix.", es:"Cambiar de base a mitad de estadía da la sensación de dos ciudades en una. Palermo para restaurantes y feria de diseño. Villa Crespo (al lado) para autenticidad de barrio y -30% en precios." }, tips:{ fr:["Villa Crespo = même ambiance, moins cher","Salon Canning milonga à 10 min à pied","Meilleurs restos à 5 min"], es:["Villa Crespo = mismo ambiente, más barato","Salón Canning milonga a 10 min a pie","Mejores restaurantes a 5 min"] } },
+  7:  { sqClass:"sq-ba-pa", place:{ fr:"Palermo Soho ou Villa Crespo", es:"Palermo Soho o Villa Crespo" }, q:{ fr:"Thames / El Salvador ou Av. Corrientes", es:"Thames / El Salvador o Av. Corrientes" }, why:{ fr:"Recoleta et Chacarita sont à 15-20 min Uber. Bonne base centrale pour la journée musées. Le soir, milonga Salon Canning à portée à pied.", es:"Recoleta y Chacarita están a 15-20 min en Uber. Buena base central para el día de museos. Por la noche, milonga Salón Canning a distancia caminable." }, tips:{ fr:["Recoleta à 15 min Uber","Chacarita à 20 min Uber","Milonga Canning à pied"], es:["Recoleta a 15 min Uber","Chacarita a 20 min Uber","Milonga Canning caminando"] } },
+  8:  { sqClass:"sq-ba-pa", place:{ fr:"Palermo Soho ou Villa Crespo", es:"Palermo Soho o Villa Crespo" }, q:{ fr:"Thames / El Salvador ou Av. Corrientes", es:"Thames / El Salvador o Av. Corrientes" }, why:{ fr:"Dernière matinée à BA. Check-out, bagages à la consigne, exploration à vide jusqu'au vol de l'après-midi. Aéroparque AEP à 20 min Uber.", es:"Última mañana en BA. Check-out, equipaje en consigna, exploración liviano hasta el vuelo de la tarde. Aeroparque AEP a 20 min en Uber." }, tips:{ fr:["Check-out matin, consigne jusqu'au vol","AEP à 20 min Uber depuis Palermo","Vol AEP → MDZ en fin d'après-midi"], es:["Check-out mañana, consigna hasta el vuelo","AEP a 20 min Uber desde Palermo","Vuelo AEP → MDZ en la tarde"] } },
+  9:  { sqClass:"sq-mza", place:{ fr:"Mendoza centre — Barrio Aristides", es:"Centro Mendoza — Barrio Aristides" }, q:{ fr:"Av. Aristides Villanueva / Godoy Cruz", es:"Av. Aristides Villanueva / Godoy Cruz" }, why:{ fr:"Le cœur vivant de Mendoza — bars, restos, vie de rue. À 5 min de la Plaza Independencia. Base idéale pour partir en voiture vers Valle de Uco et les Andes chaque matin. Parking inclus dans la plupart des hébergements.", es:"El corazón vivo de Mendoza — bares, restaurantes, vida callejera. A 5 min de la Plaza Independencia. Base ideal para salir en auto hacia Valle de Uco y los Andes cada mañana. Estacionamiento incluido en la mayoría de los alojamientos." }, tips:{ fr:["Azafrán à 10 min à pied","Parking inclus","Marché central à 15 min"], es:["Azafrán a 10 min a pie","Estacionamiento incluido","Mercado central a 15 min"] } },
+  10: { sqClass:"sq-mza", place:{ fr:"Mendoza centre — Barrio Aristides", es:"Centro Mendoza — Barrio Aristides" }, q:{ fr:"Av. Aristides Villanueva / Godoy Cruz", es:"Av. Aristides Villanueva / Godoy Cruz" }, why:{ fr:"Même base — départ tôt vers les Andes (RN7). Retour via Cacheuta en fin d'après-midi. Dîner en ville à portée à pied.", es:"Misma base — salida temprano hacia los Andes (RN7). Regreso vía Cacheuta a última hora de la tarde. Cena en la ciudad a distancia caminable." }, tips:{ fr:["Départ 7h pour l'Aconcagua","Retour via Cacheuta (thermes)","Dîner en ville le soir"], es:["Salida 7h al Aconcagua","Regreso vía Cacheuta (termas)","Cena en la ciudad por la noche"] } },
+  11: { sqClass:"sq-vuc", place:{ fr:"Valle de Uco — dans les vignes", es:"Valle de Uco — entre los viñedos" }, q:{ fr:"Tunuyán · lodge dans les vignes", es:"Tunuyán · lodge entre los viñedos" }, why:{ fr:"Une seule nuit dans les vignes à 1100m avec l'Aconcagua en fond — l'expérience viticole absolue. Se réveiller entre les malbecs avec les Andes roses à l'aube. Optionnel selon budget, mais inoubliable.", es:"Una sola noche entre los viñedos a 1100m con el Aconcagua de fondo — la experiencia vitivinícola absoluta. Despertar entre los malbecs con los Andes rosados al amanecer. Opcional según presupuesto, pero inolvidable." }, tips:{ fr:["Zuccardi à 20 min","Aconcagua visible à l'aube","Retour Mendoza le lendemain (1h30)"], es:["Zuccardi a 20 min","Aconcagua visible al amanecer","Regreso Mendoza al día siguiente (1h30)"] } },
+  12: { sqClass:"sq-mza", place:{ fr:"Mendoza centre — Barrio Aristides", es:"Centro Mendoza — Barrio Aristides" }, q:{ fr:"Av. Aristides Villanueva / Godoy Cruz", es:"Av. Aristides Villanueva / Godoy Cruz" }, why:{ fr:"Retour après le Cañón del Atuel (2h30 de route). Base pratique pour la dernière matinée au marché et la route vers l'aéroport MDZ le lendemain.", es:"Regreso desde el Cañón del Atuel (2h30 de ruta). Base práctica para la última mañana en el mercado y la ruta al aeropuerto MDZ al día siguiente." }, tips:{ fr:["Marché central demain matin (7h)","Aéroport MDZ à 20 min en voiture"], es:["Mercado central mañana a la mañana (7h)","Aeropuerto MDZ a 20 min en auto"] } },
+  13: { sqClass:"sq-mza", place:{ fr:"Mendoza centre — Barrio Aristides", es:"Centro Mendoza — Barrio Aristides" }, q:{ fr:"Av. Aristides Villanueva / Godoy Cruz", es:"Av. Aristides Villanueva / Godoy Cruz" }, why:{ fr:"Dernière nuit à Mendoza. Marché central tôt le matin, puis route vers l'aéroport MDZ pour le vol MDZ → BRC. Rendre la voiture à l'aéroport.", es:"Última noche en Mendoza. Mercado central temprano, luego ruta al aeropuerto MDZ para el vuelo MDZ → BRC. Devolver el auto en el aeropuerto." }, tips:{ fr:["Vol MDZ → BRC dans l'après-midi","Rendre voiture à l'aéroport","Louer nouvelle voiture à BRC"], es:["Vuelo MDZ → BRC por la tarde","Devolver auto en el aeropuerto","Alquilar nuevo auto en BRC"] } },
+  14: { sqClass:"sq-brc", place:{ fr:"Bariloche centre — bord du lac", es:"Centro Bariloche — a orillas del lago" }, q:{ fr:"Av. Bustillo km 0–2 · côté lac", es:"Av. Bustillo km 0–2 · lado lago" }, why:{ fr:"Premiers soirs en centre-ville côté lac. Vue sur le Nahuel Huapi depuis la chambre si possible — ça change le réveil. Chocolateries, Blest et restos à pied. Parking pour la voiture.", es:"Primeras noches en el centro junto al lago. Vista al Nahuel Huapi desde la habitación si es posible — cambia el despertar. Chocolaterías, Blest y restaurantes a pie. Estacionamiento para el auto." }, tips:{ fr:["Vue lac depuis la chambre si possible","Blest à 10 min à pied","Campanario à 20 min en voiture"], es:["Vista lago desde la habitación si es posible","Blest a 10 min a pie","Campanario a 20 min en auto"] } },
+  15: { sqClass:"sq-brc", place:{ fr:"Bariloche centre — bord du lac", es:"Centro Bariloche — a orillas del lago" }, q:{ fr:"Av. Bustillo km 0–2 · côté lac", es:"Av. Bustillo km 0–2 · lado lago" }, why:{ fr:"Même base pour le Circuito Chico et les Arrayanes — tout part de cette zone. Retour par Villa La Angostura en fin de journée, dîner à Cassis le soir.", es:"Misma base para el Circuito Chico y los Arrayanes — todo parte de esta zona. Regreso vía Villa La Angostura al final del día, cena en Cassis por la noche." }, tips:{ fr:["Circuito Chico départ 8h","Cassis à 15 min en voiture"], es:["Circuito Chico salida 8h","Cassis a 15 min en auto"] } },
+  16: { sqClass:"sq-sma", place:{ fr:"San Martín de los Andes", es:"San Martín de los Andes" }, q:{ fr:"Centre ou bord du lac Lacar", es:"Centro o a orillas del lago Lacar" }, why:{ fr:"Une nuit à San Martín permet de vivre le village sans presse. Lac Lacar au lever du soleil le lendemain matin — une des plus belles choses du voyage. Village alpin authentique et calme le soir.", es:"Una noche en San Martín permite vivir el pueblo sin apuro. Lago Lacar al amanecer al día siguiente — una de las cosas más bellas del viaje. Pueblo alpino auténtico y tranquilo por la noche." }, tips:{ fr:["Lac Lacar à 10 min à pied","Route 7 lacs le lendemain via Traful","Village calme et authentique le soir"], es:["Lago Lacar a 10 min a pie","Ruta 7 Lagos al día siguiente vía Traful","Pueblo tranquilo y auténtico por la noche"] } },
+  17: { sqClass:"sq-brc", place:{ fr:"Bariloche — Av. Bustillo km 2–8", es:"Bariloche — Av. Bustillo km 2–8" }, q:{ fr:"Entre centre et lac Gutiérrez", es:"Entre el centro y el lago Gutiérrez" }, why:{ fr:"Pour le reste du séjour, s'éloigner légèrement du centre. Plus calme, plus vert, souvent bord du lac ou forêt. Mêmes distances en voiture vers toutes les excursions. Les meilleures estancias et lodges de caractère sont ici.", es:"Para el resto de la estadía, alejarse un poco del centro. Más tranquilo, más verde, frecuentemente a orillas del lago o en el bosque. Mismas distancias en auto hacia todas las excursiones. Las mejores estancias y lodges de carácter están aquí." }, tips:{ fr:["Estancia Peuma Hue au lac Gutiérrez","10 min en voiture du centre","Forêt de coihues et vue lac"], es:["Estancia Peuma Hue en lago Gutiérrez","10 min en auto del centro","Bosque de coihues y vista lago"] } },
+  18: { sqClass:"sq-brc", place:{ fr:"Bariloche — Av. Bustillo km 2–8", es:"Bariloche — Av. Bustillo km 2–8" }, q:{ fr:"Entre centre et lac Gutiérrez", es:"Entre el centro y el lago Gutiérrez" }, why:{ fr:"Base parfaite pour Los Alerces (3h de route) — départ à 8h, retour en soirée. Fondue Familia Weiss pour se réchauffer après la journée en forêt.", es:"Base perfecta para Los Alerces (3h de ruta) — salida a las 8h, regreso al atardecer. Fondue Familia Weiss para entrar en calor después del día en el bosque." }, tips:{ fr:["Los Alerces à 3h — départ 8h","Réserver bateau Menéndez à l'avance","Fondue Weiss au retour"], es:["Los Alerces a 3h — salida 8h","Reservar barco Menéndez con anticipación","Fondue Weiss al regreso"] } },
+  19: { sqClass:"sq-brc", place:{ fr:"Bariloche — Av. Bustillo km 2–8", es:"Bariloche — Av. Bustillo km 2–8" }, q:{ fr:"Entre centre et lac Gutiérrez", es:"Entre el centro y el lago Gutiérrez" }, why:{ fr:"Cerro Catedral à 20 min en voiture. Asado de cordero à l'estancia en soirée — prévoir de rentrer assez tôt pour profiter du coucher de soleil sur le lac.", es:"Cerro Catedral a 20 min en auto. Asado de cordero en la estancia al atardecer — calcular volver temprano para disfrutar el atardecer sobre el lago." }, tips:{ fr:["Catedral à 20 min en voiture","Estancia Peuma Hue pour l'asado","Coucher de soleil sur le lac Gutiérrez"], es:["Catedral a 20 min en auto","Estancia Peuma Hue para el asado","Atardecer sobre el lago Gutiérrez"] } },
+  20: { sqClass:"sq-brc", place:{ fr:"Bariloche ou El Bolsón (optionnel)", es:"Bariloche o El Bolsón (opcional)" }, q:{ fr:"Av. Bustillo km 2–8 ou bord du río", es:"Av. Bustillo km 2–8 o a orillas del río" }, why:{ fr:"Option A : rester à El Bolsón pour une nuit (guesthouse au bord du río — expérience village authentique). Option B : retour Bariloche en soirée (2h). El Bolsón vaut la nuit si le marché du lendemain n'est pas prévu.", es:"Opción A: quedarse en El Bolsón una noche (guesthouse a orillas del río — experiencia pueblo auténtico). Opción B: regreso a Bariloche al atardecer (2h). El Bolsón vale la noche si no se planea el mercado del día siguiente." }, tips:{ fr:["El Bolsón : guesthouse bord du río","Retour Bariloche : 2h de route","Río Azul à 15 min d'El Bolsón"], es:["El Bolsón: guesthouse borde del río","Regreso Bariloche: 2h de ruta","Río Azul a 15 min de El Bolsón"] } },
+  21: { sqClass:"sq-brc", place:{ fr:"Bariloche — Av. Bustillo km 2–8", es:"Bariloche — Av. Bustillo km 2–8" }, q:{ fr:"Entre centre et lac Gutiérrez", es:"Entre el centro y el lago Gutiérrez" }, why:{ fr:"Pampa Linda et la cascade à 1h de route. Retour en soirée pour un chocolat chaud et les dernières emplettes. Avant-dernière nuit — commencer à faire les bagages.", es:"Pampa Linda y la cascada a 1h de ruta. Regreso al atardecer para chocolate caliente y últimas compras. Penúltima noche — empezar a hacer las maletas." }, tips:{ fr:["Pampa Linda à 1h de route","Alfajores Rapanui avant de dormir","Avant-dernière nuit — faire les bagages"], es:["Pampa Linda a 1h de ruta","Alfajores Rapanui antes de dormir","Penúltima noche — hacer las maletas"] } },
+  22: { sqClass:"sq-brc", place:{ fr:"Bariloche centre — proche aéroport", es:"Centro Bariloche — cerca del aeropuerto" }, q:{ fr:"Centro · à 15 min de l'aéroport BRC", es:"Centro · a 15 min del aeropuerto BRC" }, why:{ fr:"Dernière nuit : revenir en centre-ville pour simplifier le départ. Aéroport BRC à 15 min en voiture. Bagages prêts, laisser la voiture à l'aéroport demain matin. Dernier lac, dernier chocolat.", es:"Última noche: volver al centro para simplificar la salida. Aeropuerto BRC a 15 min en auto. Maletas listas, dejar el auto en el aeropuerto mañana. Último lago, último chocolate." }, tips:{ fr:["Aéroport BRC à 15 min","Rendre voiture à l'aéroport","Dernier chocolat chaud obligatoire"], es:["Aeropuerto BRC a 15 min","Devolver auto en el aeropuerto","Último chocolate caliente obligatorio"] } },
+  23: { sqClass:"sq-brc", place:{ fr:"Départ — aéroport BRC", es:"Salida — aeropuerto BRC" }, q:{ fr:"BRC → EZE → SJO", es:"BRC → EZE → SJO" }, why:{ fr:"Dernier lever de soleil sur les Andes, rendre la voiture, embarquer. Transit à Ezeiza (EZE) — prévoir 3h minimum. L'Argentine dans les poumons pour longtemps.", es:"Último amanecer sobre los Andes, devolver el auto, embarcar. Tránsito en Ezeiza (EZE) — calcular 3h mínimo. Argentina en el alma para siempre." }, tips:{ fr:["Transit EZE : 3h minimum","Uber ou remise d'EZE vers les terminaux","Bon voyage !"], es:["Tránsito EZE: 3h mínimo","Uber o remise en EZE entre terminales","¡Buen viaje!"] } }
+};
+
+let lang = "fr";
+let currentFilter = "all";
+let doneSet    = new Set(JSON.parse(localStorage.getItem("arg_done3") || "[]"));
+let notesMap   = JSON.parse(localStorage.getItem("arg_notes3") || "{}");
+let ratingsMap = JSON.parse(localStorage.getItem("arg_ratings3") || "{}");
+let expDone    = new Set(JSON.parse(localStorage.getItem("arg_exp3") || "[]"));
+
+function saveDone()    { localStorage.setItem("arg_done3",    JSON.stringify([...doneSet])); }
+function saveNotes()   { localStorage.setItem("arg_notes3",   JSON.stringify(notesMap)); }
+function saveRatings() { localStorage.setItem("arg_ratings3", JSON.stringify(ratingsMap)); }
+function saveExp()     { localStorage.setItem("arg_exp3",     JSON.stringify([...expDone])); }
+
+function updateStats() {
+  document.getElementById("done-count").textContent = doneSet.size;
+  document.getElementById("remaining-count").textContent = DAYS.length - doneSet.size;
+}
+
+// ── LANG ──────────────────────────────────────────────────────────
+function toggleLang() {
+  lang = lang === "fr" ? "es" : "fr";
+  applyLang();
+  render();
+}
+
+function applyLang() {
+  const t = T[lang];
+  document.getElementById("meta-text").textContent   = t.meta;
+  document.getElementById("main-title").innerHTML    = t.title;
+  document.getElementById("lang-flag").textContent   = t.langFlag;
+  document.getElementById("lang-label").textContent  = t.langLabel;
+  document.getElementById("stat-nights").textContent = t.statNights;
+  document.getElementById("stat-etapes").textContent = t.statEtapes;
+  document.getElementById("stat-done").textContent   = t.statDone;
+  document.getElementById("stat-remaining").textContent = t.statRemaining;
+  document.getElementById("footer-text").textContent = t.footer;
+  document.getElementById("exp-title-label").textContent = t.expTitle;
+  renderExp();
+  renderLegend();
+}
+
+// ── EXPERIENCES ───────────────────────────────────────────────────
+function renderExp() {
+  const grid = document.getElementById("exp-grid");
+  grid.innerHTML = T[lang].experiences.map(e =>
+    `<div class="exp-pill${expDone.has(e.id)?" done-exp":""}" onclick="toggleExp('${e.id}')" style="cursor:pointer" title="Cliquer pour cocher">
+      ${e.icon} ${e.label}
+    </div>`
+  ).join("");
+}
+
+function toggleExp(id) {
+  expDone.has(id) ? expDone.delete(id) : expDone.add(id);
+  saveExp();
+  renderExp();
+  updateBadges();
+}
+
+function updateBadges() {
+  document.querySelectorAll('.exp-badge').forEach(b => {
+    const onclick = b.getAttribute('onclick') || '';
+    const m = onclick.match(/toggleExp\('([^']+)'\)/);
+    if (m) b.classList.toggle('checked', expDone.has(m[1]));
+  });
+}
+
+// ── LEGEND ────────────────────────────────────────────────────────
+function renderLegend() {
+  const t = T[lang];
+  const legend = document.getElementById("legend");
+  legend.innerHTML =
+    `<div class="legend-item${currentFilter==="all"?" active":""}" data-filter="all">${t.filterAll}</div>` +
+    Object.entries(t.etapeLabels).map(([k,v]) =>
+      `<div class="legend-item${currentFilter===k?" active":""}" data-filter="${k}">
+        <span class="legend-dot" style="background:${ETAPES_DATA[k].color}"></span>${v}
+      </div>`
+    ).join("");
+  legend.querySelectorAll(".legend-item").forEach(item => {
+    item.addEventListener("click", () => {
+      currentFilter = item.dataset.filter;
+      render();
+      renderLegend();
+    });
+  });
+}
+
+// ── RENDER ────────────────────────────────────────────────────────
+function render() {
+  const t = T[lang];
+  const planner = document.getElementById("planner");
+  planner.innerHTML = "";
+  let lastEtape = null;
+
+  DAYS.forEach(day => {
+    if (currentFilter !== "all" && day.etape !== currentFilter) return;
+
+    if (day.etape !== lastEtape) {
+      const sec = document.createElement("div");
+      sec.className = "etape-section";
+      const n = ETAPES_DATA[day.etape].nights;
+      sec.innerHTML = `<div class="etape-heading">
+        <div class="dot" style="background:${ETAPES_DATA[day.etape].color}"></div>
+        <h2>${t.etapeLabels[day.etape]}</h2>
+        <span class="nights-badge">${n} ${t.nightsSuffix}</span>
+      </div>`;
+      planner.appendChild(sec);
+      lastEtape = day.etape;
+    }
+
+    const wrap = document.createElement("div");
+    wrap.className = "days";
+    const isDone = doneSet.has(day.id);
+    const card = document.createElement("div");
+    card.className = "day-card" + (isDone ? " done" : "");
+    card.id = "card-" + day.id;
+
+    const acts = day.activities.map(a => {
+      const tx = a[lang];
+      return `<div class="activity">
+        <div class="activity-icon" style="background:${ICON_BG[day.etape]}">${a.icon}</div>
+        <div class="activity-text">${tx.t}${tx.n ? `<small>${tx.n}</small>` : ""}</div>
+      </div>`;
+    }).join("");
+
+    const savedRating = ratingsMap[day.id] || 0;
+    const stars = [1,2,3,4,5].map(s =>
+      `<span class="star${s<=savedRating?" lit":""}" onclick="setRating(${day.id},${s})">★</span>`
+    ).join("");
+
+    const savedNote = notesMap[day.id] || "";
+    const titleTxt  = day.title[lang] || day.title.fr;
+    const tagsArr   = (day.tags[lang] || day.tags.fr);
+    const tagHTML   = tagsArr.map(tg =>
+      `<span class="day-tag">${tg}</span>`
+    ).join("");
+
+    const sl = SLEEP[day.id];
+    const slHTML = sl ? `
+      <div class="sleep-block">
+        <div class="sleep-icon">🌙</div>
+        <div class="sleep-content">
+          <div class="sleep-label">${t.sectionSleep}</div>
+          <div class="sleep-place">${sl.place[lang]||sl.place.fr}</div>
+          <div><span class="sleep-quartier ${sl.sqClass}">📍 ${sl.q[lang]||sl.q.fr}</span></div>
+          <div class="sleep-why">${sl.why[lang]||sl.why.fr}</div>
+          <div class="sleep-tips">${(sl.tips[lang]||sl.tips.fr).map(tip=>`<span class="sleep-tip">${tip}</span>`).join("")}</div>
+        </div>
+      </div>` : "";
+
+    card.innerHTML = `
+      <div class="accent-bar" style="background:${ETAPES_DATA[day.etape].color}"></div>
+      <div class="day-header" onclick="toggleDay(${day.id})">
+        <div class="day-num">
+          <div class="dn">${day.id}</div>
+          <div class="dm">${(day.date[lang]||day.date.fr).split(" ")[0]}</div>
+        </div>
+        <div class="day-main">
+          <div class="day-title">${titleTxt}</div>
+          <div class="day-sub">${day.sub[lang]||day.sub.fr}</div>
+          <div class="day-tags">${tagHTML}</div>
+        </div>
+        <div class="day-actions">
+          <button class="done-btn" title="${t.doneTitle}" onclick="event.stopPropagation();toggleDone(${day.id})">✓</button>
+          <span class="chevron" id="chev-${day.id}">›</span>
+        </div>
+      </div>
+      <div class="day-body" id="body-${day.id}">
+        <div class="day-body-inner">
+          <div>
+            <div class="section-title">${t.sectionProgram}</div>
+            <div class="activity-list">${acts}</div>
+            <div><span class="transport-badge">${day.transport}</span></div>
+          </div>
+          <div>
+            <div class="section-title">${t.sectionNotes}</div>
+            <textarea class="note-area" placeholder="${t.notePlaceholder}" oninput="saveNote(${day.id},this.value)">${savedNote}</textarea>
+            <div class="section-title" style="margin-top:12px">${t.sectionRating}</div>
+            <div class="rating-row">${stars}</div>
+          </div>
+        </div>
+        ${slHTML}
+      </div>`;
+
+    wrap.appendChild(card);
+    planner.appendChild(wrap);
+  });
+}
+
+function toggleDay(id) {
+  const body = document.getElementById("body-"+id);
+  const chev = document.getElementById("chev-"+id);
+  const open = body.classList.contains("open");
+  document.querySelectorAll(".day-body.open").forEach(b => b.classList.remove("open"));
+  document.querySelectorAll(".chevron.open").forEach(c => c.classList.remove("open"));
+  if (!open) { body.classList.add("open"); chev.classList.add("open"); }
+}
+function toggleDone(id) {
+  doneSet.has(id) ? doneSet.delete(id) : doneSet.add(id);
+  saveDone(); updateStats();
+  document.getElementById("card-"+id).classList.toggle("done", doneSet.has(id));
+}
+function saveNote(id, val) { notesMap[id] = val; saveNotes(); }
+function setRating(id, val) {
+  ratingsMap[id] = val; saveRatings();
+  document.querySelectorAll(`#card-${id} .star`).forEach((s, i) => {
+    s.classList.toggle("lit", i+1 <= val);
+  });
+}
+
+applyLang();
+updateStats();
+render();
+</script>
+
+
+</body></html>
